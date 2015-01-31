@@ -1,0 +1,2 @@
+#! /bin/sh
+/usr/local/sbin/pound -f config/pound.cfg -p tmp/pids/pound.pid
