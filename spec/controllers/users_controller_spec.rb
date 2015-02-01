@@ -24,7 +24,7 @@ RSpec.describe UsersController, :type => :controller do
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    { username: 'bob', email: 'bob@bob.com' }
+    { username: 'bob', email: 'bob@bob.com', password: 'validpass', password_confirmation: 'validpass' }
   }
 
   let(:invalid_attributes) {
@@ -103,14 +103,14 @@ RSpec.describe UsersController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { username: 'newuser', email: 'newemail@bob.com', password: 'newpass', password_confirmation: 'newpass' }
       }
 
       it "updates the requested user" do
         user = User.create! valid_attributes
         put :update, {:id => user.to_param, :user => new_attributes}, valid_session
         user.reload
-        skip("Add assertions for updated state")
+        expect(assigns(:user)).not_to eq(user)
       end
 
       it "assigns the requested user as @user" do

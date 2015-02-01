@@ -10,7 +10,7 @@ FactoryGirl.define do
   end
 
   factory :user do
-    password_digest Faker::Internet.password(8)
+    password Faker::Internet.password(8)
     email Faker::Internet.safe_email
   end
 end
