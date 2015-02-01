@@ -12,8 +12,12 @@
       %ul.nav.navbar-nav
       %ul.nav.navbar-nav.navbar-right
         %li
-          %a{:href => "#"} 
-            = t ('login')
+          - if current_user
+            %a{:href => "#{logout_path}"} 
+              Log out
+          - else
+            %a{:href => "#{login_path}"} 
+              = t ('login')
         %li
           %a{:href => "https://twitter.com/thorlifehacks"}
             %i.fa.fa-twitter.fa-2x.fa-fw

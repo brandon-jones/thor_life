@@ -27,6 +27,10 @@ gem 'haml', '~> 4.0.5'
 
 gem 'braintree', '~> 2.38.0'
 
+gem 'faker', '~> 1.4.3'
+
+gem 'bcrypt', '~> 3.1.7'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -45,10 +49,7 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-
-  gem 'faker', '~> 1.4.3'
   gem 'awesome_print', '~> 1.2.0'
-
   gem 'pry', '~> 0.10.0'
   gem 'pry-rails'
   gem 'meta_request'

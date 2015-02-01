@@ -14,10 +14,10 @@
   .form-group
     = f.label t('user.password')
     %br
-      = f.text_field :password_digest, class: 'form-control'
+      = f.password_field :password, class: 'form-control'
   .form-group
     = f.label t('user.password_confirmation')
     %br
-      = f.text_field :password_digest, class: 'form-control'
+      = f.password_field :password_confirmation, class: 'form-control'
   .form-group
     = f.submit t('submit'), class: 'btn btn-primary btn-lg'

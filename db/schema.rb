@@ -17,19 +17,21 @@ ActiveRecord::Schema.define(version: 20150131033513) do
   enable_extension "plpgsql"
 
   create_table "users", force: :cascade do |t|
-    t.string   "password_digest"
     t.string   "username"
+    t.string   "password_digest"
+    t.string   "session_id"
+    t.datetime "session_id_created_at"
     t.string   "email"
-    t.boolean  "email_verified",  default: false
+    t.boolean  "email_verified",        default: false
     t.string   "phone_number"
     t.string   "phone_provider"
     t.text     "about_me"
-    t.boolean  "banned",          default: false
-    t.boolean  "permma_banned",   default: false
+    t.boolean  "banned",                default: false
+    t.boolean  "permma_banned",         default: false
     t.integer  "banned_by"
     t.string   "customer_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -22,6 +22,7 @@
 en:
   thorlife: 'THOR Life'
   login: 'Login'
+  logout: 'Logout'
   submit: 'Submit'
   user:
     password: 'Password'

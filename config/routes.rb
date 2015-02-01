@@ -4,11 +4,19 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
+
+  get '/signup' => 'users#new'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   root 'static_pages#index'
+
+  # below this uncommented are for braintree
 
   post 'checkout' => 'static_pages#checkout'
 

@@ -8,25 +8,16 @@
         - @user.errors.full_messages.each do |message|
           %li= message
   .form-group
-    = f.label t('username')
-    %small
-    %br
-      = f.text_field :username, class: 'form-control'
-  .form-group
-    = f.label :email
+    = f.label t('user.email')
     %br
       = f.text_field :email, class: 'form-control'
   .form-group
-    = f.label :phone_number
+    = f.label t('user.password')
     %br
-      = f.text_field :phone_number, class: 'form-control'
+      = f.text_field :password_digest, class: 'form-control'
   .form-group
-    = f.label :phone_provider
+    = f.label t('user.password_confirmation')
     %br
-      = f.text_field :phone_provider, class: 'form-control'
+      = f.text_field :password_digest, class: 'form-control'
   .form-group
-    = f.label :about_me
-    %br
-      = f.text_area :about_me, class: 'form-control'
-  .actions
     = f.submit t('submit'), class: 'btn btn-primary btn-lg'
