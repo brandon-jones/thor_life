@@ -1,0 +1,16 @@
+%p#notice= notice
+%p
+  %strong Password digest:
+  = @user.password_digest
+%p
+  %strong Email:
+  = @user.email
+%p
+  %strong Email verified:
+  = @user.email_verified
+%p
+  %strong About me:
+  = @user.about_me
+= link_to 'Edit', edit_user_path(@user)
+|
+= link_to 'Back', users_path

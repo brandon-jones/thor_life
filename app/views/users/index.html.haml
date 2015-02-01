@@ -1,0 +1,38 @@
+%p#notice= notice
+%h1 Listing Users
+%table
+  %thead
+    %tr
+      %th Password digest
+      %th Name
+      %th Email
+      %th Email public
+      %th Email verified
+      %th Phone number
+      %th Phone provider
+      %th About me
+      %th Banned
+      %th Permma banned
+      %th Banned by
+      %th Customer
+      %th{:colspan => "3"}
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.password_digest
+        %td= user.name
+        %td= user.email
+        %td= user.email_public
+        %td= user.email_verified
+        %td= user.phone_number
+        %td= user.phone_provider
+        %td= user.about_me
+        %td= user.banned
+        %td= user.permma_banned
+        %td= user.banned_by
+        %td= user.customer_id
+        %td= link_to 'Show', user
+        %td= link_to 'Edit', edit_user_path(user)
+        %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+%br
+  = link_to 'New User', new_user_path

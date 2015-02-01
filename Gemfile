@@ -57,12 +57,16 @@ group :development, :test do
 end
 
 group :test do
+  gem 'shoulda'
+  gem 'shoulda-matchers'
   gem 'rspec-rails', '~> 3.0'
 	gem 'guard-rspec'
-  gem 'spork'
+  gem 'spring-commands-rspec'
   gem 'guard-spork'
+  gem "spork-rails", "~> 4.0.0"
   gem 'guard-bundler'
   gem 'factory_girl_rails'
+  gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
 
 
