@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+puts "seeding database"
+user = User.create(email: 'support@thorlife.com', password: 'password', password_confirmation: 'password')
+puts user.to_s
+AdminRole.create(user_id: user.id, admin_type: 'king')
+puts "admin role created go change your shite fast"

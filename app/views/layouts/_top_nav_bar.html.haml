@@ -3,7 +3,7 @@
     / Brand and toggle get grouped for better mobile display
     .navbar-header
       %button.navbar-toggle.collapsed{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
-        %span.sr-only Toggle navigation
+        %span.sr-only
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
@@ -11,13 +11,20 @@
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
       %ul.nav.navbar-nav.navbar-right
-        %li
-          - if current_user
+        - if current_user
+          %li
+            %a{:href => "#{user_path(current_user.id)}"} 
+              = current_user.username
+          %li
             %a{:href => "#{logout_path}"} 
-              Log out
-          - else
+              = t('logout')
+        - else
+          %li
+            %a{:href => "#{signup_path}"} 
+              = t('signup')
+          %li
             %a{:href => "#{login_path}"} 
-              = t ('login')
+              = t('login')
         %li
           %a{:href => "https://twitter.com/thorlifehacks"}
             %i.fa.fa-twitter.fa-2x.fa-fw

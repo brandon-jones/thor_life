@@ -8,8 +8,18 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
-  def authorize
-    redirect_to '/login' unless current_user
+  def authenticated
+    unless current_user
+      flash[:notice] = "You need to log in to visit that page"
+      redirect_to '/login'
+    end
+  end
+
+  def authenticated_super_admin
+    unless current_user && current_user.super_admin?
+      flash[:notice] = "You must be an admin to visit that page"
+      redirect_to '/login'
+    end
   end
 
 end

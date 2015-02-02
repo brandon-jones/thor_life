@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :new_password]
+  before_filter :authenticated_super_admin, only: [:index]
+  # before_action :authorize_admin, only: [:index]
   # GET /users
   # GET /users.json
   def index
@@ -20,6 +22,10 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def new_password
+
+  end
+
   # POST /users
   # POST /users.json
   def create
@@ -27,7 +33,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        session[:user_id] = @user.id
+        session[:user_id] = @user.id if current_user == @user
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -40,10 +46,19 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    if params["user"]["current_password"]
+      unless @user.authenticate(params["user"]["current_password"])
+        redirect_to update_password_user_path(@user), :flash => { :error => "Current password is incorrect!" }
+        return
+      end
+      notice = "Password was updated successfully"
+    else
+      notice = 'User was successfully updated.'
+    end
     respond_to do |format|
       if @user.update(user_params)
-        session[:user_id] = @user.id
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        session[:user_id] = @user.id if current_user == @user
+        format.html { redirect_to @user, notice: notice }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }

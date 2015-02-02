@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  resources :admin_roles
+
   resources :users do
     member do
+      get '/new_password' => 'users#new_password' , as: 'update_password'
     end
   end
 

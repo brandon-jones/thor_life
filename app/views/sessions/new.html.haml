@@ -1,5 +1,7 @@
 %h1 
   =t('login')
+=flash_msg
+%p#notice= notice
 = form_tag '/login' do
   .form-group
     %strong

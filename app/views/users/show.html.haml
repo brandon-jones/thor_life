@@ -1,4 +1,4 @@
-%p#notice= notice
+=flash_msg
 %p
   %strong UserName:
   = @user.username
@@ -11,6 +11,15 @@
 %p
   %strong About me:
   = @user.about_me
-= link_to 'Edit', edit_user_path(@user)
-|
-= link_to 'Back', users_path
+- if current_user.super_admin?
+  %p
+    %strong Banned:
+    = @user.banned
+  - if @user.banned
+    %p
+      %strong Banned by:
+      = link_to "#{@user.banned_by.username} / #{@user.banned_by.email}", user_path(@user.banned_by)
+
+- if current_user.super_admin? || (current_user.id == params["id"])
+  = link_to t('edit'), edit_user_path(@user), class: 'btn btn-default btn-xs'
+  = link_to t('user.change_password'), update_password_user_path(@user), class: 'btn btn-default btn-xs'

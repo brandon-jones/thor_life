@@ -8,4 +8,9 @@ namespace :db do
     puts 'migrating databases'
     system("rake db:migrate RAILS_ENV=test && rake db:migrate RAILS_ENV=development")
   end
+
+  task :mymigrate do
+    puts 'migrating databases'
+    system("rake db:migrate RAILS_ENV=test && rake db:migrate RAILS_ENV=development")
+  end
 end

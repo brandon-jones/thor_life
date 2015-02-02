@@ -1,3 +1,4 @@
+=flash_msg
 = form_for(@user) do |f|
   - if @user.errors.any?
     #error_explanation
@@ -8,25 +9,28 @@
         - @user.errors.full_messages.each do |message|
           %li= message
   .form-group
-    = f.label t('username')
+    = f.label t('user.username')
     %small
     %br
       = f.text_field :username, class: 'form-control'
   .form-group
-    = f.label :email
+    = f.label t('user.email')
     %br
       = f.text_field :email, class: 'form-control'
+  - if @user.super_admin? && current_user.super_admin?
+    .form-group
+      = f.label t('user.phone_number')
+      %br
+        = f.text_field :phone_number, class: 'form-control'
+    .form-group
+      = f.label t('user.phone_provider')
+      %br
+        = f.text_field :phone_provider, class: 'form-control'
   .form-group
-    = f.label :phone_number
+    = f.label t('user.about_me')
+    %small
+      =t('user.about_me_description')
     %br
-      = f.text_field :phone_number, class: 'form-control'
-  .form-group
-    = f.label :phone_provider
-    %br
-      = f.text_field :phone_provider, class: 'form-control'
-  .form-group
-    = f.label :about_me
-    %br
-      = f.text_area :about_me, class: 'form-control'
+      = f.text_area :about_me, class: 'form-control about-me-text-area'
   .actions
     = f.submit t('submit'), class: 'btn btn-primary btn-lg'

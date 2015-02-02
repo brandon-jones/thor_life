@@ -21,11 +21,31 @@ RSpec.describe User, :type => :model do
 			expect(user.authenticate('hellolonger')).to eq(user) 
 		end
 
-		it "expects a users password to be 6 characters" do
+		it "expects a users password to be 6 characters or more" do
 			user = FactoryGirl.build(:user, password: 'bad')
 			expect(user.save).to eq(false)
 			user.update_attribute(:password, 'thisisvalid')
 			expect(user.save).to eq(true)
+		end
+	end
+
+	context "Admin Level Checking" do
+		it "expects an king to be an admin superuser and king" do
+			user = FactoryGirl.create(:user)
+			expect(user.admin?).to eq(false)
+			AdminRole.create(user_id: user.id, admin_type: 'king')
+			expect(user.admin?).to eq(true)
+			expect(user.super_admin?).to eq(true)
+			expect(user.king?).to eq(true)
+		end
+
+		it "expects an queen to be an admin superuser and queen" do
+			user = FactoryGirl.create(:user)
+			expect(user.admin?).to eq(false)
+			AdminRole.create(user_id: user.id, admin_type: 'queen')
+			expect(user.admin?).to eq(true)
+			expect(user.super_admin?).to eq(true)
+			expect(user.queen?).to eq(true)
 		end
 
 	end
