@@ -5,6 +5,7 @@ class ForumsController < ApplicationController
   # GET /forums.json
   def index
     @forums = Forum.groupped(params["id"])
+    @forums = @forums.where(deleted: false) if current_user && current_user.
     @this_forum = nil
     @topics = []
     @new_forum = Forum.new
@@ -72,10 +73,10 @@ class ForumsController < ApplicationController
       respond_to do |format|
         if @forum.update(forum_params)
           format.html { redirect_to @forum, notice: 'Forum was successfully updated.' }
-          format.json { render :show, status: :ok, location: @forum }
+          # format.json { render :show, status: :ok, location: @forum }
         else
           format.html { render :edit }
-          format.json { render json: @forum.errors, status: :unprocessable_entity }
+          # format.json { render json: @forum.errors, status: :unprocessable_entity }
         end
       end
     end

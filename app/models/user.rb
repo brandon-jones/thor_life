@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   has_many :forums, :class_name => "Forum", :foreign_key => 'created_by' 
   # belongs_to :user, class_name: 'User', foreign_key: :banned_by
 
+  has_attached_file :image, :styles => { :small => "100x100#", :large => "500x500>" }, :default_url => "/images/:style/missing.png", :processors => [:cropper]
+  validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+
   has_secure_password
 
   def create_username
@@ -47,6 +51,19 @@ class User < ActiveRecord::Base
 
   def admin_types
     return self.admin_roles.map{ |m| [m.admin_type.capitalize,m.admin_id].reject!(&:blank?).join(':')}.join(',')
+  end
+
+  def cropping?
+    !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
+  end
+    
+  def reprocess_avatar
+    image.reprocess!
+  end
+  
+  def avatar_geometry(style = :original)
+    @geometry ||= {}
+    @geometry[style] ||= Paperclip::Geometry.from_file(image.path(style))
   end
 
 end
