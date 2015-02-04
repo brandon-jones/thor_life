@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Topics</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Grouping</th>
+      <th>Title</th>
+      <th>Created by</th>
+      <th>Sticky</th>
+      <th>Order</th>
+      <th>Body</th>
+      <th>Locked</th>
+      <th>Deleted</th>
+      <th>Deleted by</th>
+      <th>Last updated</th>
+      <th>Forum</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @topics.each do |topic| %>
+      <tr>
+        <td><%= topic.grouping_id %></td>
+        <td><%= topic.title %></td>
+        <td><%= topic.created_by %></td>
+        <td><%= topic.sticky %></td>
+        <td><%= topic.order %></td>
+        <td><%= topic.body %></td>
+        <td><%= topic.locked %></td>
+        <td><%= topic.deleted %></td>
+        <td><%= topic.deleted_by %></td>
+        <td><%= topic.last_updated %></td>
+        <td><%= topic.forum_id %></td>
+        <td><%= link_to 'Show', topic %></td>
+        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+        <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Topic', new_topic_path %>

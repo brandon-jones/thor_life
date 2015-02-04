@@ -1,0 +1,58 @@
+- forums.keys.each do |grouping_key|
+  - unless grouping_key == 'nil'
+    %h4
+      = grouping_key
+  %table.table.table-bordered
+    %tbody
+      - forums[grouping_key].each do |forum|
+        %tr
+          - if current_user && current_user.admin_of?(forum)
+            %td
+              &nbsp;
+          %td.bg-success{colspan: 5}
+            %h4
+              - if forum.locked
+                %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+              = link_to forum.title, forum
+              %br
+              %p.text-inline.inline
+                %small
+                  Created by #{link_to forum.creator.username, user_path(forum.creator)} about #{local_time_ago(forum.updated_at)}
+              %p.inline.pull-right
+                %small
+                  -if forum.last_updated
+                    most recent post: #{forum.last_updated}
+          - if current_user && current_user.admin_of?(forum)
+            %td.text-center{:width => "2em"}= link_to 'Details', nil, class: 'btn btn-default show-details', data: { class: "#{forum.class.to_s.downcase}-#{forum.id}" }
+        - if current_user && current_user.admin_of?(forum)
+          %tr{ style: 'display:none', id: "forum-#{forum.id}" }
+            %td
+            - if forum.deleted
+              %td
+                Deleted: #{forum.deleted}
+              %td
+                Deleted by: #{forum.destroyer}
+              %td
+                = link_to 'Destroy', forum, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs'
+              %td
+                -if forum.locked
+                  = link_to 'UnLock', '#', class: 'btn btn-primary btn-xs'
+                -else
+                  = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'
+            - else
+              %td
+                Deleted: #{forum.deleted}
+              %td
+                = link_to 'Delete', '#', class: 'btn btn-default btn-xs'
+              %td
+                = link_to 'Destroy', '#', class: 'btn btn-danger btn-xs'
+              %td
+                -if forum.locked
+                  = link_to 'Unlock', '#', class: 'btn btn-primary btn-xs'
+                -else
+                  = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'
+
+            %td
+              Main Feed: #{forum.main_feed}
+            %td
+  %br

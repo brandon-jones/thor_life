@@ -46,6 +46,7 @@ GEM
       debug_inspector (>= 0.0.1)
     braintree (2.38.0)
       builder (>= 2.0.0)
+    breadcrumbs_on_rails (2.3.0)
     builder (3.2.2)
     callsite (0.0.11)
     celluloid (0.16.0)
@@ -115,6 +116,8 @@ GEM
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    local_time (1.0.1)
+      coffee-rails
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.9)
@@ -251,6 +254,7 @@ DEPENDENCIES
   better_errors (~> 1.1.0)
   binding_of_caller (~> 0.7.2)
   braintree (~> 2.38.0)
+  breadcrumbs_on_rails
   coffee-rails (~> 4.1.0)
   factory_girl_rails
   faker (~> 1.4.3)
@@ -260,6 +264,7 @@ DEPENDENCIES
   haml (~> 4.0.5)
   jbuilder (~> 2.0)
   jquery-rails
+  local_time (~> 1.0.1)
   meta_request
   pg
   pry (~> 0.10.0)

@@ -1,0 +1,28 @@
+%td
+- if forum.deleted
+  %td
+    Deleted: #{forum.deleted}
+  %td
+    Deleted by: #{forum.destroyer}
+  %td
+    = link_to 'Destroy', forum, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs'
+  %td
+    -if forum.locked
+      = link_to 'UnLock', '#', class: 'btn btn-primary btn-xs'
+    -else
+      = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'
+- else
+  %td
+    Deleted: #{forum.deleted}
+  %td
+    = link_to 'Delete', '#', class: 'btn btn-default btn-xs'
+  %td
+    = link_to 'Destroy', '#', class: 'btn btn-danger btn-xs'
+  %td
+    -if forum.locked
+      = link_to 'Unlock', '#', class: 'btn btn-primary btn-xs'
+    -else
+      = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'
+%td
+  Main Feed: #{forum.main_feed}
+%td

@@ -13,4 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require braintree
+//= require local_time
 //= require_tree .

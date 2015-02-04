@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  resources :comments
+
+  resources :groupings
+
+  resources :topics
+
+  resources :forums do
+    member do
+      get '/new' => 'forums#new'
+    end
+  end
+
   resources :admin_roles
 
   resources :users do

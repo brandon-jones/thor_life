@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
   end
   helper_method :current_user
 
@@ -19,6 +19,16 @@ class ApplicationController < ActionController::Base
     unless current_user && current_user.super_admin?
       flash[:notice] = "You must be an admin to visit that page"
       redirect_to '/login'
+    end
+  end
+
+  def my_breadcrumbs(obj)
+    obj.parent_chain.each do |bc|
+      if bc.id == nil
+        add_breadcrumb bc.title, forums_path
+      else
+        add_breadcrumb bc.title.truncate(15), "/#{bc.class.to_s.downcase}s/#{bc.id}"
+      end
     end
   end
 

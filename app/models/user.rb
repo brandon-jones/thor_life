@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   validates :password,length: { minimum: 6 }, :allow_blank => true
   before_save :create_username
   has_many :admin_roles
+  has_many :forums, :class_name => "Forum", :foreign_key => 'created_by' 
   # belongs_to :user, class_name: 'User', foreign_key: :banned_by
 
   has_secure_password
@@ -34,6 +35,18 @@ class User < ActiveRecord::Base
 
   def banned_by
   	User.find_by_id(super)
+  end
+
+  def admin_of?(obj)
+    return true if super_admin?
+    return false if obj.id == nil
+    roles = AdminRole.where(admin_id: obj.id).where(admin_type: obj.class.to_s.downcase)
+    return true if roles.count > 0
+    return false
+  end
+
+  def admin_types
+    return self.admin_roles.map{ |m| [m.admin_type.capitalize,m.admin_id].reject!(&:blank?).join(':')}.join(',')
   end
 
 end

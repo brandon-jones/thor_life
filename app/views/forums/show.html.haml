@@ -1,0 +1,15 @@
+%h1.text-center #{@this_forum.title}
+=flash_msg
+= render_breadcrumbs
+- if @forums.count > 0
+  .row
+    .col-md-10
+      = render partial: 'layouts/forums', locals: {forums: @forums}
+    .col-md-2
+      = render partial: 'layouts/forum_sidebar', locals: {forum: @this_forum, new_forum: @new_forum}
+- if @topics.count > 0
+  .row
+    .col-md-10
+      = render partial: 'layouts/topics', locals: {topics: @topics}
+    .col-md-2
+      = render partial: 'layouts/topic_sidebar', locals: {forum: @this_forum}

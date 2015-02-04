@@ -1,0 +1,10 @@
+%h1.text-center #{@topic.title}
+=flash_msg
+=render_breadcrumbs
+.bg-warning
+  %p
+    Created by #{link_to @topic.creator.username, user_path(@topic.creator.id)} on #{local_time(@topic.created_at)}
+  %p.lg-font
+    = @topic.body
+
+= render partial: 'layouts/comments', locals: { comments: @topic.comments}

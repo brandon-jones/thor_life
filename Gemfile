@@ -31,6 +31,10 @@ gem 'faker', '~> 1.4.3'
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'local_time', '~> 1.0.1'
+
+gem "breadcrumbs_on_rails"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

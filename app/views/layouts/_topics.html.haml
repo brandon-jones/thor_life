@@ -1,0 +1,19 @@
+%table.table.table-bordered
+  %tbody.bg-warning
+    - topics.each do |topic|
+      %tr
+        %td
+          %h4
+            - if topic.locked
+              %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+            = link_to topic.title, topic
+            %br
+            %p.inline
+              %small
+                Created by #{link_to topic.creator.username, user_path(topic.creator)} about #{local_time_ago(topic.updated_at)}
+            %p.inline.pull-right
+              %small
+                -if topic.last_updated
+                  most recent post: #{topic.last_updated}
+        - if current_user && current_user.super_admin?
+          %td.text-center= link_to 'Details', topic, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default'

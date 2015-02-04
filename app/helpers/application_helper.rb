@@ -7,4 +7,5 @@ module ApplicationHelper
     end
     return builder.html_safe
   end
+
 end

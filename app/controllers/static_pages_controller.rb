@@ -2,7 +2,8 @@ class StaticPagesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:checkout]
 
 	def index
-		@client_token = Braintree::ClientToken.generate
+		# @client_token = Braintree::ClientToken.generate
+		@main_topics = Topic.where(forum_id: Forum.where(main_feed: true).pluck(:id))
 	end
 
 	def cert

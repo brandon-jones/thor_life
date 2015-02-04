@@ -11,6 +11,8 @@
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
       %ul.nav.navbar-nav.navbar-right
+        %li
+          = link_to 'Forums', forums_path
         - if current_user
           %li
             %a{:href => "#{user_path(current_user.id)}"} 

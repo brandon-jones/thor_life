@@ -1,0 +1,10 @@
+%table.table.table-bordered
+  %tbody.bg-info
+    - comments.each do |comment|
+      %tr
+        %td
+          %p
+            %small
+              Created by #{link_to comment.creator.username, user_path(comment.creator)} about #{local_time(comment.updated_at)}
+          %p
+            =comment.body

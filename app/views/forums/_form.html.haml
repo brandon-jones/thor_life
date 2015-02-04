@@ -1,0 +1,24 @@
+= form_for(@forum) do |f|
+  - if @forum.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@forum.errors.count, "error")
+        prohibited this forum from being saved:
+      %ul
+        - @forum.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+  - if current_user && current_user.admin_of?(@parent_forum)
+    .form-group
+      = f.label :locked
+      = f.check_box :locked, class: 'form-control'
+    .form-group
+      = f.label :admins_only
+      = f.check_box :admins_only, class: 'form-control'
+    .form-group
+      = f.label :main_feed
+      = f.check_box :main_feed, class: 'form-control'
+  .form-group
+    = f.submit 'Create Forum', class: 'btn btn-default'
