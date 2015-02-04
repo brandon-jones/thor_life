@@ -95,3 +95,24 @@ div {
   font-size: 200%;
   line-height: 150%;
 }
+
+table.forum-part {
+  margin-bottom: 0;
+}
+
+table.topic-part {
+  margin-bottom: 0;
+}
+
+td.no-padding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.remove-border {
+  border-top: none !important; 
+}
+
+.middle-align {
+  vertical-align: middle !important;
+}

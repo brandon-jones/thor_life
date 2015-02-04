@@ -1,28 +1,38 @@
-%td
-- if forum.deleted
-  %td
-    Deleted: #{forum.deleted}
-  %td
-    Deleted by: #{forum.destroyer}
-  %td
-    = link_to 'Destroy', forum, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs'
-  %td
-    -if forum.locked
-      = link_to 'UnLock', '#', class: 'btn btn-primary btn-xs'
+%tr.remove-border{ style: "#{admin ? '' : 'display:none'}", id: "#{obj.class.to_s.downcase}-#{obj.id}-options", class: "#{obj.class.to_s.downcase}-options", data: { id: "#{obj.id}" } }
+  - if obj.deleted
+    %td
+    %td.remove-border
+      Deleted: 
+      %span.badge
+        #{obj.deleted}
+    %td.remove-border
+      Deleted by: #{link_to obj.destroyer.username, obj.destroyer}
+    - if current_user && current_user.king?
+      %td.remove-border
+        = link_to 'Destroy', obj, method: :delete, data: { confirm: 'Are you sure?', table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "destroy" }, class: 'btn btn-danger btn-xs'
+    %td.remove-border
+      -if obj.locked
+        = link_to 'UnLock', '#', class: "btn btn-primary btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "unlock" }
+      -else
+        = link_to 'Lock', '#', class: "btn btn-primary btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "lock" }
+  - else
+    %td
+    %td.remove-border
+      = link_to 'Delete', '#', class: "btn btn-default btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "delete" }
+    %td.remove-border
+      = link_to 'Destroy', '#', class: "btn btn-danger btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "destory" }
+    %td.remove-border
+      -if obj.locked
+        = link_to 'Unlock', '#', class: "btn btn-primary btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "unlock" }
+      -else
+        = link_to 'Lock', '#', class: "btn btn-primary btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "lock" }
+  %td.remove-border
+    Main Feed: 
+    %span.badge
+      #{obj.main_feed}
+  %td.remove-border
+    -if obj.admins_only
+      = link_to 'Admin Only', '#', class: "btn btn-primary btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "admin" }
     -else
-      = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'
-- else
-  %td
-    Deleted: #{forum.deleted}
-  %td
-    = link_to 'Delete', '#', class: 'btn btn-default btn-xs'
-  %td
-    = link_to 'Destroy', '#', class: 'btn btn-danger btn-xs'
-  %td
-    -if forum.locked
-      = link_to 'Unlock', '#', class: 'btn btn-primary btn-xs'
-    -else
-      = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'
-%td
-  Main Feed: #{forum.main_feed}
-%td
+      = link_to 'Open', '#', class: "btn btn-primary btn-xs btn-update-#{obj.class.to_s.downcase}", data: { table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "open" }
+  %td.remove-border

@@ -17,7 +17,7 @@ class ForumsController < ApplicationController
     @forums = Forum.groupped(params["id"])
     @this_forum = Forum.find params["id"]
     @new_forum = Forum.new
-    @topics = @this_forum.topics
+    @topics = @this_forum.topics.order(sticky: 'DESC').order(:created_at)
     my_breadcrumbs(@this_forum)
     @parent_forum = @this_forum.parent
   end
@@ -51,13 +51,32 @@ class ForumsController < ApplicationController
   # PATCH/PUT /forums/1
   # PATCH/PUT /forums/1.json
   def update
-    respond_to do |format|
-      if @forum.update(forum_params)
-        format.html { redirect_to @forum, notice: 'Forum was successfully updated.' }
-        format.json { render :show, status: :ok, location: @forum }
-      else
-        format.html { render :edit }
-        format.json { render json: @forum.errors, status: :unprocessable_entity }
+    if params["what"]
+      forum = Forum.find_by_id(params["id"])
+      case params["what"]
+        when 'lock'
+          forum.update_attribute(:locked, true)
+        when 'unlock'
+          forum.update_attribute(:locked, false)
+        when 'delete'
+          forum.update_attributes(:deleted => true, :deleted_by => current_user.id)
+        when 'destory'
+          forum.destory
+        when 'admin'
+          forum.update_attribute(:admins_only, false)
+        when 'open'
+          forum.update_attribute(:admins_only, true)
+        end
+      render partial: 'layouts/tf_row', locals: { obj: forum, admin: true } and return
+    else
+      respond_to do |format|
+        if @forum.update(forum_params)
+          format.html { redirect_to @forum, notice: 'Forum was successfully updated.' }
+          format.json { render :show, status: :ok, location: @forum }
+        else
+          format.html { render :edit }
+          format.json { render json: @forum.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

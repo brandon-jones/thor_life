@@ -1,0 +1,26 @@
+%tr.remove-border.topic-options{ style: 'display:none', id: "topic-#{obj.id}" }
+  %td.remove-border
+  - if obj.deleted
+    %td.remove-border
+      Deleted: #{obj.deleted}
+    %td.remove-border
+      Deleted by: #{obj.destroyer}
+    %td.remove-border
+      = link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs'
+    %td.remove-border
+      -if obj.locked
+        = link_to 'UnLock', '#', class: 'btn btn-primary btn-xs'
+      -else
+        = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'
+  - else
+    %td.remove-border
+      Deleted: #{obj.deleted}
+    %td.remove-border
+      = link_to 'Delete', '#', class: 'btn btn-default btn-xs'
+    %td.remove-border
+      = link_to 'Destroy', '#', class: 'btn btn-danger btn-xs'
+    %td.remove-border
+      -if obj.locked
+        = link_to 'Unlock', '#', class: 'btn btn-primary btn-xs'
+      -else
+        = link_to 'Lock', '#', class: 'btn btn-primary btn-xs'

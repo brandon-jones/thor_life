@@ -4,11 +4,11 @@ class Forum < ActiveRecord::Base
 	has_many :children, :class_name => 'Forum', :foreign_key => 'parent_id'
 	belongs_to :parent, :class_name => 'Forum'
 	belongs_to :grouping
-	has_many :topics
+	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }
 
 	def self.groupped(id = nil)
 		builder = {}
-		Forum.where(parent_id: id).order(:grouping_id, created_at: :desc).each do |forum|
+		Forum.where(parent_id: id).order(:grouping_id, :order, created_at: :desc).each do |forum|
 			key = forum.grouping ? forum.grouping.title : 'nil'
 			builder[key] = [] unless builder[key]
 			builder[key] << forum
