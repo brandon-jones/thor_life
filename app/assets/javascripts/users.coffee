@@ -5,7 +5,6 @@
 $(document).ready ->
 
 
-
 image_cropper = ->
   $("#user_image").change ->
     console.log('change triggered')
@@ -15,3 +14,14 @@ image_cropper = ->
     image = $('#user_image')[0].files.toString()
     $('#edit_user_1').submit()
     console.log(session)
+    $.ajax
+      type: "POST"
+      url: "/users/" + id + "/image_upload"
+      data:
+        _method: "POST"
+        id: id
+        authenticity_token: session
+        image: image
+      success:  (data, textStatus, jqXHR) ->
+        console.log('change data')
+        alert data

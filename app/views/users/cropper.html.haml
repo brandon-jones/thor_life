@@ -4,7 +4,7 @@
 = image_tag @user.image.url(:large), :id => "cropbox"
 = form_for @user do |form|
   - for attribute in [:crop_x, :crop_y, :crop_w, :crop_h]
-    = form.text_field attribute, :id => attribute, :style => 'display:none'
+    = form.text_field attribute, :id => attribute
   %p= form.submit 'Crop'
 
 :javascript
