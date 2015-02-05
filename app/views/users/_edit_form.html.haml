@@ -8,11 +8,11 @@
       %ul
         - @user.errors.full_messages.each do |message|
           %li= message
-  - if @user.image
+  - if @user.image.present?
     .form-group
       = image_tag @user.image.url(:large)
   .form-group
-    = f.file_field :image, class: 'btn btn-default'
+    = f.file_field :image, class: 'btn btn-default', data: { id: @user.id, auth: form_authenticity_token }
   .form-group
     = f.label t('user.username')
     %small

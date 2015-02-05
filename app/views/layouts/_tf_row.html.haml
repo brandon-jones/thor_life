@@ -30,3 +30,5 @@
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
       = render partial: "layouts/#{obj.class.to_s.downcase}_options", locals: { obj: obj, admin: admin }
+
+<script data-turbolinks-track="false" src="/assets/jquery.Jcrop.js?body=1"></script>

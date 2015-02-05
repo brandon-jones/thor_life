@@ -47,6 +47,13 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    if params["commit"] == 'Crop'
+      if @user.update(user_params)
+        @user.reprocess_avatar
+        @user.destroy_original
+      end
+      redirect_to user_path(@user.id) and return
+    end
     if params["user"]["current_password"]
       unless @user.authenticate(params["user"]["current_password"])
         redirect_to update_password_user_path(@user), :flash => { :error => "Current password is incorrect!" }
@@ -58,14 +65,18 @@ class UsersController < ApplicationController
     end
     if @user.update(user_params)
       session[:user_id] = @user.id if current_user == @user
-      render 'cropper' and return unless params["commit"] == 'Crop'
-      render user_path(@user.id) and return
+      
+      render 'cropper' and return 
       # format.html { redirect_to @user, notice: notice }
       # format.json { render :show, status: :ok, location: @user }
     else
-      format.html { render :edit }
+      render :edit
       # format.json { render json: @user.errors, status: :unprocessable_entity }
     end
+  end
+
+  def image_upload
+    binding.pry
   end
 
   # DELETE /users/1

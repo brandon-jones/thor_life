@@ -5,7 +5,6 @@ class ForumsController < ApplicationController
   # GET /forums.json
   def index
     @forums = Forum.groupped(params["id"])
-    @forums = @forums.where(deleted: false) if current_user && current_user.
     @this_forum = nil
     @topics = []
     @new_forum = Forum.new

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get '/new_password' => 'users#new_password' , as: 'update_password'
+      post 'image_upload' => 'users#image_upload'
     end
   end
 
