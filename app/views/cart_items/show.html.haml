@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Item:
+  = @cart_item.item_id
+%p
+  %strong Item type:
+  = @cart_item.item_type
+%p
+  %strong String:
+  = @cart_item.string
+%p
+  %strong Price:
+  = @cart_item.price
+%p
+  %strong Cart:
+  = @cart_item.cart_id
+= link_to 'Edit', edit_cart_item_path(@cart_item)
+|
+\#{link_to 'Back', cart_items_path}

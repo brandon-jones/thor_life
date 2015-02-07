@@ -1,0 +1,24 @@
+%p#notice= notice
+%h1 Listing Game Instances
+%table.table
+  %thead
+    %tr
+      %th Game
+      %th Server name
+      %th Server address
+      %th Server port
+      %th Mod list
+      %th{:colspan => "3"}
+  %tbody
+    - @game_instances.each do |game_instance|
+      %tr
+        %td= link_to game_instance.game.name, game_instance_path(game_instance.game.id)
+        %td= game_instance.server_name
+        %td= game_instance.server_address
+        %td= game_instance.server_port
+        %td= game_instance.mod_list
+        %td= link_to 'Show', game_instance
+        %td= link_to 'Edit', edit_game_instance_path(game_instance)
+        %td= link_to 'Destroy', game_instance, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Game instance', new_game_instance_path

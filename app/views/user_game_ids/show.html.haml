@@ -1,0 +1,25 @@
+%p#notice= notice
+%p
+  %strong Game:
+  = @user_game_id.game_id
+%p
+  %strong In game name:
+  = @user_game_id.in_game_name
+%p
+  %strong User:
+  = @user_game_id.user_id
+%p
+  %strong Banned:
+  = @user_game_id.banned
+%p
+  %strong Permma banned:
+  = @user_game_id.permma_banned
+%p
+  %strong User verified:
+  = @user_game_id.user_verified
+%p
+  %strong Verified by:
+  = @user_game_id.verified_by
+= link_to 'Edit', edit_user_game_id_path(@user_game_id)
+|
+\#{link_to 'Back', user_game_ids_path}

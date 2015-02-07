@@ -1,0 +1,13 @@
+%p#notice= notice
+%p
+  %strong User:
+  = @admin_role.user_id
+%p
+  %strong Admin type:
+  = @admin_role.admin_type
+%p
+  %strong Admin:
+  = @admin_role.admin_id
+= link_to 'Edit', edit_admin_role_path(@admin_role)
+|
+\#{link_to 'Back', admin_roles_path}

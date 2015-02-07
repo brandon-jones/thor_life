@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Game:
+  = @game_instance.game_id
+%p
+  %strong Server name:
+  = @game_instance.server_name
+%p
+  %strong Server address:
+  = @game_instance.server_address
+%p
+  %strong Server port:
+  = @game_instance.server_port
+%p
+  %strong Mod list:
+  = @game_instance.mod_list
+= link_to 'Edit', edit_game_instance_path(@game_instance)
+|
+\#{link_to 'Back', game_instances_path}

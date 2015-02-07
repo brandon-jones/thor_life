@@ -1,0 +1,17 @@
+%p#notice= notice
+%p
+  %strong Total:
+  = @cart.total
+- if current_user && current_user.super_admin?
+  %p
+    %strong Delivered:
+    = @cart.delivered
+  - if @cart.delivered
+    %p
+      %strong Delivered by:
+      = @cart.delivered_by
+  = link_to 'Edit', edit_cart_path(@cart)
+
+= render partial: 'cart_items'
+
+= link_to 'Back', carts_path

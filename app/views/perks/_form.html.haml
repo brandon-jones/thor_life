@@ -1,0 +1,31 @@
+= form_for(@perk) do |f|
+  - if @perk.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@perk.errors.count, "error")
+        prohibited this perk from being saved:
+      %ul
+        - @perk.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :title
+    %br/
+    = f.text_field :title
+  .field
+    = f.label :game_instance_id
+    %br/
+    = f.number_field :game_instance_id
+  .field
+    = f.label :description
+    %br/
+    = f.text_area :description
+  .field
+    = f.label :price
+    %br/
+    = f.text_field :price
+  .field
+    = f.label :game_id
+    %br/
+    = f.number_field :game_id
+  .actions
+    = f.submit

@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  resources :packages
+
+  resources :carts
+
+  resources :cart_items
+
+  resources :perks
+
+  resources :user_game_ids
+
+  resources :game_instances
+
+  resources :games
+
   resources :comments
 
   resources :groupings

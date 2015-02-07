@@ -1,0 +1,20 @@
+%p#notice= notice
+%h1 Listing Packages
+%table.table
+  %thead
+    %tr
+      %th Title
+      %th Price
+      %th Perk ids
+      %th{:colspan => "3"}
+  %tbody
+    - @packages.each do |package|
+      %tr
+        %td= package.title
+        %td= package.price
+        %td= package.perk_ids
+        %td= link_to 'Show', package
+        %td= link_to 'Edit', edit_package_path(package)
+        %td= link_to 'Destroy', package, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Package', new_package_path

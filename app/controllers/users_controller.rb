@@ -47,11 +47,10 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    binding.pry
     if params["commit"] == 'Crop'
       if @user.update(user_params)
-        @user.reprocess_avatar
-        @user.destroy_original
+        # @user.reprocess_avatar
+        # @user.destroy_original
       end
       redirect_to user_path(@user.id) and return
     end

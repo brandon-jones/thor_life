@@ -1,0 +1,31 @@
+= form_for(@cart_item) do |f|
+  - if @cart_item.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@cart_item.errors.count, "error")
+        prohibited this cart_item from being saved:
+      %ul
+        - @cart_item.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :item_id
+    %br/
+    = f.number_field :item_id
+  .field
+    = f.label :item_type
+    %br/
+    = f.text_field :item_type
+  .field
+    = f.label :string
+    %br/
+    = f.text_field :string
+  .field
+    = f.label :price
+    %br/
+    = f.text_field :price
+  .field
+    = f.label :cart_id
+    %br/
+    = f.number_field :cart_id
+  .actions
+    = f.submit

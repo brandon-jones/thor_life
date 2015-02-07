@@ -21,5 +21,11 @@ namespace :db do
     Rake::Task["populate:forums"].execute
     Rake::Task["populate:topics"].execute
     Rake::Task["populate:comments"].execute
+    Rake::Task["populate:games"].execute
+    Rake::Task["populate:game_instances"].execute
+    Rake::Task["populate:perks"].execute
+    Rake::Task["populate:packages"].execute
+    Rake::Task["populate:carts"].execute
+    Rake::Task["populate:cart_items"].execute
   end
 end

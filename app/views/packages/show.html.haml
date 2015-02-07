@@ -1,0 +1,13 @@
+%p#notice= notice
+%p
+  %strong Title:
+  = @package.title
+%p
+  %strong Price:
+  = @package.price
+%p
+  %strong Perk ids:
+  = @package.perk_ids
+= link_to 'Edit', edit_package_path(@package)
+|
+\#{link_to 'Back', packages_path}

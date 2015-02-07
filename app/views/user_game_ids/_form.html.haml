@@ -1,0 +1,39 @@
+= form_for(@user_game_id) do |f|
+  - if @user_game_id.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@user_game_id.errors.count, "error")
+        prohibited this user_game_id from being saved:
+      %ul
+        - @user_game_id.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :game_id
+    %br/
+    = f.number_field :game_id
+  .field
+    = f.label :in_game_name
+    %br/
+    = f.text_field :in_game_name
+  .field
+    = f.label :user_id
+    %br/
+    = f.number_field :user_id
+  .field
+    = f.label :banned
+    %br/
+    = f.check_box :banned
+  .field
+    = f.label :permma_banned
+    %br/
+    = f.check_box :permma_banned
+  .field
+    = f.label :user_verified
+    %br/
+    = f.check_box :user_verified
+  .field
+    = f.label :verified_by
+    %br/
+    = f.number_field :verified_by
+  .actions
+    = f.submit
