@@ -1,0 +1,30 @@
+%table.table
+  %thead
+    %tr
+      %th Game
+      %th Game instance
+      %th Title
+      %th Description
+      %th Price
+      %th
+      - if current_user && current_user.super_admin?
+        %th{:colspan => "3"}
+  %tbody
+    - @perks.each do |perk|
+      %tr
+        %td= link_to perk.game.name, game_path(perk.game.id)
+        %td= perk.game_instance_id
+        %td= perk.title
+        %td= perk.description
+        %td$#{perk.price}
+        %td
+          - if current_user 
+            %a{ href: '#', class: "add-to-cart", data: { item_type: perk.class.to_s.downcase, item_id: perk.id.to_s } }
+              %i.fa.fa-cart-plus.md-font
+          - else
+            = link_to 'Create an Account', signup_path
+        - if current_user && current_user.super_admin?
+          %td= link_to 'Show', perk
+          %td= link_to 'Edit', edit_perk_path(perk)
+          %td= link_to 'Destroy', perk, method: :delete, data: { confirm: 'Are you sure?' }
+%br

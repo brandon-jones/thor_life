@@ -1,24 +1,3 @@
-%p#notice= notice
 %h1 Listing Perks
-%table.table
-  %thead
-    %tr
-      %th Title
-      %th Game instance
-      %th Description
-      %th Price
-      %th Game
-      %th{:colspan => "3"}
-  %tbody
-    - @perks.each do |perk|
-      %tr
-        %td= perk.title
-        %td= perk.game_instance_id
-        %td= perk.description
-        %td$#{perk.price}
-        %td= link_to perk.game.name, game_path(perk.game.id)
-        %td= link_to 'Show', perk
-        %td= link_to 'Edit', edit_perk_path(perk)
-        %td= link_to 'Destroy', perk, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'New Perk', new_perk_path
+%input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
+= render partial: 'perks/index'

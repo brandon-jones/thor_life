@@ -7,33 +7,14 @@
       %ul
         - @user_game_id.errors.full_messages.each do |message|
           %li= message
-  .field
+  .form-group
     = f.label :game_id
-    %br/
-    = f.number_field :game_id
-  .field
+    = f.select :game_id, options_for_select(@games), {}, class: 'form-control'
+  .form-group
     = f.label :in_game_name
-    %br/
-    = f.text_field :in_game_name
-  .field
+    = f.text_field :in_game_name, class: 'form-control'
+  .form-group
     = f.label :user_id
-    %br/
-    = f.number_field :user_id
-  .field
-    = f.label :banned
-    %br/
-    = f.check_box :banned
-  .field
-    = f.label :permma_banned
-    %br/
-    = f.check_box :permma_banned
-  .field
-    = f.label :user_verified
-    %br/
-    = f.check_box :user_verified
-  .field
-    = f.label :verified_by
-    %br/
-    = f.number_field :verified_by
+    = f.select :user_id, options_for_select(@user), {}, class: 'form-control'
   .actions
-    = f.submit
+    = f.submit 'Create Gamer ID', class: 'btn btn-default'

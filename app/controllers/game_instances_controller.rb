@@ -4,7 +4,8 @@ class GameInstancesController < ApplicationController
   # GET /game_instances
   # GET /game_instances.json
   def index
-    @game_instances = GameInstance.all
+    return @game_instances = GameInstance.where(game_id: params["game_id"]) if params["game_id"]
+    return @game_instances = GameInstance.all
   end
 
   # GET /game_instances/1

@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   validates_attachment_size :image, :in => 0.megabytes..5.megabytes
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  crop_attached_file :image
+  # crop_attached_file :image
 
   has_secure_password
 
@@ -70,6 +70,16 @@ class User < ActiveRecord::Base
 
   def destroy_original
     File.unlink(self.image.path)
+  end
+
+  def cart
+    return @cart if @cart
+    if cart = Cart.where(user_id: self.id)
+      if cart = cart.where(donation_id: nil)
+        return @cart = cart.first
+      end
+    end
+    return @cart = Cart.create(user_id: self.id)
   end
 
 end

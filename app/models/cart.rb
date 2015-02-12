@@ -6,4 +6,14 @@ class Cart < ActiveRecord::Base
 	validates_presence_of :delivered_by, :if => :delivered
 	include MoneyAttributes   
   money_attributes :total
+
+  def update_total
+  	total = 0
+  	self.cart_items.each do |ci|
+  		total += ci.price
+  	end
+  	self.update_attribute(:total, total)
+    return self.total_money
+  end
+
 end

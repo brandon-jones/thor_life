@@ -1,7 +1,10 @@
-%p#notice= notice
+=flash_msg
+
 %p
   %strong Total:
-  = @cart.total
+  .total-price
+    $
+    = @cart.total
 - if current_user && current_user.super_admin?
   %p
     %strong Delivered:
@@ -10,8 +13,7 @@
     %p
       %strong Delivered by:
       = @cart.delivered_by
-  = link_to 'Edit', edit_cart_path(@cart)
-
+  %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
 = render partial: 'cart_items'
 
-= link_to 'Back', carts_path
+= link_to 'Back', last_path, class: 'btn btn-default btn-xs'

@@ -38,8 +38,9 @@ div {
   color: green;
 }
 
-.error {
+.error, .login_error {
   color: red;
+  padding-bottom: 5px;
 }
 
 .field_with_errors {
@@ -96,6 +97,11 @@ div {
   line-height: 150%;
 }
 
+.md-font {
+  font-size: 150% !important;
+  line-height: 150%;
+}
+
 table.forum-part {
   margin-bottom: 0;
 }
@@ -115,4 +121,8 @@ td.no-padding {
 
 .middle-align {
   vertical-align: middle !important;
+}
+
+.login-box {
+  padding-top: .3em;
 }

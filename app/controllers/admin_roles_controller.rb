@@ -1,6 +1,7 @@
 class AdminRolesController < ApplicationController
   before_action :set_admin_role, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticated_king, only: :destroy
+  before_action :authenticated_super_admin, except: [:destroy, :index]
   # GET /admin_roles
   # GET /admin_roles.json
   def index

@@ -1,6 +1,5 @@
 class CartItemsController < ApplicationController
   before_action :set_cart_item, only: [:show, :edit, :update, :destroy]
-
   # GET /cart_items
   # GET /cart_items.json
   def index
@@ -56,7 +55,7 @@ class CartItemsController < ApplicationController
   def destroy
     @cart_item.destroy
     respond_to do |format|
-      format.html { redirect_to cart_items_url, notice: 'Cart item was successfully destroyed.' }
+      format.html { redirect_to cart_path(@cart_item.cart.id), notice: 'Cart item was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -70,5 +69,9 @@ class CartItemsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def cart_item_params
       params.require(:cart_item).permit(:item_id, :item_type, :string, :price, :cart_id)
+    end
+
+    def update_cart_price
+      @cart_item.cart.update_price
     end
 end

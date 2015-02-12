@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150206043141) do
     t.integer  "total_in_cents"
     t.boolean  "delivered",      default: false
     t.integer  "delivered_by"
+    t.integer  "donation_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
@@ -61,14 +62,16 @@ ActiveRecord::Schema.define(version: 20150206043141) do
     t.string   "title"
     t.integer  "deleted_by"
     t.integer  "grouping_id"
-    t.boolean  "locked",         default: false
-    t.boolean  "topics_allowed", default: false
-    t.boolean  "admins_only",    default: false
-    t.boolean  "main_feed",      default: false
-    t.boolean  "deleted",        default: false
+    t.boolean  "locked",           default: false
+    t.boolean  "topics_allowed",   default: false
+    t.boolean  "admins_only",      default: false
+    t.boolean  "main_feed",        default: false
+    t.boolean  "deleted",          default: false
     t.datetime "last_updated"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "game_id"
+    t.integer  "game_instance_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "forums", ["grouping_id"], name: "index_forums_on_grouping_id", using: :btree

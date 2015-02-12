@@ -1,3 +1,28 @@
 %h1.text-center Main List
 =flash_msg
-= render partial: 'layouts/topics', locals: { topics: @main_topics }
+- @main_topics.each do |topic|
+  %table.table{class: "#{topic.class.to_s.downcase}-part"}
+    %tr.warning
+      %td.remove-border
+        %h4
+          - if topic.class.to_s.downcase == 'topic' && topic.sticky
+            %span.glyphicon.glyphicon-pushpin{"aria-hidden" => "true"}
+          - if topic.class.to_s.downcase == 'forum' && topic.admins_only
+            %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
+          - if topic.locked
+            %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+          - if topic.deleted
+            %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+          = link_to topic.title, topic
+          %br
+          %p.text-inline.inline
+            %small
+              Created by #{link_to topic.creator.username, user_path(topic.creator)} about #{local_time_ago(topic.created_at)}
+          %p.inline.pull-right
+            %small
+              -if topic.last_updated
+                most recent post: #{topic.last_updated}
+    %tr.warning
+      %td
+        =topic.body
+  %br

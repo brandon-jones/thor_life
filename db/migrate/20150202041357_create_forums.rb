@@ -13,6 +13,8 @@ class CreateForums < ActiveRecord::Migration
       t.boolean :main_feed, :default => false
       t.boolean :deleted, :default => false
       t.datetime :last_updated
+      t.integer :game_id
+      t.integer :game_instance_id
 
       t.timestamps null: false
     end

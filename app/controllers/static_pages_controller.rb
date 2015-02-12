@@ -3,7 +3,7 @@ class StaticPagesController < ApplicationController
 
 	def index
 		# @client_token = Braintree::ClientToken.generate
-		@main_topics = Topic.where(forum_id: Forum.where(main_feed: true).pluck(:id))
+		@main_topics = Topic.where(forum_id: Forum.where(main_feed: true).pluck(:id)).order(:created_at).order(:sticky)
 	end
 
 	def cert
@@ -11,7 +11,6 @@ class StaticPagesController < ApplicationController
 	end
 
 	def create
-		binding.pry
 		redirect_to root_path
 	end
 
@@ -26,6 +25,11 @@ class StaticPagesController < ApplicationController
 	  flash[:notice] = "Sale successful. Head to Sizzler" if result.success?
 	  flash[:alert] = "Something is amiss. #{result.transaction.processor_response_text}" unless result.success?
 	  redirect_to action: :new
+	end
+
+	def admin_panel
+		@games = Game.all.order(:title)
+		@game_instances = GameInstance.all.order(:title)
 	end
 
 end

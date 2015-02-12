@@ -17,10 +17,6 @@ class Forum < ActiveRecord::Base
 		return builder
 	end
 
-	def admins
-		binding.pry
-	end
-
 	def parent_chain
 		chain = []
 		chain << self

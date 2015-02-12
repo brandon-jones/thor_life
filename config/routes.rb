@@ -50,6 +50,10 @@ Rails.application.routes.draw do
 
   post 'checkout' => 'static_pages#checkout'
 
+  post 'add_to_cart' => 'carts#add_to_cart'
+  delete 'remove_from_cart' => 'carts#remove_from_cart'
+  get 'admin_panel' => 'static_pages#admin_panel'
+
   if Rails.env.development?
     get 'cert' => 'static_pages#cert'
   end

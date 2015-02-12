@@ -21,6 +21,25 @@ class CartsController < ApplicationController
   def edit
   end
 
+  def add_to_cart
+    if params["item_type"] && params["item_id"] && current_user
+      if obj =  params["item_type"].capitalize.constantize.find_by_id(params["item_id"])
+        cart = CartItem.new(item_id: obj.id, item_type: obj.class.to_s, price_in_cents: obj.price_in_cents, cart_id: current_user.cart.id)
+        cart.save
+        render text: cart.cart.total_money
+      end
+    end
+  end
+
+  def remove_from_cart
+    if params["item_id"] && current_user
+      if cart_item = CartItem.find_by_id(params["item_id"])
+        cart_item.destroy
+        render text: current_user.cart.total_money
+      end
+    end
+  end
+
   # POST /carts
   # POST /carts.json
   def create

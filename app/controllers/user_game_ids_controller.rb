@@ -15,6 +15,8 @@ class UserGameIdsController < ApplicationController
   # GET /user_game_ids/new
   def new
     @user_game_id = UserGameId.new
+    @games = Game.all.pluck(:name, :id)
+    @user = [[current_user['username'], current_user['id']]]
   end
 
   # GET /user_game_ids/1/edit
@@ -31,6 +33,9 @@ class UserGameIdsController < ApplicationController
         format.html { redirect_to @user_game_id, notice: 'User game was successfully created.' }
         format.json { render :show, status: :created, location: @user_game_id }
       else
+        @user_game_id = UserGameId.new
+        @games = Game.all.pluck(:name, :id)
+        @user = [[current_user['username'], current_user['id']]]
         format.html { render :new }
         format.json { render json: @user_game_id.errors, status: :unprocessable_entity }
       end

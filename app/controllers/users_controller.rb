@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :new_password]
-  before_filter :authenticated_super_admin, only: [:index]
+  before_action :authenticated_king, only: :destroy
+  before_action :authenticated_super_admin, except: [:destroy, :show, :edit, :new_password, :create, :update]
   # before_action :authorize_admin, only: [:index]
   # GET /users
   # GET /users.json
@@ -29,7 +30,6 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    binding.pry
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -47,13 +47,13 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if params["commit"] == 'Crop'
-      if @user.update(user_params)
-        # @user.reprocess_avatar
-        # @user.destroy_original
-      end
-      redirect_to user_path(@user.id) and return
-    end
+    # if params["commit"] == 'Crop'
+    #   if @user.update(user_params)
+    #     # @user.reprocess_avatar
+    #     # @user.destroy_original
+    #   end
+    #   redirect_to user_path(@user.id) and return
+    # end
     if params["user"]["current_password"]
       unless @user.authenticate(params["user"]["current_password"])
         redirect_to update_password_user_path(@user), :flash => { :error => "Current password is incorrect!" }
@@ -66,17 +66,15 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       session[:user_id] = @user.id if current_user == @user
       
-      render 'cropper' and return 
+      # render 'cropper' and return 
+      redirect_to user_path(@user.id) and return
+
       # format.html { redirect_to @user, notice: notice }
       # format.json { render :show, status: :ok, location: @user }
     else
       render :edit
       # format.json { render json: @user.errors, status: :unprocessable_entity }
     end
-  end
-
-  def image_upload
-    binding.pry
   end
 
   # DELETE /users/1

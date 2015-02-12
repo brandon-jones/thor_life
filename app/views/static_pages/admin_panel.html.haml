@@ -1,6 +1,6 @@
-%p#notice= notice
+- @games.each do |game|
 %h1 Listing User Game Ids
-%table.table
+%table
   %thead
     %tr
       %th Game
@@ -26,3 +26,15 @@
         %td= link_to 'Destroy', user_game_id, method: :delete, data: { confirm: 'Are you sure?' }
 %br/
 = link_to 'New User game', new_user_game_id_path
+
+
+= link_to 'Create New Game', new_game_path
+%br
+= link_to 'Create New Game Instance', new_game_instance_path
+%br
+= link_to 'Create New Perk', new_perk_path
+%br
+= link_to 'Create New Package', new_package_path
+%br
+= link_to 'Users Index', users_path
+%br
