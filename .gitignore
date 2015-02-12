@@ -18,3 +18,4 @@
 
 #ignore paperclip images
 public/system/users/images
+Gemfile.lock
