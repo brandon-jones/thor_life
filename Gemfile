@@ -58,7 +58,6 @@ group :development, :test do
   # gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
   gem 'awesome_print', '~> 1.2.0'
   gem 'pry', '~> 0.9.0'
   gem 'pry-rails'
@@ -69,6 +68,7 @@ end
 
 group :test do
   gem 'coveralls', require: false
+  gem 'spring'
   gem 'travis', '~> 1.7.5'
   gem 'rspec-rails', '~> 3.0'
 	gem 'guard-rspec'
@@ -78,6 +78,7 @@ group :test do
   gem 'guard-bundler'
   gem 'factory_girl_rails'
   gem 'rb-fsevent' if `uname` =~ /Darwin/
+  gem 'faker', '~> 1.4.3'
 end
 
 
