@@ -68,7 +68,7 @@ group :development, :test do
 end
 
 group :test do
-
+  gem 'coveralls', require: false
   gem 'travis', '~> 1.7.5'
   gem 'rspec-rails', '~> 3.0'
 	gem 'guard-rspec'
