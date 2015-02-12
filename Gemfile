@@ -60,7 +60,7 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'awesome_print', '~> 1.2.0'
-  gem 'pry', '~> 0.10.0'
+  gem 'pry', '~> 0.9.0'
   gem 'pry-rails'
   gem 'meta_request'
   gem 'better_errors', '~> 1.1.0'
@@ -68,8 +68,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'shoulda'
-  gem 'shoulda-matchers'
+
+  gem 'travis', '~> 1.7.5'
   gem 'rspec-rails', '~> 3.0'
 	gem 'guard-rspec'
   gem 'spring-commands-rspec'
