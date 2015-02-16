@@ -77,7 +77,6 @@ group :test do
   gem "spork-rails", "~> 4.0.0"
   gem 'guard-bundler'
   gem 'factory_girl_rails'
-  gem 'rb-fsevent' if `uname` =~ /Darwin/
   gem 'faker', '~> 1.4.3'
 end
 
