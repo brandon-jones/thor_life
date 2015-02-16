@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :new_password]
   before_action :authenticated_king, only: :destroy
-  before_action :authenticated_super_admin, except: [:destroy, :show, :edit, :new_password, :create, :update]
+  before_action :authenticated_super_admin, except: [:destroy, :show, :edit, :new_password, :create, :update, :new]
   # before_action :authorize_admin, only: [:index]
   # GET /users
   # GET /users.json

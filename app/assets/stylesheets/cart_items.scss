@@ -1,3 +1,19 @@
 // Place all the styles related to the CartItems controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.cart-item-price {
+	width: 8em;
+}
+
+.cart-item-remove {
+	width: 8em;
+}
+
+.cart-item-total-wording {
+	text-align: right;
+}
+
+.cart-item-total-price {
+	width: 16em;
+}

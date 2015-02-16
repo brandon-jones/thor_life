@@ -1,0 +1,43 @@
+%table.table.package-table-header
+  %thead
+    %tr
+      %th.package-title Title
+      %th.package-perks
+      %th.package-discount
+      %th.package-price Price
+      %th.package-add-to-cart
+- @packages.each do |package|
+  - discount = package.discount
+  %table.table.package-table-header
+    %tbody  
+      %tr{id: "package-#{package.id}"}
+        %td.package-title= package.title
+        %td.package-perks
+          %button.btn.btn-default.btn-xs.package-details{data: { package_id: "#{package.id}" }} View Perks
+        %td.package-discount
+          - if discount
+            = discount
+            OFF!
+        %td.package-price= package.price_money
+        %td.package-add-to-cart
+          - if current_user 
+            %a{ href: '#', class: "add-to-cart", data: { item_type: package.class.to_s.downcase, item_id: package.id.to_s } }
+              %i.fa.fa-cart-plus.md-font
+          - else
+            = link_to 'Create an Account', signup_path
+      - if package.perks
+        %tr
+          %table.table.package-perks-table{ hidden: true, class: "package-perks-#{package.id}"}
+            %thead
+              %tr
+                %th Game
+                %th Game Instance
+                %th Perk
+                %th Description
+            %tbody
+              - package.perks.each do |perk|
+                %tr
+                  %td= perk.game.name
+                  %td= perk.game_instance_id
+                  %td= link_to perk.title, "#perk-#{perk.id}", class: 'perk-row-flash', data: { perk_id: perk.id }
+                  %td= perk.description

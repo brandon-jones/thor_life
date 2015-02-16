@@ -100,7 +100,7 @@ namespace :populate do
     puts 'creating perks'
     puts "="*80
     50.times do |i|
-      innerds = { title: Faker::Company.catch_phrase, game_instance_id: [nil,nil,GameInstance.all.sample.id], description: Faker::Lorem.paragraph, price: Faker::Commerce.price, game_id: [nil,nil,Game.all.sample.id].sample }
+      innerds = { title: Faker::Company.catch_phrase, game_instance_id: [nil,nil,GameInstance.all.sample.id], description: Faker::Lorem.paragraph, price: Faker::Commerce.price, game_id: [nil,Game.all.sample.id,Game.all.sample.id].sample }
       puts "perks: #{i+1} --- #{innerds}"
       Perk.create(innerds)
     end
@@ -116,15 +116,19 @@ namespace :populate do
       price = 0
       total = Random.rand(10)
       count = 0
-      while count < total
+      kill_switch = 0
+      while count < total && kill_switch < 10
         perk = perks.sample
-        unless perk_ids.include?(perk.id)
+        if perk_ids.include?(perk.id)
+          kill_switch += 1
+        else
+          kill_switch = 0
           perk_ids << perk.id
-          price += perk.price
+          price += perk.price_in_cents
           count += 1
         end
       end
-      innerds = { title: Faker::Company.catch_phrase, price: price, perk_ids: perk_ids.join(',') }
+      innerds = { title: Faker::Company.catch_phrase, price_in_cents: [(price-Random.rand(price/2)),price,price].sample, perk_ids: perk_ids.join(',') }
       puts "perks: #{i+1} --- #{innerds}"
       Package.create(innerds)
     end

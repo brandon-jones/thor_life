@@ -7,9 +7,21 @@
       %ul
         - @game_instance.errors.full_messages.each do |message|
           %li= message
-  .form-group
-    = f.label :game_id
-    = f.number_field :game_id, class: 'form-control'
+  - if @game
+    .form-group
+      = f.label :game_id
+      - if false
+        %p.form-control-static
+          = @game[0]
+        = f.hidden_field :game_id, value: @game[1]
+      - else
+        .form-group
+          = f.label :game_id
+          = f.select :game_id, options_for_select(@games), {selected: 'Minecraft'}, class: 'form-control'
+  - else
+    .form-group
+      = f.label :game_id
+      = f.number_field :game_id, class: 'form-control'
   .form-group
     = f.label :server_name
     = f.text_field :server_name, class: 'form-control'
@@ -23,4 +35,4 @@
     = f.label :mod_list
     = f.text_area :mod_list, class: 'form-control'
   .form-group
-    = f.submit 'Create Game Instance',class: 'btn btn-default'
+    = f.submit "#{params['action'].capitalize} Game Instance",class: 'btn btn-default'

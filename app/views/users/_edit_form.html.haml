@@ -11,31 +11,35 @@
   - if @user.image.present?
     .form-group
       = image_tag @user.image.url(:large)
-  .form-group
-    = f.file_field :image, class: 'btn btn-default', data: { id: @user.id, auth: form_authenticity_token }
+  - if false
+    .form-group
+      = f.file_field :image, class: 'btn btn-default', data: { id: @user.id, auth: form_authenticity_token }
+  - if current_user.super_admin?
+    .form-group
+      = f.label 'Banned'
+      = f.check_box :banned,{checked: @user.banned},true,false
+    - if current_user.king?
+      .form-group
+        = f.label 'Permma Banned'
+        = f.check_box :permma_banned,{checked: @user.permma_banned},true,false
+    - if @user.super_admin?
+      .form-group
+        = f.label t('user.phone_number')
+        = f.text_field :phone_number, class: 'form-control'
+      .form-group
+        = f.label t('user.phone_provider')
+        = f.text_field :phone_provider, class: 'form-control'
   .form-group
     = f.label t('user.username')
     %small
-    %br
-      = f.text_field :username, class: 'form-control'
+    = f.text_field :username, class: 'form-control'
   .form-group
     = f.label t('user.email')
-    %br
-      = f.text_field :email, class: 'form-control'
-  - if @user.super_admin? && current_user.super_admin?
-    .form-group
-      = f.label t('user.phone_number')
-      %br
-        = f.text_field :phone_number, class: 'form-control'
-    .form-group
-      = f.label t('user.phone_provider')
-      %br
-        = f.text_field :phone_provider, class: 'form-control'
+    = f.text_field :email, class: 'form-control'
   .form-group
     = f.label t('user.about_me')
     %small
       =t('user.about_me_description')
-    %br
-      = f.text_area :about_me, class: 'form-control about-me-text-area'
+    = f.text_area :about_me, class: 'form-control about-me-text-area'
   .actions
     = f.submit t('submit'), class: 'btn btn-primary btn-lg'

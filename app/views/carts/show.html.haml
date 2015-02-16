@@ -1,10 +1,4 @@
 =flash_msg
-
-%p
-  %strong Total:
-  .total-price
-    $
-    = @cart.total
 - if current_user && current_user.super_admin?
   %p
     %strong Delivered:
@@ -15,5 +9,19 @@
       = @cart.delivered_by
   %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
 = render partial: 'cart_items'
+%table.table
+  %thead
+    %tr
+      %th
+      %th
+  %tbody
+    %tr
+      %td
+      %td.cart-item-total-wording
+        %strong
+          Total:
+      %td.cart-item-total-price.total-price
+        %strong
+          =@cart.total_money
 
 = link_to 'Back', last_path, class: 'btn btn-default btn-xs'

@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :authenticated_king, only: :destroy
-  before_action :authenticated_super_admin, except: [:destroy, :index]
+  before_action :authenticated_super_admin, except: [:destroy, :index, :show]
 
   # GET /games
   # GET /games.json
@@ -30,7 +30,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
+        format.html { redirect_to games_path, notice: 'Game was successfully created.' }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new }
@@ -44,7 +44,7 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
+        format.html { redirect_to games_path, notice: 'Game was successfully updated.' }
         format.json { render :show, status: :ok, location: @game }
       else
         format.html { render :edit }
@@ -58,7 +58,7 @@ class GamesController < ApplicationController
   def destroy
     @game.destroy
     respond_to do |format|
-      format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
+      format.html { redirect_to games_path, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

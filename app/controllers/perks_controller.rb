@@ -4,7 +4,19 @@ class PerksController < ApplicationController
   # GET /perks
   # GET /perks.json
   def index
-    @perks = Perk.all
+    # binding.pry
+    @order = params["order"] ? ( params["order"] == 'ASC' ? 'DESC' : 'ASC' ) : 'ASC'
+    @type = params["type"] ? params["type"] : Game.table_name
+    @packages = Package.all.order(:title)
+    # binding.pry
+    if @type == 'games'
+      @perks = Perk.joins(:game).order("#{@type}.name #{@order}") + Perk.where(game_id: nil)
+    else
+      @perks = Perk.all.order("#{@type} #{@order}")
+    end
+    if params["ajax"]
+      render partial: 'perks/index' and return
+    end
   end
 
   # GET /perks/1

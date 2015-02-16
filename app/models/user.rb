@@ -55,6 +55,13 @@ class User < ActiveRecord::Base
     return self.admin_roles.map{ |m| [m.admin_type.capitalize,m.admin_id].reject!(&:blank?).join(':')}.join(',')
   end
 
+  def higher_than?(other)
+    return true if self.king?
+    return true if !other.king? && self.queen?
+    return true if !other.queen? && self.admin_types.lenght > 0
+    return false
+  end
+
   def cropping?
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
   end
@@ -74,8 +81,10 @@ class User < ActiveRecord::Base
 
   def cart
     return @cart if @cart
-    if cart = Cart.where(user_id: self.id)
-      if cart = cart.where(donation_id: nil)
+    cart = Cart.where(user_id: self.id)
+    if cart.count > 0
+      cart = cart.where(donation_id: nil)
+      if cart.count > 0
         return @cart = cart.first
       end
     end

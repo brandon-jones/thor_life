@@ -15,6 +15,10 @@ class GameInstancesController < ApplicationController
 
   # GET /game_instances/new
   def new
+    if params['game_name'] && params['game_id']
+      @game = [params['game_name'], params['game_id']]
+    end
+    @games = Game.all.pluck(:name, :id)
     @game_instance = GameInstance.new
   end
 
@@ -29,7 +33,7 @@ class GameInstancesController < ApplicationController
 
     respond_to do |format|
       if @game_instance.save
-        format.html { redirect_to @game_instance, notice: 'Game instance was successfully created.' }
+        format.html { redirect_to games_path, notice: 'Game instance was successfully created.' }
         format.json { render :show, status: :created, location: @game_instance }
       else
         format.html { render :new }
@@ -43,7 +47,7 @@ class GameInstancesController < ApplicationController
   def update
     respond_to do |format|
       if @game_instance.update(game_instance_params)
-        format.html { redirect_to @game_instance, notice: 'Game instance was successfully updated.' }
+        format.html { redirect_to games_path, notice: 'Game instance was successfully updated.' }
         format.json { render :show, status: :ok, location: @game_instance }
       else
         format.html { render :edit }
@@ -57,7 +61,7 @@ class GameInstancesController < ApplicationController
   def destroy
     @game_instance.destroy
     respond_to do |format|
-      format.html { redirect_to game_instances_url, notice: 'Game instance was successfully destroyed.' }
+      format.html { redirect_to games_path, notice: 'Game instance was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

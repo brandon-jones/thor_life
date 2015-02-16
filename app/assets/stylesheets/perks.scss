@@ -1,3 +1,70 @@
 // Place all the styles related to the Perks controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.package-table, .package-table-header {
+	margin-bottom: 0 !important;
+}
+
+.package-add-to-cart {
+	width: 2em;
+}
+
+.package-perks {
+	width: 8em;
+}
+
+.package-discount {
+	width: 8em;
+}
+
+.package-price {
+	width: 8em;
+}
+
+@-webkit-keyframes flasher {
+  from { background-color: blue; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes flasher {
+  from { background-color: blue; }
+  to { background-color: inherit; }
+}
+@-o-keyframes flasher {
+  from { background-color: blue; }
+  to { background-color: inherit; }
+}
+@keyframes flasher {
+  from { background-color: blue; }
+  to { background-color: inherit; }
+}
+.flasher {
+  -webkit-animation: flasher 1s; /* Safari 4+ */
+  -moz-animation:    flasher 1s; /* Fx 5+ */
+  -o-animation:      flasher 1s; /* Opera 12+ */
+  animation:         flasher 1s; /* IE 10+ */
+}
+
+@-webkit-keyframes green-flasher {
+  from { background-color: green; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes green-flasher {
+  from { background-color: green; }
+  to { background-color: inherit; }
+}
+@-o-keyframes green-flasher {
+  from { background-color: green; }
+  to { background-color: inherit; }
+}
+@keyframes green-flasher {
+  from { background-color: green; }
+  to { background-color: inherit; }
+}
+
+.green-flasher {
+  -webkit-animation: green-flasher 1s; /* Safari 4+ */
+  -moz-animation:    green-flasher 1s; /* Fx 5+ */
+  -o-animation:      green-flasher 1s; /* Opera 12+ */
+  animation:         green-flasher 1s; /* IE 10+ */
+}

@@ -11,7 +11,7 @@
     - @packages.each do |package|
       %tr
         %td= package.title
-        %td= package.price
+        %td= package.price_money
         %td= package.perk_ids
         %td= link_to 'Show', package
         %td= link_to 'Edit', edit_package_path(package)

@@ -10,10 +10,9 @@
   = @perk.description
 %p
   %strong Price:
-  = @perk.price
+  = @perk.price_money
 %p
   %strong Game:
   = @perk.game_id
-= link_to 'Edit', edit_perk_path(@perk)
-|
-\#{link_to 'Back', perks_path}
+= link_to 'Edit', edit_perk_path(@perk), class: 'btn btn-default btn-xs'
+= link_to 'Back', perks_path, class: 'btn btn-default btn-xs'

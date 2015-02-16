@@ -1,18 +1,9 @@
 %table.table
-  %thead
-    %tr
-      %th Game
-      %th Item
-      %th Price
-      %th{:colspan => "3"}
   %tbody
     - @cart.cart_items.each do |cart_item|
       %tr
         %td
-          = cart_item.item.game.name
-        %td
           = cart_item.item.class.to_s 
-          = link_to cart_item.item.title, "#{cart_item.item.class.to_s.downcase}s/#{cart_item.item.id}"
-        %td$#{cart_item.price}
-        %td= link_to 'Remove', cart_item, method: :delete, data: { confirm: 'Are you sure?', item_id: "#{cart_item.id}" }, class: 'remove-from-cart'
-%br
+          = link_to cart_item.item.title, "/#{cart_item.item.class.to_s.downcase}s/#{cart_item.item.id}"
+        %td.cart-item-price=cart_item.price_money
+        %td.cart-item-remove= link_to 'Remove', cart_item, method: :delete, data: { confirm: 'Are you sure?', item_id: "#{cart_item.id}" }, class: 'remove-from-cart'

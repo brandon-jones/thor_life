@@ -1,3 +1,21 @@
-%h1 Listing Perks
+/ %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
+/ %div{:role => "tabpanel"}
+/   / Nav tabs
+/   %ul.nav.nav-tabs{:role => "tablist"}
+/     %li.active{:role => "presentation"}
+/       %a{"aria-controls" => "packages", "data-toggle" => "tab", :href => "#packages", :role => "tab"} Packages
+/     %li{:role => "presentation"}
+/       %a{"aria-controls" => "perk", "data-toggle" => "tab", :href => "#perk", :role => "tab"} Perks
+/   / Tab panes
+/   .tab-content
+/     #packages.tab-pane.active{:role => "tabpanel"}
+/       %h1 Listing Packages
+/       = render partial: 'packages/index'
+/     #perk.tab-pane{:role => "tabpanel"}
+/       %h1 Perks
+/       = render partial: 'perks/index'
 %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
+%h1 Listing Packages
+= render partial: 'packages/index'
+%h1 Perks
 = render partial: 'perks/index'

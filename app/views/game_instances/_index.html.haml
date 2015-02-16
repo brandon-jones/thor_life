@@ -1,0 +1,18 @@
+.row
+  .col-sm-8.col-sm-offset-8
+    %tbody
+      - game.game_instances.each do |game_instance|
+        %tr
+          %td
+          %td
+            #{game_instance.server_name}
+          %td
+            #{game_instance.server_address}
+          %td
+            - if game_instance.server_port
+              #{game_instance.server_port}
+          %td
+            #{game_instance.mod_list}     
+          - if current_user && current_user.king?
+            %th
+              = render partial: 'layouts/admin_button', locals: { obj:game_instance }
