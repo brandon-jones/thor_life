@@ -21,7 +21,7 @@
           %a{:href => "https://twitter.com/thorlifehacks"}
             %i.fa.fa-twitter.fa-2x.fa-fw
         - if current_user
-          %li.cart-link
+          %li
             %a{ href: "#{cart_path(current_user.cart.id)}"}
               %span.glyphicon.glyphicon-shopping-cart
               %div.inline.white.total-price
