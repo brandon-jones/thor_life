@@ -128,7 +128,7 @@ namespace :populate do
           count += 1
         end
       end
-      innerds = { title: Faker::Company.catch_phrase, price_in_cents: [(price-Random.rand(price/2)),price,price].sample, perk_ids: perk_ids.join(',') }
+      innerds = { title: Faker::Company.catch_phrase, price_in_cents: [(price-Random.rand(price.to_i/2)),price,price].sample, perk_ids: perk_ids.join(',') }
       puts "perks: #{i+1} --- #{innerds}"
       Package.create(innerds)
     end
