@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'cart/:id/delivered' => 'carts#delivered'
+
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'

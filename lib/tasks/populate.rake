@@ -4,7 +4,7 @@ namespace :populate do
     puts "="*80
     puts 'creating users'
     puts "="*80
-    50.times do |i|
+    100.times do |i|
       innerds = {email: Faker::Internet.safe_email, password: 'password'}
       puts "user: #{i+1} --- #{innerds}"
       User.create(innerds)
@@ -15,8 +15,8 @@ namespace :populate do
     puts "="*80
     puts 'creating games'
     puts "="*80
-    games = [ 'Amra III', 'Minecraft' ]
-    2.times do |i|
+    games = [ 'Amra III', 'Minecraft', 'Day Z', 'Some other game' ]
+    games.count.times do |i|
       innerds = { name: games[i] }
       puts "games: #{i+1} --- #{innerds}"
       Game.create(innerds)
@@ -27,7 +27,7 @@ namespace :populate do
     puts "="*80
     puts 'creating game instances'
     puts "="*80
-    4.times do |i|
+    15.times do |i|
       innerds = { game_id: Game.all.sample.id, server_name:  Faker::Commerce.product_name, server_address: Faker::Internet.url, server_port: Faker::Number.number(3).to_i, mod_list: Faker::Lorem.words.join(',') }
       puts "game_instances: #{i+1} --- #{innerds}"
       GameInstance.create(innerds)
@@ -60,7 +60,7 @@ namespace :populate do
     puts "="*80
   	puts 'creating forums'
     puts "="*80
-  	30.times do |i|
+  	60.times do |i|
       innerds = {title: Faker::Lorem.sentence(3, false, 15), parent_id: [nil,nil,(Forum.all.count > 0 ? Forum.all.sample.id : nil)].sample, created_by: User.all.sample.id, main_feed: [false,false,false,false,true].sample, grouping_id: [nil,nil,Grouping.all.sample.id].sample, locked: [false,false,false,false,true].sample}
       puts "forum: #{i+1} --- #{innerds}"
   		Forum.create(innerds)
@@ -77,7 +77,7 @@ namespace :populate do
     puts "="*80
     puts 'creating topics'
     puts "="*80
-    100.times do |i|
+    150.times do |i|
       innerds = {title: Faker::Lorem.sentence(3, false, 15), body: Faker::Lorem.paragraph(3, false, 2), created_by: User.all.sample.id, sticky: [true, false, false, false, false].sample, locked: [false,false,false,false,true].sample, forum_id: Forum.all.sample.id}
       puts "topic: #{i+1} --- #{innerds}"
       Topic.create(innerds)
@@ -88,7 +88,7 @@ namespace :populate do
     puts "="*80
     puts 'creating comments'
     puts "="*80
-    500.times do |i|
+    750.times do |i|
       innerds = { body: Faker::Lorem.paragraph(3, false, 2), created_by: User.all.sample.id, topic_id: Topic.all.sample.id}
       puts "comments: #{i+1} --- #{innerds}"
       Comment.create(innerds)
@@ -128,7 +128,10 @@ namespace :populate do
           count += 1
         end
       end
-      innerds = { title: Faker::Company.catch_phrase, price_in_cents: [(price-Random.rand(price.to_i/2)),price,price].sample, perk_ids: perk_ids.join(',') }
+      lower_price = price.to_i/2
+      lower_price = Random.rand(lower_price) unless lower_price == 0
+      lower_price = price - lower_price
+      innerds = { title: Faker::Company.catch_phrase, price_in_cents: [lower_price,price,price].sample, perk_ids: perk_ids.join(',') }
       puts "perks: #{i+1} --- #{innerds}"
       Package.create(innerds)
     end
@@ -138,7 +141,7 @@ namespace :populate do
     puts "="*80
     puts 'creating carts'
     puts "="*80
-    10.times do |i|
+    20.times do |i|
       delivered = [false, false, false, true].sample
       innerds = { user_id: User.all.sample.id, total: 0 , delivered: delivered, delivered_by: (delivered ? User.all.sample.id : nil), donation_id: Random.rand(50)}
       puts "perks: #{i+1} --- #{innerds}"
@@ -157,7 +160,7 @@ namespace :populate do
     puts "="*80
     puts 'creating cart items'
     puts "="*80
-    30.times do |i|
+    60.times do |i|
       item_type = ['Perk', 'Perk', 'Perk', 'Package'].sample
       item_id = item_type.constantize.all.sample.id
       price = item_type.constantize.find_by_id(item_id).price

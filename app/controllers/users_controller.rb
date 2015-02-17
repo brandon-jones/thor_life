@@ -21,9 +21,14 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @forum_dropdown = Forum.all.pluck(:title, :id) || []
   end
 
   def new_password
+
+  end
+
+  def promote
 
   end
 
@@ -64,6 +69,13 @@ class UsersController < ApplicationController
       notice = 'User was successfully updated.'
     end
     if @user.update(user_params)
+      ar = {}
+      ar["user_id"] = @user.id
+      ar["admin_type"] = params["user"]["admin_level"] if params["user"]["admin_level"].present?
+      ar["admin_id"] = params["user"]["admin_obj_id"] if params["user"]["admin_obj_id"].present?
+
+      binding.pry
+      AdminRole.create(ar)
       session[:user_id] = @user.id if current_user == @user
       
       # render 'cropper' and return 
@@ -72,6 +84,7 @@ class UsersController < ApplicationController
       # format.html { redirect_to @user, notice: notice }
       # format.json { render :show, status: :ok, location: @user }
     else
+      @forum_dropdown = Forum.all.pluck(:title, :id) || []
       render :edit
       # format.json { render json: @user.errors, status: :unprocessable_entity }
     end
@@ -95,6 +108,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :password, :password_confirmation,:email, :email_verified, :phone_number, :phone_provider, :about_me, :banned, :permma_banned, :banned_by, :customer_id, :image, :crop_x, :crop_y, :crop_w, :crop_h)
+      params.require(:user).permit(:username, :password, :password_confirmation,:email, :email_verified, :phone_number, :phone_provider, :about_me, :banned, :permma_banned, :banned_by, :customer_id, :image, :crop_x, :crop_y, :crop_w, :crop_h, :admin_level, :admin_obj_id)
     end
 end

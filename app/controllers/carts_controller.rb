@@ -4,7 +4,7 @@ class CartsController < ApplicationController
   # GET /carts
   # GET /carts.json
   def index
-    @carts = Cart.all
+    @carts = Cart.all.where.not(donation_id: nil )
   end
 
   # GET /carts/1
@@ -20,6 +20,13 @@ class CartsController < ApplicationController
 
   # GET /carts/1/edit
   def edit
+  end
+
+  def delivered
+    if cart = Cart.find_by_id(params["cart_id"])
+      cart.update_attributes(delivered_by: current_user.id, delivered: true)
+      render text: "<a href='/users/#{current_user.id}''>#{current_user.username}</a>"
+    end
   end
 
   def add_to_cart

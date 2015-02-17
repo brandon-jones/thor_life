@@ -16,19 +16,13 @@ class Package < ActiveRecord::Base
 		if self.price_in_cents == perk_total
 			nil
 		else
-			percent = ((1 - (perk_total.to_f / self.price_in_cents.to_f)) * 100)
-			money = (self.price_in_cents - perk_total).to_f / 100
+			percent = ((1 - (self.price_in_cents.to_f/perk_total.to_f)) * 100)
+			money = (perk_total - self.price_in_cents).to_f / 100
 			if money.to_i > percent.to_i
-				return PackagesController.helpers.number_to_currency((self.price_in_cents - perk_total).to_f / 100)
+				return PackagesController.helpers.number_to_currency((self.price_in_cents - perk_total).to_f / 100).gsub('-','')
 			else
-				return PackagesController.helpers.number_to_percentage(  ((1 - (perk_total.to_f / self.price_in_cents.to_f)) * 100), precision: 0 )
+				return PackagesController.helpers.number_to_percentage(  ((1 - (perk_total.to_f / self.price_in_cents.to_f)) * 100), precision: 0 ).gsub('-','')
 			end
 		end
 	end
 end
-93.35
-7.64
-68.48
-62.54
-59.44
-55.76

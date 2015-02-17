@@ -22,13 +22,20 @@
       .form-group
         = f.label 'Permma Banned'
         = f.check_box :permma_banned,{checked: @user.permma_banned},true,false
-    - if @user.super_admin?
+      - if @user.super_admin?
+        .form-group
+          = f.label t('user.phone_number')
+          = f.text_field :phone_number, class: 'form-control'
+        .form-group
+          = f.label t('user.phone_provider')
+          = f.text_field :phone_provider, class: 'form-control'
       .form-group
-        = f.label t('user.phone_number')
-        = f.text_field :phone_number, class: 'form-control'
-      .form-group
-        = f.label t('user.phone_provider')
-        = f.text_field :phone_provider, class: 'form-control'
+        = label :admin_level_label, 'Promote'
+        = select_tag "user[admin_level]", options_for_select([@user.highest_admin_level] + AdminRole.restricted_admins(current_user)), class: 'form-control admin-user-level'
+      .form-group.admin-obj-id{ hidden: "#{@user.errors.any? ? false : true }"}
+        = label :admin_obj_id_label, 'Admin Of:'
+        = select_tag "user[admin_obj_id]", options_for_select([@user.forum_admin_ids.first] + @forum_dropdown), class: 'form-control'
+
   .form-group
     = f.label t('user.username')
     %small
