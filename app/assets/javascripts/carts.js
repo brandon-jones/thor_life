@@ -14,16 +14,16 @@ removeFromCart = function(e) {
   session = $('#session_key').val();
   return $.ajax({
     type: "POST",
-    dataType: 'text',
     url: "/remove_from_cart",
     data: {
+      dataType: 'text',
       _method: "delete",
       item_id: item_id,
       authenticity_token: session
     },
     success: function(data, textStatus) {
       console.log(data);
-      $('.total-price').html(data.responseText);
+      $('.total-price').html(data);
       return tr.style.display = 'none';
     }
   });

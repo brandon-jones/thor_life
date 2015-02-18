@@ -15,19 +15,3 @@
  *= require_self
 
  */
-
-#body {
-	height: 100em;
-}
-
-#header {
-	width: 100%;
-	height: 230px;
-	background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-#top-nav-bar {
-	margin-bottom: 0;
-}

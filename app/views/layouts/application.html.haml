@@ -18,3 +18,9 @@
           #body
             = render partial: 'layouts/top_nav_bar'
             = yield
+      %div.row
+        %div.col-md-12
+          - if Rails.env == 'development'
+            %br
+            %br
+            = debug params

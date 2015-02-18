@@ -24,11 +24,16 @@ class GameInstancesController < ApplicationController
 
   # GET /game_instances/1/edit
   def edit
+    if params['game_name'] && params['game_id']
+      @game = [params['game_name'], params['game_id']]
+    end
+    @games = Game.all.pluck(:name, :id)
   end
 
   # POST /game_instances
   # POST /game_instances.json
   def create
+
     @game_instance = GameInstance.new(game_instance_params)
 
     respond_to do |format|
@@ -36,6 +41,10 @@ class GameInstancesController < ApplicationController
         format.html { redirect_to games_path, notice: 'Game instance was successfully created.' }
         format.json { render :show, status: :created, location: @game_instance }
       else
+        if params['game_name'] && params['game_id']
+          @game = [params['game_name'], params['game_id']]
+        end
+        @games = Game.all.pluck(:name, :id)
         format.html { render :new }
         format.json { render json: @game_instance.errors, status: :unprocessable_entity }
       end

@@ -3,15 +3,15 @@
     Admin
     %span.caret
   %ul.dropdown-menu{:role => "menu"}
-    - if obj.class.to_s.downcase == 'game'
+    - if obj.class.to_s.underscore == 'game'
       %li
         %a{:href => "game_instances/new?game_name=#{obj.name}&game_id=#{obj.id}"}
           New Game Instance
       %li.divider
     %li
-      %a{:href => "#{obj.class.to_s.downcase}s/#{obj.id}/edit"} 
+      %a{:href => "#{obj.class.to_s.underscore}s/#{obj.id}/edit"} 
         Edit
     %li.divider
     %li
-      %a{:href => "#{obj.class.to_s.downcase}s/#{obj.id}", data: { confirm: 'Are you sure?' } }
+      %a{:href => "#{obj.class.to_s.underscore}s/#{obj.id}", data: { confirm: 'Are you sure?' } }
         Delete

@@ -17,11 +17,11 @@
       - else
         .form-group
           = f.label :game_id
-          = f.select :game_id, options_for_select(@games), {selected: 'Minecraft'}, class: 'form-control'
+          = f.select :game_id, options_for_select(@games), {selected: @games.first.title}, class: 'form-control'
   - else
     .form-group
       = f.label :game_id
-      = f.number_field :game_id, class: 'form-control'
+      = f.select :game_id, options_for_select(@games), {}, class: 'form-control'
   .form-group
     = f.label :server_name
     = f.text_field :server_name, class: 'form-control'
