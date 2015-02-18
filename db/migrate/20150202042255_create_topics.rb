@@ -4,7 +4,6 @@ class CreateTopics < ActiveRecord::Migration
       t.string :title
       t.integer :created_by
       t.boolean :sticky, :default => false
-      t.integer :order
       t.text :body
       t.boolean :locked, :default => false
       t.boolean :deleted, :default => false
@@ -15,7 +14,6 @@ class CreateTopics < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_index :topics, :title
-    add_index :topics, :order
     add_index :topics, :sticky
     add_index :topics, :forum_id
     add_index :topics, :last_updated

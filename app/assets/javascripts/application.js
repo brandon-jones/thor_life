@@ -15,6 +15,4 @@
 //= require braintree
 //= require local_time
 //= require_tree .
-//= require jquery.jcrop
-//= require papercrop
 
