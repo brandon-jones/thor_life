@@ -8,10 +8,6 @@ class User < ActiveRecord::Base
   has_many :forums, :class_name => "Forum", :foreign_key => 'created_by' 
   # belongs_to :user, class_name: 'User', foreign_key: :banned_by
 
-  has_attached_file :image, :styles => { :small => "100x100", :large => "500x500>" }, :default_url => "/images/:style/missing.png"
-  validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
-  validates_attachment_size :image, :in => 0.megabytes..5.megabytes
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   attr_accessor :admin_level, :admin_obj_id
   # crop_attached_file :image
 
