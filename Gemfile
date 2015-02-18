@@ -35,13 +35,12 @@ gem 'local_time', '~> 1.0.1'
 
 gem "breadcrumbs_on_rails"
 
-gem 'paperclip'
-
-gem 'papercrop'
-
 gem 'money', '~> 6.5.1'
 
 gem 'rails_12factor', group: :production
+
+gem 'ranked-model'
+gem 'jquery-ui-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
