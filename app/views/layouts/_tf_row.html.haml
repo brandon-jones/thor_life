@@ -1,34 +1,27 @@
-%table.table{class: "#{obj.class.to_s.downcase}-part"}
-  %tr
-    - if current_user && current_user.admin_of?(obj)
-      %td.remove-border{:width => "10px", class: "#{obj.class.to_s.downcase == 'forum' ? 'move-row' : ''}"}
-        - if obj.order
-          = obj.order
-        - else
-          &nbsp;
-    %td.remove-border{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
-      %h4
-        - if obj.class.to_s.downcase == 'topic' && obj.sticky
-          %span.glyphicon.glyphicon-pushpin{"aria-hidden" => "true"}
-        - if obj.class.to_s.downcase == 'forum' && obj.admins_only
-          %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
-        - if obj.locked
-          %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
-        - if obj.deleted
-          %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
-        = link_to obj.title, obj
-        %br
-        %p.text-inline.inline
-          %small
-            Created by #{link_to obj.creator.username, user_path(obj.creator)} about #{local_time_ago(obj.created_at)}
-        %p.inline.pull-right
-          %small
-            -if obj.last_updated
-              most recent post: #{obj.last_updated}
-      - if current_user && current_user.admin_of?(obj)
-        %td.remove-border.text-center.middle-align{:width => "2em"}= link_to 'Details', nil, class: 'btn btn-default show-details', data: { class: "#{obj.class.to_s.downcase}-#{obj.id}-options" }
-    - if current_user && current_user.admin_of?(obj)
-      - admin = false unless admin
-      = render partial: "layouts/#{obj.class.to_s.downcase}_options", locals: { obj: obj, admin: admin }
-
-<script data-turbolinks-track="false" src="/assets/jquery.Jcrop.js?body=1"></script>
+- if current_user && current_user.admin_of?(obj)
+  %td.remove-border{:width => "10px", class: "#{obj.class.to_s.downcase == 'forum' ? 'move-row' : ''}"}
+    &nbsp;
+%td.remove-border{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
+  %h4
+    - if obj.class.to_s.downcase == 'topic' && obj.sticky
+      %span.glyphicon.glyphicon-pushpin{"aria-hidden" => "true"}
+    - if obj.class.to_s.downcase == 'forum' && obj.admins_only
+      %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
+    - if obj.locked
+      %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+    - if obj.deleted
+      %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+    = link_to obj.title, obj
+    %br
+    %p.text-inline.inline
+      %small
+        Created by #{link_to obj.creator.username, user_path(obj.creator)} about #{local_time_ago(obj.created_at)}
+    %p.inline.pull-right
+      %small
+        -if obj.last_updated
+          most recent post: #{obj.last_updated}
+  - if current_user && current_user.admin_of?(obj)
+    %td.remove-border.text-center.middle-align{:width => "2em"}= link_to 'Details', nil, class: 'btn btn-default show-details', data: { class: "#{obj.class.to_s.downcase}-#{obj.id}-options" }
+- if current_user && current_user.admin_of?(obj)
+  - admin = false unless admin
+  = render partial: "layouts/#{obj.class.to_s.downcase}_options", locals: { obj: obj, admin: admin }

@@ -2,7 +2,7 @@ class CreateForums < ActiveRecord::Migration
   def change
     create_table :forums do |t|
       t.integer :parent_id
-      t.integer :order
+      t.integer :row_order
       t.integer :created_by
       t.string :title
       t.integer :deleted_by
@@ -18,7 +18,7 @@ class CreateForums < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :forums, :order
+    add_index :forums, :row_order
     add_index :forums, :title
     add_index :forums, :grouping_id
     add_index :forums, :last_updated

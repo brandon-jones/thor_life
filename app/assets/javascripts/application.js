@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require braintree
 //= require local_time
+//= require jquery-ui/sortable
+//= require jquery-ui/effect-highlight
 //= require_tree .
 //= require jquery.jcrop
 //= require papercrop

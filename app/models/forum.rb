@@ -6,9 +6,12 @@ class Forum < ActiveRecord::Base
 	belongs_to :grouping
 	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }
 
+	include RankedModel
+  ranks :row_order
+
 	def self.groupped(id = nil)
 		builder = {}
-		Forum.where(parent_id: id).order(:grouping_id, :order, created_at: :desc).each do |forum|
+		Forum.where(parent_id: id).order(:grouping_id, created_at: :desc).rank(:row_order).each do |forum|
 			key = forum.grouping ? forum.grouping.title : 'nil'
 			builder[key] = [] unless builder[key]
 			builder[key] << forum

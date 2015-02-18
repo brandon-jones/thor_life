@@ -1,6 +1,14 @@
 class ForumsController < ApplicationController
   before_action :set_forum, only: [:show, :edit, :update, :destroy]
 
+  def update_row_order
+    @thing = Forum.find_by_id(params[:id])
+    @thing.row_order_position = thing_params[:row_order_position]
+    @thing.save
+
+    render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
+  end
+
   # GET /forums
   # GET /forums.json
   def index
@@ -99,6 +107,6 @@ class ForumsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def forum_params
-      params.require(:forum).permit(:parent_id, :order, :created_by, :title, :deleted_by, :grouping_id, :locked, :admins_only, :main_feed, :deleted, :last_updated)
+      params.require(:forum).permit(:parent_id, :row_order, :created_by, :title, :deleted_by, :grouping_id, :locked, :admins_only, :main_feed, :deleted, :last_updated)
     end
 end

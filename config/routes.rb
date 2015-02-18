@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     member do
       get '/new' => 'forums#new'
     end
+    post :update_row_order, on: :collection
   end
 
   resources :admin_roles

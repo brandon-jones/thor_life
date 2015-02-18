@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20150206043141) do
 
   create_table "forums", force: :cascade do |t|
     t.integer  "parent_id"
-    t.integer  "order"
+    t.integer  "row_order"
     t.integer  "created_by"
     t.string   "title"
     t.integer  "deleted_by"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20150206043141) do
 
   add_index "forums", ["grouping_id"], name: "index_forums_on_grouping_id", using: :btree
   add_index "forums", ["last_updated"], name: "index_forums_on_last_updated", using: :btree
-  add_index "forums", ["order"], name: "index_forums_on_order", using: :btree
+  add_index "forums", ["row_order"], name: "index_forums_on_row_order", using: :btree
   add_index "forums", ["title"], name: "index_forums_on_title", using: :btree
 
   create_table "game_instances", force: :cascade do |t|
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 20150206043141) do
     t.string   "title"
     t.integer  "created_by"
     t.boolean  "sticky",       default: false
-    t.integer  "order"
+    t.integer  "row_order"
     t.text     "body"
     t.boolean  "locked",       default: false
     t.boolean  "deleted",      default: false
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 20150206043141) do
 
   add_index "topics", ["forum_id"], name: "index_topics_on_forum_id", using: :btree
   add_index "topics", ["last_updated"], name: "index_topics_on_last_updated", using: :btree
-  add_index "topics", ["order"], name: "index_topics_on_order", using: :btree
+  add_index "topics", ["row_order"], name: "index_topics_on_row_order", using: :btree
   add_index "topics", ["sticky"], name: "index_topics_on_sticky", using: :btree
   add_index "topics", ["title"], name: "index_topics_on_title", using: :btree
 

@@ -5,10 +5,8 @@
     %h4
       = grouping_key
   - unless forums[grouping_key].count < 1
-    %table.table
+    %table.table#sortable
       %tbody
         - forums[grouping_key].each do |forum|
-          %tr{ id: "forum-#{forum.id}" }
-            %td.no-padding{ id: "forum-#{forum.id}-update-section"}
-              = render partial: 'layouts/tf_row', locals: { obj: forum }
-    %br
+          %tr{ id: "forum-#{forum.id}",data: { item_id: "#{forum.id}" } }
+            = render partial: 'layouts/tf_row', locals: { obj: forum }
