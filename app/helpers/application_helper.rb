@@ -14,4 +14,12 @@ module ApplicationHelper
     return builder.html_safe
   end
 
+  def friendly_name(user)
+    if user == current_user
+      return 'You'
+    else
+      return user.username
+    end
+  end
+
 end

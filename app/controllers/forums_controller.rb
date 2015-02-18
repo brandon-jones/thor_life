@@ -62,8 +62,9 @@ class ForumsController < ApplicationController
           forum.update_attributes(:deleted => true, :deleted_by => current_user.id)
         when 'un_delete'
           forum.update_attributes(:deleted => false)
-        when 'destory'
-          forum.destory
+        when 'destroy'
+          forum.destroy
+          forum = nil
         when 'open'
           forum.update_attribute(:admins_only, false)
         when 'un_open'

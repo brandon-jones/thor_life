@@ -5,32 +5,51 @@
   %ul.dropdown-menu{:role => "menu"}
     - if obj.deleted && current_user.king?
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_delete" }} Un Delete
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_delete" }} 
+          %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+          Un Delete
       %li
         %a{:href => "/users/#{obj.destroyer.id}"}
-          Deleted by: #{obj.destroyer.username}
+          Deleted by: #{friendly_name(obj.destroyer)}
     - elsif current_user.admin_of?(obj)
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "delete" }} Delete
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "delete" }} 
+          %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+          Delete
     - if obj.locked
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_lock" }} Unlock
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_lock" }} 
+          %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+          Unlock
     - else
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "lock" }} Lock
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "lock" }} 
+          %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+          Lock
     - if obj.main_feed
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_main_feed" }} Remove from Main Feed
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_main_feed" }} 
+          %span.glyphicon.glyphicon-flag{"aria-hidden" => "true"}
+          Remove from Main Feed
     - else
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "main_feed" }} Add to Main Feed
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "main_feed" }} 
+          %span.glyphicon.glyphicon-flag{"aria-hidden" => "true"}
+          Add to Main Feed
     - if obj.admins_only
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "open" }} Open to Public
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "open" }} 
+          %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
+          Open to Public
     - else
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_open" }} Close to Public
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_open" }} 
+          %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
+          Close to Public
     - if current_user.king?
       %li.divider
       %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "destroy" }} Destory
+        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "destroy" }} 
+          %span.glyphicon.glyphicon-fire{"aria-hidden" => "true"}
+          Destory
+          %span.glyphicon.glyphicon-fire{"aria-hidden" => "true"}
