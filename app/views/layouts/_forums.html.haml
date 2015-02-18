@@ -8,7 +8,6 @@
     %table.table
       %tbody
         - forums[grouping_key].each do |forum|
-          %tr{ id: "forum-#{forum.id}" }
-            %td.no-padding{ id: "forum-#{forum.id}-update-section"}
-              = render partial: 'layouts/tf_row', locals: { obj: forum }
+          %tr{ id: "forum-#{forum.id}-update-section" }
+            = render partial: 'layouts/tf_row', locals: { obj: forum }
     %br

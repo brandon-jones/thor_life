@@ -56,16 +56,22 @@ class ForumsController < ApplicationController
       case params["what"]
         when 'lock'
           forum.update_attribute(:locked, true)
-        when 'unlock'
+        when 'un_lock'
           forum.update_attribute(:locked, false)
         when 'delete'
           forum.update_attributes(:deleted => true, :deleted_by => current_user.id)
+        when 'un_delete'
+          forum.update_attributes(:deleted => false)
         when 'destory'
           forum.destory
-        when 'admin'
-          forum.update_attribute(:admins_only, false)
         when 'open'
+          forum.update_attribute(:admins_only, false)
+        when 'un_open'
           forum.update_attribute(:admins_only, true)
+        when 'main_feed'
+          forum.update_attribute(:main_feed, true)
+        when 'un_main_feed'
+          forum.update_attribute(:main_feed, false)
         end
       render partial: 'layouts/tf_row', locals: { obj: forum, admin: true } and return
     else

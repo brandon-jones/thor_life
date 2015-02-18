@@ -1,29 +1,16 @@
 var showForumDetails, updateForumDetails;
 
 $(function() {
-  $('.show-details').on("click", showForumDetails);
   return $('.btn-update-forum').on("click", updateForumDetails);
 });
-
-showForumDetails = function(e) {
-  var details_id;
-  console.log('clickeddedeed');
-  e.stopPropagation();
-  e.preventDefault();
-  details_id = "#" + this.getAttribute('data-class');
-  if ($(details_id)[0].style.display === 'none') {
-    return $(details_id).show(200, 'linear');
-  } else {
-    return $(details_id).hide(200, 'linear');
-  }
-};
 
 updateForumDetails = function(e) {
   var action, details_id, id, session;
   e.stopPropagation();
   e.preventDefault();
   details_id = "#" + this.getAttribute('data-table');
-  id = this.parentElement.parentElement.getAttribute('data-id');
+  id = this.getAttribute('data-forum-id');
+  console.log('hi')
   action = this.getAttribute('data-action');
   session = $('#session_key').val();
   return $.ajax({

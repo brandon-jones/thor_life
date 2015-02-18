@@ -8,12 +8,6 @@
       %ul
         - @user.errors.full_messages.each do |message|
           %li= message
-  - if @user.image.present?
-    .form-group
-      = image_tag @user.image.url(:large)
-  - if false
-    .form-group
-      = f.file_field :image, class: 'btn btn-default', data: { id: @user.id, auth: form_authenticity_token }
   - if current_user.super_admin?
     .form-group
       = f.label 'Banned'
