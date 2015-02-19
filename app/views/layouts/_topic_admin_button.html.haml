@@ -6,7 +6,7 @@
     - if obj.deleted && current_user.king?
       %li
         %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_delete" }} 
-          %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+          = g_eye
           Un Delete
       %li
         %a{:href => "/users/#{obj.destroyer.id}"}
@@ -14,22 +14,22 @@
     - elsif current_user.admin_of?(obj)
       %li
         %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "delete" }} 
-          %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+          = g_eye
           Delete
     - if obj.locked
       %li
         %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_lock" }} 
-          %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+          = g_
           Unlock
     - else
       %li
         %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "lock" }} 
-          %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+          = g_
           Lock
     - if current_user.king?
       %li.divider
       %li
         %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "destroy" }} 
-          %span.glyphicon.glyphicon-fire{"aria-hidden" => "true"}
+          = g_fire
           Destory
-          %span.glyphicon.glyphicon-fire{"aria-hidden" => "true"}
+          = g_fire

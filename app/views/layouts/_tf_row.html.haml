@@ -7,16 +7,16 @@
   %td.remove-border{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
     %h4
       - if obj.class.to_s.downcase == 'topic' && obj.sticky
-        %span.glyphicon.glyphicon-pushpin{"aria-hidden" => "true", title: 'This is a sticky topic'}
+        = g_pushpin
       - if obj.class.to_s.downcase == 'forum'
         - if obj.admins_only
-          %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true", title: 'Only Admins can see and post to this forum'}
+          = g_cert
         - if obj.main_feed
-          %span.glyphicon.glyphicon-flag{"aria-hidden" => "true", title: 'Topics will be shown on main feed'}
+          = g_flag
       - if obj.locked
-        %span.glyphicon.glyphicon-lock{"aria-hidden" => "true", title: 'This has been locked preventing future comments'}
+        = g_lock
       - if obj.deleted
-        %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true", title: 'This has been soft deleted'}
+        = g_eye
       = link_to obj.title, obj
       %br
       %p.text-inline.inline

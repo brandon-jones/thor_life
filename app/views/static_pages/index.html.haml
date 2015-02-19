@@ -6,13 +6,13 @@
       %td.remove-border
         %h4
           - if topic.class.to_s.downcase == 'topic' && topic.sticky
-            %span.glyphicon.glyphicon-pushpin{"aria-hidden" => "true"}
+            = g_pushpin
           - if topic.class.to_s.downcase == 'forum' && topic.admins_only
-            %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
+            = g_cert
           - if topic.locked
-            %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+            = g_lock
           - if topic.deleted
-            %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+            = g_eye
           = link_to topic.title, topic
           %br
           %p.text-inline.inline

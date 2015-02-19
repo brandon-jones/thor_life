@@ -6,7 +6,7 @@
     - if obj.deleted && current_user.king?
       %li
         %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "un_delete" }} 
-          %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+          = g_eye
           Un Delete
       %li
         %a{:href => "/users/#{obj.destroyer.id}"}
@@ -14,43 +14,43 @@
     - elsif current_user.admin_of?(obj)
       %li
         %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "delete" }} 
-          %span.glyphicon.glyphicon-eye-close{"aria-hidden" => "true"}
+          = g_eye
           Delete
     - if obj.locked
       %li
         %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "un_lock" }} 
-          %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+          = g_lock
           Unlock
     - else
       %li
         %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "lock" }} 
-          %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
+          = g_lock
           Lock
     - if obj.class.to_s.downcase == 'forum'
       - if obj.main_feed
         %li
           %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "un_main_feed" }} 
-            %span.glyphicon.glyphicon-flag{"aria-hidden" => "true"}
+            = g_flag
             Remove from Main Feed
       - else
         %li
           %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "main_feed" }} 
-            %span.glyphicon.glyphicon-flag{"aria-hidden" => "true"}
+            = g_flag
             Add to Main Feed
       - if obj.admins_only
         %li
           %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "open" }} 
-            %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
+            = g_cert
             Open to Public
       - else
         %li
           %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "un_open" }} 
-            %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
+            = g_cert
             Close to Public
     - if current_user.king?
       %li.divider
       %li
         %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "destroy" }} 
-          %span.glyphicon.glyphicon-fire{"aria-hidden" => "true"}
+          = g_fire
           Destory
-          %span.glyphicon.glyphicon-fire{"aria-hidden" => "true"}
+          = g_fire

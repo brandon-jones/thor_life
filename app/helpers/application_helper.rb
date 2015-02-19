@@ -22,4 +22,28 @@ module ApplicationHelper
     end
   end
 
+  def g_pushpin
+    return "<span aria-hidden='true' class='glyphicon glyphicon-pushpin' title='This is a sticky topic'></span>".html_safe
+  end
+
+  def g_cert
+    return "<span aria-hidden='true' class='glyphicon glyphicon-certificate' title='Only Admins can see and post to this forum'></span>".html_safe
+  end
+
+  def g_flag
+    return "<span aria-hidden='true' class='glyphicon glyphicon-flag' title='Topics will be shown on main feed'></span>".html_safe
+  end
+
+  def g_lock
+    return "<span aria-hidden='true' class='glyphicon glyphicon-lock' title='This has been locked preventing future comments'></span>".html_safe
+  end
+
+  def g_eye
+    return "<span aria-hidden='true' class='glyphicon glyphicon-eye-close' title='This has been soft deleted. Only super admins can see this.'></span>".html_safe
+  end
+
+  def g_fire
+    return "<span aria-hidden='true' class='glyphicon glyphicon-fire' title='This will remove this from the databasae! CAN NOT UNDO!'></span>".html_safe
+  end
+
 end
