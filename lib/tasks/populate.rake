@@ -61,7 +61,7 @@ namespace :populate do
   	puts 'creating forums'
     puts "="*80
   	60.times do |i|
-      innerds = {title: Faker::Lorem.sentence(3, false, 15), parent_id: [nil,nil,(Forum.all.count > 0 ? Forum.all.sample.id : nil)].sample, created_by: User.all.sample.id, main_feed: [false,false,false,false,true].sample, grouping_id: [nil,nil,Grouping.all.sample.id].sample, locked: [false,false,false,false,true].sample}
+      innerds = {title: Faker::Lorem.sentence(3, false, 15), parent_id: [nil,(Forum.all.count > 0 ? Forum.all.sample.id : nil),(Forum.all.count > 0 ? Forum.all.sample.id : nil)].sample, created_by: User.all.sample.id, main_feed: [false,false,false,false,true].sample, grouping_id: [nil,nil,Grouping.all.sample.id].sample, locked: [false,false,false,false,true].sample}
       puts "forum: #{i+1} --- #{innerds}"
   		Forum.create(innerds)
   	end
