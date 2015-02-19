@@ -24,8 +24,12 @@
           Created by #{link_to obj.creator.username, user_path(obj.creator)} about #{local_time_ago(obj.created_at)}
       %p.inline.pull-right
         %small
-          -if obj.last_updated
-            most recent post: #{local_time(obj.last_updated)}
+          - if obj.last_updated
+            #{local_relative_time(obj.last_updated, type: 'time-or-date')}
+          - if obj.class.to_s.downcase == 'topic' && obj.comments_count != nil
+            :escaped
+              - 
+            #{obj.comments_count}
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
       %td.remove-border.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}

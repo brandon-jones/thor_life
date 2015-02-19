@@ -10,6 +10,7 @@ class CreateTopics < ActiveRecord::Migration
       t.integer :deleted_by
       t.datetime :last_updated
       t.integer :forum_id
+      t.integer :comments_count
 
       t.timestamps null: false
     end

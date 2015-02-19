@@ -5,6 +5,14 @@ class Topic < ActiveRecord::Base
 	belongs_to :parent, :class_name => 'Forum', :foreign_key => 'forum_id'
 	has_many :comments
 
+	after_save :update_parent
+
+	def update_parent
+		if self.parent
+			self.parent.update_attribute(:last_updated, Time.now.utc)
+		end
+	end
+
 	def parent_chain
 		return self.parent.parent_chain << self
 	end
