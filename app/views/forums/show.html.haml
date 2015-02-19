@@ -1,10 +1,9 @@
 %h1.text-center #{@this_forum.title}
 =flash_msg
 = render_breadcrumbs
-- if @forums.count > 0
-  .row
-    .col-md-12
-      = render partial: 'layouts/forums', locals: {forums: @forums}
+.row
+  .col-md-12
+    = render partial: 'layouts/forums', locals: {forums: @forums}
 - if @topics.count > 0
   .row
     .col-md-12

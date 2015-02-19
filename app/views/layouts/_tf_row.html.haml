@@ -25,7 +25,7 @@
       %p.inline.pull-right
         %small
           -if obj.last_updated
-            most recent post: #{obj.last_updated}
+            most recent post: #{local_time(obj.last_updated)}
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
       %td.remove-border.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}

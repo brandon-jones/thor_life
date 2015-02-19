@@ -10,6 +10,13 @@
   .form-group
     = f.label :title
     = f.text_field :title, class: 'form-control'
+    %input{:type => "hidden", :value => "#{params["id"]}", :name => "forum[parent_id]"}
+  .form-group  
+    = f.label :grouping_id
+    = f.select :grouping_id, options_for_select(@groupings, params["grouping_id"] || -2), {}, class: 'form-control forum-groupings'
+  .form-group{hidden: true, id: 'new-grouping-forum'}
+    = label_tag "forum_new_grouping"
+    = text_field_tag "forum[new_grouping]", '',class: 'form-control'
   - if current_user && current_user.admin_of?(@parent_forum)
     .form-group
       = f.label :locked

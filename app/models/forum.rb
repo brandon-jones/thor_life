@@ -5,6 +5,13 @@ class Forum < ActiveRecord::Base
 	belongs_to :parent, :class_name => 'Forum'
 	belongs_to :grouping
 	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }
+	after_save :update_parent
+
+	def update_parent
+		if self.parent
+			self.parent.update_attribute(:last_updated, Time.now.utc)
+		end
+	end
 
 	def self.groupped(id = nil)
 		builder = {}
@@ -15,6 +22,23 @@ class Forum < ActiveRecord::Base
 		end
 		# return builder.keys.map { |key| builder[key] }
 		return builder
+	end
+
+	def self.find_forums(id = nil)
+		Forum.where(parent_id: id).order(:grouping_id, :row_order, created_at: :desc)
+	end
+
+	def self.dropdown(id = nil)
+		if item_ids = Forum.where(parent_id: id).pluck(:grouping_id).uniq
+			Grouping.find_by_item_ids( item_ids ).pluck(:title, :id)
+		end
+	end
+
+	def self.groups(id = nil)
+		if item_ids = Forum.where(parent_id: id).pluck(:grouping_id).uniq.grep(Integer)
+			return Grouping.find_by_item_ids( item_ids ) << Grouping.new(title: 'nil')
+		end
+		return []
 	end
 
 	def parent_chain

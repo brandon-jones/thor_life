@@ -5,7 +5,9 @@ class ForumsController < ApplicationController
   # GET /forums.json
   def index
     @forums = Forum.groupped(params["id"])
-    @this_forum = nil
+    @these_forums = Forum.find_forums(params["id"])
+    @forum_groups = Forum.groups(params["id"])
+    @this_forum = Forum.new
     @topics = []
     @new_forum = Forum.new
     @parent_forum = nil
@@ -15,7 +17,8 @@ class ForumsController < ApplicationController
   # GET /forums/1.json
   def show
     @forums = Forum.groupped(params["id"])
-    @this_forum = Forum.find params["id"]
+    @this_forum = Forum.find_by_id(params["id"])
+    @forum_groups = Forum.groups(params["id"])
     @new_forum = Forum.new
     @topics = @this_forum.topics.order(sticky: 'DESC').order(:created_at)
     my_breadcrumbs(@this_forum)
@@ -25,6 +28,7 @@ class ForumsController < ApplicationController
   # GET /forums/new
   def new
     @parent_forum = Forum.find_by_id(params["id"])
+    @groupings = Forum.dropdown(params["id"]) + [[ 'New Group', -1 ], [ 'NO GROUP', -2 ]]
     @forum = Forum.new
   end
 
@@ -35,6 +39,16 @@ class ForumsController < ApplicationController
   # POST /forums
   # POST /forums.json
   def create
+    if params["forum"] && params["forum"]["new_grouping"]
+      if params["forum"]["grouping_id"] && params["forum"]["grouping_id"]== "-1"
+        params["forum"]["grouping_id"] = Grouping.find_or_create_by_title(params["forum"]["new_grouping"]).id.to_s
+      elsif params["forum"]["grouping_id"] && params["forum"]["grouping_id"] == "-2"
+        params["forum"]["grouping_id"] = nil
+      end
+    end
+
+    params["forum"]["created_by"] = current_user.id
+
     @forum = Forum.new(forum_params)
 
     respond_to do |format|

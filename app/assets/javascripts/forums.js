@@ -1,8 +1,19 @@
 var showForumDetails, updateForumDetails;
 
 $(function() {
+  $('.forum-groupings').on("change", newGrouping);
   return $('.update-tf').on("click", updateTfDetails);
 });
+
+newGrouping = function(e) {
+  if (this.value == "-1") {
+    console.log('hi');
+    $('#new-grouping-forum').show();
+  } else {   
+    $('#forum_new_grouping').val("");
+    $('#new-grouping-forum').hide();
+  }
+};
 
 updateTfDetails = function(e) {
   var action, id, session;
