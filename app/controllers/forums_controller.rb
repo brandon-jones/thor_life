@@ -27,8 +27,8 @@ class ForumsController < ApplicationController
 
   # GET /forums/new
   def new
-    @parent_forum = Forum.find_by_id(params["id"])
-    @groupings = Forum.dropdown(params["id"]) + [[ 'New Group', -1 ], [ 'NO GROUP', -2 ]]
+    @parent_forum = Forum.find_by_id(params["parent_id"])
+    @groupings = Forum.dropdown(params["parent_id"]) + [[ 'New Group', -1 ], [ 'NO GROUP', -2 ]]
     if game = Game.find_by_id(params["game_id"])
       @game_instances = game.game_instances
     end
@@ -43,7 +43,6 @@ class ForumsController < ApplicationController
   # POST /forums
   # POST /forums.json
   def create
-    binding.pry
     if params["forum"] && params["forum"]["new_grouping"]
       if params["forum"]["grouping_id"] && params["forum"]["grouping_id"]== "-1"
         params["forum"]["grouping_id"] = Grouping.find_or_create_by_title(params["forum"]["new_grouping"]).id.to_s
@@ -64,6 +63,13 @@ class ForumsController < ApplicationController
         format.html { redirect_to @forum, notice: 'Forum was successfully created.' }
         format.json { render :show, status: :created, location: @forum }
       else
+        params["parent_id"] = params["forum"]["parent_id"]
+        @parent_forum = Forum.find_by_id(params["id"])
+        @groupings = Forum.dropdown(params["id"]) + [[ 'New Group', -1 ], [ 'NO GROUP', -2 ]]
+        if game = Game.find_by_id(params["game_id"])
+          @game_instances = game.game_instances
+        end
+        @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
         format.html { render :new }
         format.json { render json: @forum.errors, status: :unprocessable_entity }
       end

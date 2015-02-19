@@ -8,13 +8,19 @@ $(function() {
 
 upDateGameInstances = function(e) {
   var id = this.value;
-  $.ajax({
+  if (id == "-2") {
+    $("#game-instances-form-group").html('');
+    $("#game-instances-form-group").hide();
+  } else {
+    $("#game-instances-form-group").show();
+    $.ajax({
       type: "GET",
       url: "/games/" + id +"/get_game_instances",
       success: function(data, textStatus, jqXHR) {
         return $("#game-instances-form-group").html(data);
       }
     });
+  }
 };
 
 newGrouping = function(e) {
