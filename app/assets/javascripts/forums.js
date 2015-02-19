@@ -1,6 +1,29 @@
 var showForumDetails, updateForumDetails;
 
-$(function() {
+$(document).ready(function() {
+
+  var $tabs=$('.table-draggable')
+  $( "tbody.connectedSortable" ).sortable({
+          connectWith: ".connectedSortable",
+          items: "> tr",
+          appendTo: $tabs,
+          helper:"clone",
+          zIndex: 999990
+      })
+      .disableSelection()
+  ;
+  
+  var $tab_items = $( ".nav-tabs > li", $tabs ).droppable({
+    accept: ".connectedSortable tr",
+    hoverClass: "ui-state-hover",
+    
+    drop: function( event, ui ) {
+      console.log('dropped')
+      return false;
+    }
+  });
+
+
   $('.forum-groupings').on("change", newGrouping);
   $('.forum-game').on("change", upDateGameInstances);
   return $('.update-tf').on("click", updateTfDetails);
