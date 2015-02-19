@@ -7,6 +7,7 @@ class Grouping < ActiveRecord::Base
 		if grouping = Grouping.where(title: title).first
 			return grouping.first
 		else
+			title = 'temp' unless title.present?
 			return Grouping.create(title: title)
 		end
 	end

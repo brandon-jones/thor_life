@@ -6,6 +6,7 @@ class Forum < ActiveRecord::Base
 	belongs_to :grouping
 	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }, dependent: :destroy
 	after_save :update_parent
+	validates_presence_of :title
 
 	def update_parent
 		if self.parent
@@ -18,7 +19,7 @@ class Forum < ActiveRecord::Base
 		if user && user.super_admin?
 			forums = Forum.where(parent_id: id)
 		else
-			forums = Forum.where(parent_id: id).where(deleted: false)
+			forums = Forum.where(parent_id: id).where(deleted: false).where(admin_only: false)
 		end
 		forums.order(:grouping_id, :row_order, created_at: :desc).each do |forum|
 			key = forum.grouping ? forum.grouping.title : 'nil'

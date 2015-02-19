@@ -2,8 +2,20 @@ var showForumDetails, updateForumDetails;
 
 $(function() {
   $('.forum-groupings').on("change", newGrouping);
+  $('.forum-game').on("change", upDateGameInstances);
   return $('.update-tf').on("click", updateTfDetails);
 });
+
+upDateGameInstances = function(e) {
+  var id = this.value;
+  $.ajax({
+      type: "GET",
+      url: "/games/" + id +"/get_game_instances",
+      success: function(data, textStatus, jqXHR) {
+        return $("#game-instances-form-group").html(data);
+      }
+    });
+};
 
 newGrouping = function(e) {
   if (this.value == "-1") {

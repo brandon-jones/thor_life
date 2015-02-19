@@ -11,7 +11,11 @@ Rails.application.routes.draw do
 
   resources :game_instances
 
-  resources :games
+  resources :games do
+    member do
+      get '/get_game_instances' => 'games#get_game_instances'
+    end
+  end
 
   resources :comments
 

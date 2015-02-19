@@ -25,11 +25,11 @@
       %p.inline.pull-right
         %small
           - if obj.last_updated
-            #{local_relative_time(obj.last_updated, type: 'time-or-date')}
+            last activity #{local_relative_time(obj.last_updated, type: 'time-or-date')}
           - if obj.class.to_s.downcase == 'topic' && obj.comments_count != nil
             :escaped
               - 
-            #{obj.comments_count}
+            currenlty has #{pluralize(obj.comments_count, 'comment')}
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
       %td.remove-border.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}

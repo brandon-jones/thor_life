@@ -29,6 +29,10 @@ class ForumsController < ApplicationController
   def new
     @parent_forum = Forum.find_by_id(params["id"])
     @groupings = Forum.dropdown(params["id"]) + [[ 'New Group', -1 ], [ 'NO GROUP', -2 ]]
+    if game = Game.find_by_id(params["game_id"])
+      @game_instances = game.game_instances
+    end
+    @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
     @forum = Forum.new
   end
 
@@ -39,6 +43,7 @@ class ForumsController < ApplicationController
   # POST /forums
   # POST /forums.json
   def create
+    binding.pry
     if params["forum"] && params["forum"]["new_grouping"]
       if params["forum"]["grouping_id"] && params["forum"]["grouping_id"]== "-1"
         params["forum"]["grouping_id"] = Grouping.find_or_create_by_title(params["forum"]["new_grouping"]).id.to_s
@@ -48,6 +53,9 @@ class ForumsController < ApplicationController
     end
 
     params["forum"]["created_by"] = current_user.id
+
+    params["forum"]["game_instance_id"] = nil if params["forum"] && params["forum"]["game_instance_id"] == "-2"
+    params["forum"]["game_id"] = nil if params["forum"] && params["forum"]["game_id"] == "-2"
 
     @forum = Forum.new(forum_params)
 

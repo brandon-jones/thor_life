@@ -53,6 +53,14 @@ class GamesController < ApplicationController
     end
   end
 
+  def get_game_instances
+    if params["id"]
+      if game = Game.find_by_id(params["id"])
+        render partial: "layouts/forums_game_instance_dropdown", locals: { game_instances: [['NONE', -2]] + game.game_instances.pluck(:server_name, :id) }
+      end
+    end
+  end
+
   # DELETE /games/1
   # DELETE /games/1.json
   def destroy

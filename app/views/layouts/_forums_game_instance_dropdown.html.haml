@@ -1,0 +1,5 @@
+= label_tag "forum_game_instance_id"
+- if game_instances
+  = select_tag "forum[game_instance_id]", options_for_select(game_instances), class: 'form-control forum-game-instances'
+- else
+  = select_tag "forum[game_instance_id]",{}, class: 'form-control forum-game-instances'
