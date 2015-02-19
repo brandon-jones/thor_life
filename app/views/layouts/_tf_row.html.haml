@@ -1,7 +1,9 @@
 -if obj
-  - if current_user && current_user.admin_of?(obj)
+  - if obj.class.to_s.downcase == 'forum' && current_user && current_user.admin_of?(obj)
     %td.remove-border{:width => "10px", class: "#{obj.class.to_s.downcase == 'forum' ? 'move-row' : ''}"}
       &nbsp;
+  - else
+    %td.remove-border.no-padding.warning
   %td.remove-border{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
     %h4
       - if obj.class.to_s.downcase == 'topic' && obj.sticky
@@ -27,5 +29,5 @@
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
       %td.remove-border.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
-        = render partial: "layouts/#{obj.class.to_s.downcase}_admin_button", locals: { obj: obj, admin: admin }
+        = render partial: "layouts/tf_admin_button", locals: { obj: obj, admin: admin }
 - else

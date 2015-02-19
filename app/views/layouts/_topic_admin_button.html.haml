@@ -1,6 +1,6 @@
 .btn-group
   %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button", data: { class: "#{obj.class.to_s.downcase}-#{obj.id}-options" }}
-    Action
+    Admin
     %span.caret
   %ul.dropdown-menu{:role => "menu"}
     - if obj.deleted && current_user.king?
@@ -26,26 +26,6 @@
         %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "lock" }} 
           %span.glyphicon.glyphicon-lock{"aria-hidden" => "true"}
           Lock
-    - if obj.main_feed
-      %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_main_feed" }} 
-          %span.glyphicon.glyphicon-flag{"aria-hidden" => "true"}
-          Remove from Main Feed
-    - else
-      %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "main_feed" }} 
-          %span.glyphicon.glyphicon-flag{"aria-hidden" => "true"}
-          Add to Main Feed
-    - if obj.admins_only
-      %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "open" }} 
-          %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
-          Open to Public
-    - else
-      %li
-        %a{:href => "#", class: "btn-update-#{obj.class.to_s.downcase}", data: { forum_id: "#{obj.id}", table: "#{obj.class.to_s.downcase}-#{obj.id}", action: "un_open" }} 
-          %span.glyphicon.glyphicon-certificate{"aria-hidden" => "true"}
-          Close to Public
     - if current_user.king?
       %li.divider
       %li

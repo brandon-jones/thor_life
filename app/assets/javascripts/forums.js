@@ -1,16 +1,15 @@
 var showForumDetails, updateForumDetails;
 
 $(function() {
-  return $('.btn-update-forum').on("click", updateForumDetails);
+  return $('.update-tf').on("click", updateTfDetails);
 });
 
-updateForumDetails = function(e) {
-  var action, details_id, id, session;
+updateTfDetails = function(e) {
+  var action, id, session;
   e.stopPropagation();
   e.preventDefault();
-  details_id = "#" + this.getAttribute('data-table');
-  id = this.getAttribute('data-forum-id');
-  console.log('hi')
+  item = this.getAttribute('data-item-type');
+  id = this.getAttribute('data-item-id');
   action = this.getAttribute('data-action');
   session = $('#session_key').val();
   var strconfirm = false
@@ -20,7 +19,7 @@ updateForumDetails = function(e) {
   if ((action == 'destroy' && strconfirm == true) || action != 'destroy') {
     return $.ajax({
       type: "PATCH",
-      url: "/forums/" + id,
+      url: "/" + item + "s/" + id,
       data: {
         _method: "PUT",
         id: id,
@@ -28,11 +27,9 @@ updateForumDetails = function(e) {
         authenticity_token: session
       },
       success: function(data, textStatus, jqXHR) {
-        $("#forum-" + id + "-update-section").html(data);
-        $('.show-details').unbind("click");
-        $('.show-details').on("click", showForumDetails);
-        $('.btn-update-forum').unbind("click");
-        return $('.btn-update-forum').on("click", updateForumDetails);
+        $("#" + item + "-" + id + "-update-section").html(data);
+        $('.update-tf').unbind("click");
+        return $('.update-tf').on("click", updateTfDetails);
       }
     });
   }

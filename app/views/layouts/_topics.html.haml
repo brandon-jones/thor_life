@@ -1,7 +1,8 @@
+- if current_user && current_user.admin_of?(@this_forum)
+  %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
 %table.table
   %tbody
     - topics.each do |topic|
-      %tr
-        %td.no-padding
-          = render partial: 'layouts/tf_row', locals: { obj: topic }
+      %tr{ id: "topic-#{topic.id}-update-section" }
+        = render partial: 'layouts/tf_row', locals: { obj: topic }
 %br

@@ -41,13 +41,31 @@ class TopicsController < ApplicationController
   # PATCH/PUT /topics/1
   # PATCH/PUT /topics/1.json
   def update
-    respond_to do |format|
-      if @topic.update(topic_params)
-        format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
-        format.json { render :show, status: :ok, location: @topic }
-      else
-        format.html { render :edit }
-        format.json { render json: @topic.errors, status: :unprocessable_entity }
+    if params["what"]
+      topic = Topic.find_by_id(params["id"])
+      case params["what"]
+        when 'lock'
+          topic.update_attribute(:locked, true)
+        when 'un_lock'
+          topic.update_attribute(:locked, false)
+        when 'delete'
+          topic.update_attributes(:deleted => true, :deleted_by => current_user.id)
+        when 'un_delete'
+          topic.update_attributes(:deleted => false)
+        when 'destroy'
+          topic.destroy
+          topic = nil
+        end
+      render partial: 'layouts/tf_row', locals: { obj: topic, admin: true } and return
+    else
+      respond_to do |format|
+        if @topic.update(topic_params)
+          format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
+          format.json { render :show, status: :ok, location: @topic }
+        else
+          format.html { render :edit }
+          format.json { render json: @topic.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
