@@ -1,16 +1,15 @@
 - if current_user && current_user.admin_of?(@this_forum)
   %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
 - @forum_groups.each do |forum_group|
-  %h4.inline
-    = forum_group.title == 'nil' ? '' : forum_group.title
-  %small.inline
-    - id = @this_forum.id == nil ? 'nil' : @this_forum.id
-    = link_to 'New Forum', "/forums/new?grouping_id=#{forum_group.id}&id=#{id}", class: 'btn btn-default btn-xs'
-  - if forum_group.id == nil || forums[forum_group.title].count > 0
+  - if forums[forum_group.title] || forum_group.title == "nil"
+    %h4.inline
+      = forum_group.title == 'nil' ? '' : forum_group.title
+    %small.inline
+      - id = @this_forum.id == nil ? 'nil' : @this_forum.id
+      = link_to 'New Forum', "/forums/new?grouping_id=#{forum_group.id}&id=#{id}", class: 'btn btn-default btn-xs'
     %table.table
       %tbody
-        - if forums[forum_group.title]
-          - forums[forum_group.title].each do |forum|
-            %tr{ id: "#{forum.class.to_s.underscore}-#{forum.id.to_s}-update-section" }
-              = render partial: 'layouts/tf_row', locals: { obj: forum }
+        - forums[forum_group.title].each do |forum|
+          %tr{ id: "#{forum.class.to_s.underscore}-#{forum.id.to_s}-update-section" }
+            = render partial: 'layouts/tf_row', locals: { obj: forum }
     %br

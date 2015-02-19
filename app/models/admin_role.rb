@@ -1,5 +1,5 @@
 class AdminRole < ActiveRecord::Base
-	belongs_to :user
+	belongs_to :user, dependent: :destroy
 	before_save :fix_case
   validates_presence_of :user_id, :admin_type
   validates_uniqueness_of :admin_type, scope: [:admin_id, :user_id]

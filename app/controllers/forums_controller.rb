@@ -4,7 +4,7 @@ class ForumsController < ApplicationController
   # GET /forums
   # GET /forums.json
   def index
-    @forums = Forum.groupped(params["id"])
+    @forums = Forum.groupped(params["id"], current_user)
     @these_forums = Forum.find_forums(params["id"])
     @forum_groups = Forum.groups(params["id"])
     @this_forum = Forum.new
@@ -16,7 +16,7 @@ class ForumsController < ApplicationController
   # GET /forums/1
   # GET /forums/1.json
   def show
-    @forums = Forum.groupped(params["id"])
+    @forums = Forum.groupped(params["id"], current_user)
     @this_forum = Forum.find_by_id(params["id"])
     @forum_groups = Forum.groups(params["id"])
     @new_forum = Forum.new

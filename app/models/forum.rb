@@ -1,10 +1,10 @@
 class Forum < ActiveRecord::Base
 	belongs_to :creator, :class_name => 'User', :foreign_key => 'created_by'
 	belongs_to :destroyer, :class_name => 'User', :foreign_key => 'deleted_by'
-	has_many :children, :class_name => 'Forum', :foreign_key => 'parent_id'
+	has_many :children, :class_name => 'Forum', :foreign_key => 'parent_id', dependent: :destroy
 	belongs_to :parent, :class_name => 'Forum'
 	belongs_to :grouping
-	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }
+	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }, dependent: :destroy
 	after_save :update_parent
 
 	def update_parent
@@ -13,13 +13,20 @@ class Forum < ActiveRecord::Base
 		end
 	end
 
-	def self.groupped(id = nil)
+	def self.groupped(id = nil, user)
 		builder = {}
-		Forum.where(parent_id: id).order(:grouping_id, :row_order, created_at: :desc).each do |forum|
+		if user && user.super_admin?
+			forums = Forum.where(parent_id: id)
+		else
+			forums = Forum.where(parent_id: id).where(deleted: false)
+		end
+		forums.order(:grouping_id, :row_order, created_at: :desc).each do |forum|
 			key = forum.grouping ? forum.grouping.title : 'nil'
 			builder[key] = [] unless builder[key]
 			builder[key] << forum
 		end
+		builder["nil"] = [] unless builder["nil"]
+		builder["nil"] << Forum.new
 		# return builder.keys.map { |key| builder[key] }
 		return builder
 	end
