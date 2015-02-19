@@ -45,8 +45,7 @@ iDelivered = function(e) {
     },
     success: function(data, textStatus) {
       console.log(data);
-      $('#cart-' + cart_id + '-devlivered-status').html('true');
-      return $('#cart-' + cart_id + '-devlivered-by').html(data);
+      return $('#cart-' + cart_id + '-tr').html(data);
     }
   });
 };

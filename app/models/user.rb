@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  def to_json
+    self.to_json(only: [ :id, :username ])
+  end
+
   def create_username
   	self.username = Faker::Internet.user_name unless self.username
   end

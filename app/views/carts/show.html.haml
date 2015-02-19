@@ -1,12 +1,18 @@
 =flash_msg
-- if current_user && current_user.super_admin?
+- if current_user && current_user.super_admin? || current_user == cart.user
   %p
     %strong Delivered:
     = @cart.delivered
   - if @cart.delivered
     %p
       %strong Delivered by:
-      = @cart.delivered_by
+      = link_to @cart.deliverer.username, user_path(@cart.deliverer.id)
+    %p
+      %strong Delivered on:
+      = local_time(@cart.delivered_on)
+  - else
+    %button.btn.btn-default.btn-xs.i-delivered{data: {cart_id: cart.id}}
+  %br/
   %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
 = render partial: 'cart_items'
 %table.table

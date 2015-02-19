@@ -5,6 +5,7 @@ class CreateCarts < ActiveRecord::Migration
       t.integer :total_in_cents
       t.boolean :delivered, :default => false
       t.integer :delivered_by
+      t.datetime :delivered_on
       t.integer :donation_id
 
       t.timestamps null: false

@@ -1,0 +1,16 @@
+%td
+  - if cart.user
+    = link_to cart.user.username, user_path(cart.user.id)
+%td$#{cart.total}
+%td{ id: "cart-#{cart.id}-devlivered-status" }= cart.delivered
+%td{ id: "cart-#{cart.id}-devlivered-by" }
+  - if cart.deliverer
+    = link_to cart.deliverer.username, user_path(cart.deliverer.id)
+  - else
+    %button.btn.btn-default.btn-xs.i-delivered{data: {cart_id: cart.id}}
+      I delivered
+%td{ id: "cart-#{cart.id}-devlivered-on" }
+  - if cart.delivered_on
+    = local_time(cart.delivered_on)
+%td= link_to 'Show', cart
+%td= link_to 'Destroy', cart, method: :delete, data: { confirm: 'Are you sure?' }

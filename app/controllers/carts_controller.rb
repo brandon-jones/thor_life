@@ -24,8 +24,8 @@ class CartsController < ApplicationController
 
   def delivered
     if cart = Cart.find_by_id(params["cart_id"])
-      cart.update_attributes(delivered_by: current_user.id, delivered: true)
-      render text: "<a href='/users/#{current_user.id}''>#{current_user.username}</a>"
+      cart.update_attributes(delivered_by: current_user.id, delivered: true, delivered_on: DateTime.now.utc)
+      render partial: "layouts/carts", locals: { cart: cart }
     end
   end
 
@@ -37,6 +37,11 @@ class CartsController < ApplicationController
         render text: cart.cart.total_money
       end
     end
+  end
+
+  def deliverer_username
+    return self.deliverer.username if self.deliverer
+    return nil
   end
 
   def remove_from_cart

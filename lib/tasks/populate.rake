@@ -143,7 +143,7 @@ namespace :populate do
     puts "="*80
     20.times do |i|
       delivered = [false, false, false, true].sample
-      innerds = { user_id: User.all.sample.id, total: 0 , delivered: delivered, delivered_by: (delivered ? User.all.sample.id : nil), donation_id: Random.rand(50)}
+      innerds = { user_id: User.all.sample.id, total: 0 , delivered: delivered, delivered_by: (delivered ? User.all.sample.id : nil), delivered_on: (delivered ? DateTime.now.utc : nil), donation_id: Random.rand(50)}
       puts "perks: #{i+1} --- #{innerds}"
       Cart.create(innerds)
     end

@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150206043141) do
     t.integer  "total_in_cents"
     t.boolean  "delivered",      default: false
     t.integer  "delivered_by"
+    t.datetime "delivered_on"
     t.integer  "donation_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
