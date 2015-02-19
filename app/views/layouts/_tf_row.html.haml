@@ -1,10 +1,10 @@
 -if obj && obj.id
   - if obj.class.to_s.downcase == 'forum' && current_user && current_user.admin_of?(obj)
-    %td.remove-border{:width => "10px", class: "#{obj.class.to_s.downcase == 'forum' ? 'move-row' : ''} bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
+    %td{:width => "10px", class: "#{obj.class.to_s.downcase == 'forum' ? 'move-row' : ''} bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
       &nbsp;
   - else
-    %td.remove-border.no-padding{class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
-  %td.remove-border{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
+    %td.no-padding{class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
+  %td{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
     %h4
       - if obj.class.to_s.downcase == 'topic' && obj.sticky
         = g_pushpin
@@ -32,6 +32,6 @@
             currenlty has #{pluralize(obj.comments_count, 'comment')}
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
-      %td.remove-border.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
+      %td.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
         = render partial: "layouts/tf_admin_button", locals: { obj: obj, admin: admin }
 - else
