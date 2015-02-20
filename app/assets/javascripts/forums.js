@@ -8,9 +8,26 @@ $(document).ready(function() {
           items: "> tr",
           appendTo: $tabs,
           helper:"clone",
-          zIndex: 999990
-      })
-      .disableSelection()
+          zIndex: 999990,
+          update: function(e, ui) {
+            var item_id, position;
+            item_id = ui.item.data('item-id');
+            grouping_id = ui.item.parent().data('grouping-id');
+            position = ui.item.index();
+            console.log("hello");
+            $.ajax({
+              type: 'POST',
+              url: '/forums/update_row_order',
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              dataType: 'json',
+              data: {
+                forum_id: item_id,
+                grouping_id: grouping_id,
+                row_order_position: position
+              }
+            });
+          }
+      }).disableSelection()
   ;
   
   var $tab_items = $( ".nav-tabs > li", $tabs ).droppable({

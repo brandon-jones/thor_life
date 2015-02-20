@@ -1,6 +1,3 @@
-- if current_user && current_user.admin_of?(@this_forum)
-  %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
-- index = 1
 - @forum_groups.each do |forum_group|
   - if forums[forum_group.title] || forum_group.title == "nil"
     .inline
@@ -9,9 +6,8 @@
     %h4.inline
       = forum_group.title == 'nil' ? '' : forum_group.title
     %table.table.table-draggable
-      - index += 1
-      %tbody.connectedSortable
+      %tbody.connectedSortable{ data: { grouping_id: "#{forum_group.id}"} }
         - forums[forum_group.title].each do |forum|
-          %tr{ id: "#{forum.class.to_s.underscore}-#{forum.id.to_s}-update-section" }
+          %tr{ id: "#{forum.class.to_s.underscore}-#{forum.id.to_s}-update-section", data: { item_id: forum.id, grouping_id: forum_group.id || "nil" } }
             = render partial: 'layouts/tf_row', locals: { obj: forum }
     %br

@@ -8,6 +8,9 @@ class Forum < ActiveRecord::Base
 	after_save :update_parent
 	validates_presence_of :title
 
+	include RankedModel
+  ranks :row_order, :with_same => :grouping_id 
+
 	def update_parent
 		if self.parent
 			self.parent.update_attribute(:last_updated, Time.now.utc)
@@ -17,9 +20,9 @@ class Forum < ActiveRecord::Base
 	def self.groupped(id = nil, user)
 		builder = {}
 		if user && user.super_admin?
-			forums = Forum.where(parent_id: id)
+			forums = Forum.rank(:row_order).where(parent_id: id)
 		else
-			forums = Forum.where(parent_id: id).where(deleted: false).where(admin_only: false)
+			forums = Forum.rank(:row_order).where(parent_id: id).where(deleted: false).where(admin_only: false)
 		end
 		forums.order(:grouping_id, :row_order, created_at: :desc).each do |forum|
 			key = forum.grouping ? forum.grouping.title : 'nil'

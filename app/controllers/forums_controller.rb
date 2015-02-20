@@ -13,6 +13,16 @@ class ForumsController < ApplicationController
     @parent_forum = nil
   end
 
+   def update_row_order
+    if forum = Forum.find_by_id(params[:forum_id])
+      forum.update_attribute(:grouping_id, params["grouping_id"]) if params["grouping_id"] && params["grouping_id"].to_i != forum.grouping_id
+      forum.row_order_position = params[:row_order_position]
+      forum.save
+    end
+
+    render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
+  end
+
   # GET /forums/1
   # GET /forums/1.json
   def show
@@ -28,7 +38,7 @@ class ForumsController < ApplicationController
   # GET /forums/new
   def new
     @parent_forum = Forum.find_by_id(params["parent_id"])
-    @groupings = Forum.dropdown(params["parent_id"]) + [[ 'New Group', -1 ], [ 'NO GROUP', -2 ]]
+    @groupings = Forum.dropdown(params["parent_id"]) + [[ '', -2 ],[ 'New Group', -1 ]]
     if game = Game.find_by_id(params["game_id"])
       @game_instances = game.game_instances
     end
@@ -134,6 +144,6 @@ class ForumsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def forum_params
-      params.require(:forum).permit(:parent_id, :order, :created_by, :title, :deleted_by, :grouping_id, :locked, :admins_only, :main_feed, :deleted, :last_updated)
+      params.require(:forum).permit(:parent_id, :order, :created_by, :title, :deleted_by, :grouping_id, :locked, :admins_only, :main_feed, :deleted, :last_updated, :row_order_position)
     end
 end
