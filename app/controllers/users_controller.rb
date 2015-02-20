@@ -74,8 +74,7 @@ class UsersController < ApplicationController
       ar["admin_type"] = params["user"]["admin_level"] if params["user"]["admin_level"].present?
       ar["admin_id"] = params["user"]["admin_obj_id"] if params["user"]["admin_obj_id"].present?
 
-      binding.pry
-      AdminRole.create(ar)
+      AdminRole.create(ar) if ar.keys.count > 1
       session[:user_id] = @user.id if current_user == @user
       
       # render 'cropper' and return 

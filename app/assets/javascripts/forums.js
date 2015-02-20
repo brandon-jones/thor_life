@@ -4,6 +4,8 @@ $(document).ready(function() {
 
   var $tabs=$('.table-draggable')
   $( "tbody.connectedSortable" ).sortable({
+    handle: ".move-row",
+    tolerance: "pointer",
     connectWith: ".connectedSortable",
     items: ".sortable-table-rows",
     appendTo: $tabs,
