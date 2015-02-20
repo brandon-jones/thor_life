@@ -42,8 +42,6 @@ gem 'rails_12factor', group: :production
 gem 'ranked-model'
 gem 'jquery-ui-rails'
 
-gem 'ranked-model'
-
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
