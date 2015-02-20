@@ -27,6 +27,5 @@ namespace :db do
     Rake::Task["populate:packages"].execute
     Rake::Task["populate:carts"].execute
     Rake::Task["populate:cart_items"].execute
-    Rake::Task["./start"].execute
   end
 end
