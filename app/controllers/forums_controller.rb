@@ -35,6 +35,7 @@ class ForumsController < ApplicationController
     @topics = @this_forum.topics.order(sticky: 'DESC').order(:created_at)
     my_breadcrumbs(@this_forum)
     @parent_forum = @this_forum.parent
+    @new_topic = Topic.new
   end
 
   # GET /forums/new

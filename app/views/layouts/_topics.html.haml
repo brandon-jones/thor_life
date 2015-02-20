@@ -1,6 +1,9 @@
+- if current_user && current_user.super_admin?
+  = link_to 'New Topic', "/topics/new?parent_id=#{params['id']}", class: 'btn btn-default btn-xs new-topic-toggle'
+#new-topic-forum{hidden: true}
+  = render partial: "topics/form"
 %table.table
   %tbody
     - topics.each do |topic|
       %tr{ id: "topic-#{topic.id}-update-section" }
         = render partial: 'layouts/tf_row', locals: { obj: topic }
-%br

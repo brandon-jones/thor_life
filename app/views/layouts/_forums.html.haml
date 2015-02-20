@@ -2,8 +2,9 @@
   - if forums[forum_group.title] || forum_group.title == "nil"
     %div{id: "grouping-#{forum_group.id}-main-wrapper"}
       .inline
-        - id = @this_forum.id == nil ? 'nil' : @this_forum.id
-        = link_to 'New Forum', "/forums/new?grouping_id=#{forum_group.id}&parent_id=#{id}", class: 'btn btn-default btn-xs new-forum-btn'
+        - if current_user && current_user.super_admin?
+          - id = @this_forum.id == nil ? 'nil' : @this_forum.id
+          = link_to 'New Forum', "/forums/new?grouping_id=#{forum_group.id}&parent_id=#{id}", class: 'btn btn-default btn-xs new-forum-btn'
       %h4.inline
         = forum_group.title == 'nil' ? '' : forum_group.title
       %table.table.table-draggable
@@ -11,4 +12,3 @@
           - forums[forum_group.title].each do |forum|
             %tr.sortable-table-rows{ id: "#{forum.class.to_s.underscore}-#{forum.id.to_s}-update-section", data: { item_id: forum.id, grouping_id: forum_group.id || "nil" } }
               = render partial: 'layouts/tf_row', locals: { obj: forum }
-    %br

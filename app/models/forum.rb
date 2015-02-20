@@ -22,9 +22,9 @@ class Forum < ActiveRecord::Base
 		if user && user.super_admin?
 			forums = Forum.rank(:row_order).where(parent_id: id)
 		else
-			forums = Forum.rank(:row_order).where(parent_id: id).where(deleted: false).where(admin_only: false)
+			forums = Forum.rank(:row_order).where(parent_id: id).where(deleted: false).where(admins_only: false)
 		end
-		forums.order(:grouping_id, :row_order, created_at: :desc).each do |forum|
+		forums.order(created_at: :desc).each do |forum|
 			key = forum.grouping ? forum.grouping.title : 'nil'
 			builder[key] = [] unless builder[key]
 			builder[key] << forum

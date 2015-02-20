@@ -4,7 +4,7 @@
 .row
   .col-md-12
     = render partial: 'layouts/forums', locals: {forums: @forums}
-- if @topics.count > 0
-  .row
-    .col-md-12
-      = render partial: 'layouts/topics', locals: {topics: @topics}
+
+.row
+  .col-md-12
+    = render partial: 'layouts/topics', locals: {topics: @topics}

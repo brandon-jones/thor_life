@@ -7,7 +7,7 @@ $(document).ready(function() {
     connectWith: ".connectedSortable",
     items: ".sortable-table-rows",
     appendTo: $tabs,
-    helper:"clone",
+    helper: fixHelperModified,
     zIndex: 999990,
     stop: function(e, ui) {
       ui.item.removeClass('active-item-shadow');
@@ -31,7 +31,6 @@ $(document).ready(function() {
             row_order_position: position
           },
           success: function(data, textStatus) {
-            console.log("hello");
             if ($("#forum-tbody-grouping-"+tr[0].dataset.groupingId).children('tr').length < 1) {
               $("#grouping-"+tr[0].dataset.groupingId+"-main-wrapper").hide();
             }
@@ -43,12 +42,33 @@ $(document).ready(function() {
         });
       }
     }
-  });
+  }).disableSelection();
 
   $('.forum-groupings').on("change", newGrouping);
   $('.forum-game').on("change", upDateGameInstances);
+  $('.new-topic-toggle').on("click", toggleNewForum);
   return $('.update-tf').on("click", updateTfDetails);
 });
+
+toggleNewForum = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  if ($("#new-topic-forum")[0].style.display == "none" ) {
+    $("#new-topic-forum").show();
+  } else {
+    $("#new-topic-forum").hide();
+  }
+};
+
+var fixHelperModified = function(e, tr) {
+    var $originals = tr.children();
+    var $helper = tr.clone();
+    $helper.children().each(function(index)
+    {
+      $(this).width($originals.eq(index).width())
+    });
+    return $helper;
+};
 
 upDateGameInstances = function(e) {
   var id = this.value;
