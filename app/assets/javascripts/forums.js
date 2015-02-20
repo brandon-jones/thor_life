@@ -4,42 +4,46 @@ $(document).ready(function() {
 
   var $tabs=$('.table-draggable')
   $( "tbody.connectedSortable" ).sortable({
-          connectWith: ".connectedSortable",
-          items: "> tr",
-          appendTo: $tabs,
-          helper:"clone",
-          zIndex: 999990,
-          update: function(e, ui) {
-            var item_id, position;
-            item_id = ui.item.data('item-id');
-            grouping_id = ui.item.parent().data('grouping-id');
-            position = ui.item.index();
+    connectWith: ".connectedSortable",
+    items: ".sortable-table-rows",
+    appendTo: $tabs,
+    helper:"clone",
+    zIndex: 999990,
+    stop: function(e, ui) {
+      ui.item.removeClass('active-item-shadow');
+      return ui.item.children('.forum-center-row').effect('highlight', {color: 'blue'}, 1000);
+    },
+    update: function(e, ui) {
+      if (this === ui.item.parent()[0]) {
+        var item_id, position, $grouping_id;
+        item_id = ui.item.data('item-id');
+        $grouping_id = ui.item.parent().data('grouping-id');
+        var tr = ui.item;
+        position = ui.item.index();
+        return $.ajax({
+          type: 'POST',
+          url: '/forums/update_row_order',
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          dataType: 'json',
+          data: {
+            forum_id: item_id,
+            grouping_id: $grouping_id,
+            row_order_position: position
+          },
+          success: function(data, textStatus) {
             console.log("hello");
-            $.ajax({
-              type: 'POST',
-              url: '/forums/update_row_order',
-              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-              dataType: 'json',
-              data: {
-                forum_id: item_id,
-                grouping_id: grouping_id,
-                row_order_position: position
-              }
-            });
+            if ($("#forum-tbody-grouping-"+tr[0].dataset.groupingId).children('tr').length < 1) {
+              $("#grouping-"+tr[0].dataset.groupingId+"-main-wrapper").hide();
+            }
+            if ($grouping_id == '') {
+              $grouping_id = 'nil';
+            }
+            return tr[0].dataset.groupingId =  $grouping_id;
           }
-      }).disableSelection()
-  ;
-  
-  var $tab_items = $( ".nav-tabs > li", $tabs ).droppable({
-    accept: ".connectedSortable tr",
-    hoverClass: "ui-state-hover",
-    
-    drop: function( event, ui ) {
-      console.log('dropped')
-      return false;
+        });
+      }
     }
   });
-
 
   $('.forum-groupings').on("change", newGrouping);
   $('.forum-game').on("change", upDateGameInstances);

@@ -4,7 +4,7 @@
       &nbsp;
   - else
     %td.no-padding{class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
-  %td{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
+  %td{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'} #{obj.class.to_s.downcase == 'forum' ? 'forum-center-row' : ''}"}
     %h4
       - if obj.class.to_s.downcase == 'topic' && obj.sticky
         = g_pushpin

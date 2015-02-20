@@ -19,8 +19,10 @@ class ForumsController < ApplicationController
       forum.row_order_position = params[:row_order_position]
       forum.save
     end
-
-    render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
+    render :json=>true
+    # respond_to do |format|
+    #   format.json { head :ok }
+    # end
   end
 
   # GET /forums/1
