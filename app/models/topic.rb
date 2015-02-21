@@ -5,7 +5,11 @@ class Topic < ActiveRecord::Base
 	belongs_to :parent, :class_name => 'Forum', :foreign_key => 'forum_id'
 	has_many :comments, dependent: :destroy
 
-	after_save :update_parent
+	after_save :update_self, :update_parent
+
+	def update_self
+		self.update_column(:last_updated, Time.now.utc)
+	end
 
 	def update_parent
 		if self.parent

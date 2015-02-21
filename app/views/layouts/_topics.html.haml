@@ -1,8 +1,9 @@
 - if current_user && current_user.super_admin?
-  = link_to 'New Topic', "/topics/new?parent_id=#{params['id']}", class: 'btn btn-default btn-xs new-topic-toggle'
+  %button.btn.btn-xs.btn-default.new-topic-toggle{"aria-expanded" => "false", :type => "button"}
+    New Topic
 #new-topic-forum{hidden: true}
-  = render partial: "topics/form"
-%table.table
+  = render partial: "topics/form", locals: { new_topic: new_obj }
+%table.table#topic-table
   %tbody
     - topics.each do |topic|
       %tr{ id: "topic-#{topic.id}-update-section" }

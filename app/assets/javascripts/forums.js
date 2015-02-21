@@ -48,17 +48,55 @@ $(document).ready(function() {
 
   $('.forum-groupings').on("change", newGrouping);
   $('.forum-game').on("change", upDateGameInstances);
+  $('#create-new-topic').on("click", createNewTopic);
   $('.new-topic-toggle').on("click", toggleNewForum);
   return $('.update-tf').on("click", updateTfDetails);
 });
 
-toggleNewForum = function(e) {
-  e.stopPropagation();
-  e.preventDefault();
-  if ($("#new-topic-forum")[0].style.display == "none" ) {
-    $("#new-topic-forum").show();
+createNewTopic = function(e) {
+  var passes = false;
+  if ($('#topic_title').val().length < 1) {
+    $('#topic_title').parent().addClass('field_with_errors');
   } else {
-    $("#new-topic-forum").hide();
+    passes = true;
+  }
+  if (passes == true) {
+    return $.ajax({
+      type: 'POST',
+      url: '/topics',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: {
+        topic: {
+          title: $('#topic_title').val(),
+          locked: $('#topic_locked').is(":checked"),
+          sticky: $('#topic_sticky').is(":checked"),
+          body: $('#topic_body').val(),
+          forum_id: $('#forum_id').val()
+        },
+        ajax: true
+      },
+      success: function(data, textStatus) {
+        console.log(data);
+        $('#topic_title').val("");
+        $('#topic_locked').attr("checked", false);
+        $('#topic_sticky').attr("checked", false);
+        $('#topic_body').val("");
+        $("#new-topic-forum").hide( "blind", { direction: "up" }, 'slow');
+        $('#topic-table').html(data);
+        $('.new-topic-toggle').on("click", toggleNewForum);
+        return 
+      }
+    });
+  }
+  console.log('hi');
+}
+
+toggleNewForum = function(e) {
+  console.log('hi');
+  if ($("#new-topic-forum")[0].style.display == "none" || $("#new-topic-forum")[0].style.display == "") {
+    $("#new-topic-forum").show( "blind", { direction: "up" }, 'slow');
+  } else {
+    $("#new-topic-forum").hide( "blind", { direction: "up" }, 'slow');
   }
 };
 

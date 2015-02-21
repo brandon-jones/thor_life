@@ -1,10 +1,11 @@
 %h1.text-center #{@this_forum.title}
 =flash_msg
 = render_breadcrumbs
+%input{:type => "hidden", :value => "#{@this_forum.id || 'nil'}", :id =>'forum_id'}
 .row
   .col-md-12
     = render partial: 'layouts/forums', locals: {forums: @forums}
 
 .row
-  .col-md-12
-    = render partial: 'layouts/topics', locals: {topics: @topics}
+  .col-md-12#topic_list
+    = render partial: 'layouts/topics', locals: {topics: @topics, new_obj: @new_topic}

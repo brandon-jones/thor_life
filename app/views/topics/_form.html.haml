@@ -1,11 +1,11 @@
-= form_for(@new_topic, html: { class: "form-horizontal" }) do |f|
-  - if @new_topic.errors.any?
+= form_for(new_topic, html: { class: "form-horizontal" }) do |f|
+  - if new_topic.errors.any?
     #error_explanation
       %h2
-        = pluralize(@new_topic.errors.count, "error")
+        = pluralize(new_topic.errors.count, "error")
         prohibited this new_topic from being saved:
       %ul
-        - @new_topic.errors.full_messages.each do |message|
+        - new_topic.errors.full_messages.each do |message|
           %li= message
   .form-group
     = f.label :title, class: 'col-sm-1 control-label'
@@ -22,4 +22,5 @@
     .col-sm-9
       = f.text_area :body, class: 'form-control'
     .col-sm-2
-      = f.submit 'Create Topic', class: 'btn btn-default'
+      %button.btn.btn-default#create-new-topic{"aria-expanded" => "false", :type => "button"}
+        Create Topic

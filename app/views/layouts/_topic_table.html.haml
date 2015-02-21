@@ -1,0 +1,4 @@
+%tbody
+  - topics.each do |topic|
+    %tr{ id: "topic-#{topic.id}-update-section" }
+      = render partial: 'layouts/tf_row', locals: { obj: topic }
