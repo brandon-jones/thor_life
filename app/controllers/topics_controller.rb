@@ -49,6 +49,10 @@ class TopicsController < ApplicationController
           topic.update_attribute(:locked, true)
         when 'un_lock'
           topic.update_attribute(:locked, false)
+        when 'stick'
+          topic.update_attribute(:sticky, true)
+        when 'un_stick'
+          topic.update_attribute(:sticky, false)
         when 'delete'
           topic.update_attributes(:deleted => true, :deleted_by => current_user.id)
         when 'un_delete'
@@ -57,7 +61,8 @@ class TopicsController < ApplicationController
           topic.destroy
           topic = nil
         end
-      render partial: 'layouts/tf_row', locals: { obj: topic, admin: true } and return
+      render partial: 'layouts/tf_row', locals: { obj: topic, admin: true } and return unless params["what"] == 'stick' || params["what"] == 'un_stick'
+      render partial: 'layouts/topic_table', locals: {topics: topic.parent.topics} and return
     else
       respond_to do |format|
         if @topic.update(topic_params)

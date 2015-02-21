@@ -162,7 +162,11 @@ updateTfDetails = function(e) {
         authenticity_token: session
       },
       success: function(data, textStatus, jqXHR) {
-        $("#" + item + "-" + id + "-update-section").html(data);
+        if (action == 'stick' || action == 'un_stick') {
+          $('#topic-table').html(data);
+        } else {
+          $("#" + item + "-" + id + "-update-section").html(data);
+        }
         $('.update-tf').unbind("click");
         return $('.update-tf').on("click", updateTfDetails);
       }

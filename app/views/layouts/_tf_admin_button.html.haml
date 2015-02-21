@@ -47,6 +47,17 @@
           %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "un_open" }} 
             = g_cert
             Close to Public
+    - else
+      - if obj.sticky
+        %li
+          %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "un_stick" }} 
+            = g_pushpin
+            Un Stick
+      - else
+        %li
+          %a{:href => "#", class: "update-tf", data: { item_id: "#{obj.id}", item_type: "#{obj.class.to_s.downcase}", action: "stick" }} 
+            = g_pushpin
+            Stick
     - if current_user.king?
       %li.divider
       %li
