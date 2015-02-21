@@ -2,8 +2,6 @@
   - if obj.class.to_s.downcase == 'forum' && current_user && current_user.admin_of?(obj)
     %td{:width => "10px", class: "#{obj.class.to_s.downcase == 'forum' ? 'move-row' : ''} bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
       &nbsp;
-  - else
-    %td.no-padding{class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
   %td{colspan: 6, class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'} #{obj.class.to_s.downcase == 'forum' ? 'forum-center-row' : ''}"}
     %h4
       - if obj.class.to_s.downcase == 'topic' && obj.sticky

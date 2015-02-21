@@ -5,13 +5,15 @@ class Forum < ActiveRecord::Base
 	belongs_to :parent, :class_name => 'Forum'
 	belongs_to :grouping
 	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }, dependent: :destroy
-	after_save :update_parent
 	validates_presence_of :title
 
 	include RankedModel
   ranks :row_order, :with_same => :grouping_id 
 
-	def update_parent
+	after_save :update_self_and_parent
+
+	def update_self_and_parent
+		self.update_column(:last_updated, Time.now.utc)
 		if self.parent
 			self.parent.update_attribute(:last_updated, Time.now.utc)
 		end

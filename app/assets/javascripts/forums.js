@@ -5,6 +5,7 @@ $(document).ready(function() {
   var $tabs=$('.table-draggable')
   $( "tbody.connectedSortable" ).sortable({
     handle: ".move-row",
+    axis: "y",
     tolerance: "pointer",
     connectWith: ".connectedSortable",
     items: ".sortable-table-rows",
@@ -77,14 +78,14 @@ createNewTopic = function(e) {
       },
       success: function(data, textStatus) {
         console.log(data);
+        $('.update-tf').unbind("click");
         $('#topic_title').val("");
         $('#topic_locked').attr("checked", false);
         $('#topic_sticky').attr("checked", false);
         $('#topic_body').val("");
         $("#new-topic-forum").hide( "blind", { direction: "up" }, 'slow');
         $('#topic-table').html(data);
-        $('.new-topic-toggle').on("click", toggleNewForum);
-        return 
+        return $('.update-tf').on("click", updateTfDetails);
       }
     });
   }
@@ -153,6 +154,7 @@ updateTfDetails = function(e) {
     return $.ajax({
       type: "PATCH",
       url: "/" + item + "s/" + id,
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
       data: {
         _method: "PUT",
         id: id,
