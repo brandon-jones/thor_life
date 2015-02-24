@@ -19,6 +19,10 @@ class Forum < ActiveRecord::Base
 		end
 	end
 
+	# def id
+	# 	return super == nil ? 'nil' : super
+	# end
+
 	def self.groupped(id = nil, user)
 		builder = {}
 		if user && user.super_admin?

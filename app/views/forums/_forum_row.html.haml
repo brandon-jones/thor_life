@@ -1,0 +1,2 @@
+%tr.sortable-table-rows{ id: "#{forum.class.to_s.underscore}-#{forum.id.to_s}-update-section", data: { item_id: forum.id, grouping_id: forum_group } }
+  = render partial: 'layouts/tf_row', locals: { obj: forum }

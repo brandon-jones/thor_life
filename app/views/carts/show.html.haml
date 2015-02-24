@@ -11,7 +11,8 @@
       %strong Delivered on:
       = local_time(@cart.delivered_on)
   - else
-    %button.btn.btn-default.btn-xs.i-delivered{data: {cart_id: cart.id}}
+    %button.btn.btn-default.btn-xs.i-delivered{data: {cart_id: @cart.id}}
+      I delivered
   %br/
   %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
 = render partial: 'cart_items'

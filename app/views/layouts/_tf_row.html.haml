@@ -1,4 +1,4 @@
--if obj && obj.id
+-if obj && obj.id != "nil" && obj.id != nil
   - if obj.class.to_s.downcase == 'forum' && current_user && current_user.admin_of?(obj)
     %td{:width => "10px", class: "#{obj.class.to_s.downcase == 'forum' ? 'move-row' : ''} bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
       &nbsp;

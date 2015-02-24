@@ -50,9 +50,73 @@ $(document).ready(function() {
   $('.forum-groupings').on("change", newGrouping);
   $('.forum-game').on("change", upDateGameInstances);
   $('#create-new-topic').on("click", createNewTopic);
-  $('.new-topic-toggle').on("click", toggleNewForum);
+  $('.create-new-forum').on("click", createNewForum);
+  $('.new-forum-toggle').on("click", toggleNewForum);
+  $('.new-topic-toggle').on("click", toggleNewTopic);
   return $('.update-tf').on("click", updateTfDetails);
 });
+
+createNewForum = function(e) {
+  console.log("hi")
+  var topic = {};
+  parent_id = this.dataset.parentId;
+  grouping_id = this.dataset.groupingId;
+  if ($("#title-"+parent_id+"-"+grouping_id).val().length > 0) {
+    topic['grouping_id'] = $("#grouping-id-"+parent_id+"-"+grouping_id).val();
+    if (topic['grouping_id'] == "-1") {
+      topic['new_grouping_name'] = $("#new-grouping-forum-"+parent_id+"-"+grouping_id).val();
+      if (topic['new_grouping_name'].length < 1) {
+        $("#new-grouping-title-"+parent_id+"-"+grouping_id).parent().addClass('field_with_errors');
+        return;
+      }
+    }
+    topic['title'] = $("#title-"+parent_id+"-"+grouping_id).val();
+    topic['game_id'] = $("#game-id-"+parent_id+"-"+grouping_id).val();
+    if (topic['game_id'] != "-2") {
+      topic['game_instance_id'] = $("#game-instance-id-"+parent_id+"-"+grouping_id).val();
+    }
+
+    topic['locked'] = $("#game-instance-id-"+parent_id+"-"+grouping_id).is(":checked");
+    topic['admin_only'] = $("#game-instance-id-"+parent_id+"-"+grouping_id).is(":checked");
+    topic['main_feed'] = $("#main-feed-"+parent_id+"-"+grouping_id).is(":checked");
+    topic['parent_id'] = parent_id;
+    
+    return $.ajax({
+      type: 'POST',
+      url: '/forums',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: {
+        forum: topic,
+        ajax: true
+      },
+      success: function(data, textStatus) {
+        $("#title-"+parent_id+"-"+grouping_id).val("");
+        $("#grouping-id-"+parent_id+"-"+grouping_id).value = "-1";
+        $("#new-grouping-title-"+parent_id+"-"+grouping_id).val("");
+        $("#game-id-"+parent_id+"-"+grouping_id);
+        $("#locked-"+parent_id+"-"+grouping_id).checked = false;;
+        $("#admin-only-"+parent_id+"-"+grouping_id).checked = false;;
+        $("#main-feed-"+parent_id+"-"+grouping_id).checked = false;;
+
+        $('#forum-group-nil').append(data);
+        $('.update-tf').unbind("click");
+        $('.update-tf').on("click", updateTfDetails);
+        return ;
+      }
+    });
+  } else {
+    $("#title-"+parent_id+"-"+grouping_id).parent().addClass('field_with_errors');
+  }
+}
+
+toggleNewForum = function(e) {
+  var forum = "#new-forum-" + this.dataset.groupingId;
+  if ($(forum)[0].style.display == "none" || $(forum)[0].style.display == "") {
+    $(forum).show( "blind", { direction: "up" }, 'slow');
+  } else {
+    $(forum).hide( "blind", { direction: "up" }, 'slow');
+  }
+};
 
 createNewTopic = function(e) {
   var passes = false;
@@ -77,7 +141,6 @@ createNewTopic = function(e) {
         ajax: true
       },
       success: function(data, textStatus) {
-        console.log(data);
         $('.update-tf').unbind("click");
         $('#topic_title').val("");
         $('#topic_locked').attr("checked", false);
@@ -89,11 +152,9 @@ createNewTopic = function(e) {
       }
     });
   }
-  console.log('hi');
 }
 
-toggleNewForum = function(e) {
-  console.log('hi');
+toggleNewTopic = function(e) {
   if ($("#new-topic-forum")[0].style.display == "none" || $("#new-topic-forum")[0].style.display == "") {
     $("#new-topic-forum").show( "blind", { direction: "up" }, 'slow');
   } else {
@@ -113,16 +174,19 @@ var fixHelperModified = function(e, tr) {
 
 upDateGameInstances = function(e) {
   var id = this.value;
+  console.log("hi");
+  var temp = this.id.split("-");
+  var game_list = "#game-instances-form-group-"+temp[temp.length-1];
   if (id == "-2") {
-    $("#game-instances-form-group").html('');
-    $("#game-instances-form-group").hide();
+    $(game_list).html('');
+    $(game_list)[0].disabled = true;
   } else {
-    $("#game-instances-form-group").show();
+    $(game_list)[0].disabled = false;
     $.ajax({
       type: "GET",
-      url: "/games/" + id +"/get_game_instances",
+      url: "/games/" + id +"/get_game_instances?parent_id="+temp[temp.length-2]+"&grouping_id="+temp[temp.length-1],
       success: function(data, textStatus, jqXHR) {
-        return $("#game-instances-form-group").html(data);
+        return $(game_list).html(data);
       }
     });
   }
@@ -130,11 +194,10 @@ upDateGameInstances = function(e) {
 
 newGrouping = function(e) {
   if (this.value == "-1") {
-    console.log('hi');
-    $('#new-grouping-forum').show();
+    $('#new-grouping-forum')[0].disabled = false;
   } else {   
     $('#forum_new_grouping').val("");
-    $('#new-grouping-forum').hide();
+    $('#new-grouping-forum')[0].disabled = true;
   }
 };
 

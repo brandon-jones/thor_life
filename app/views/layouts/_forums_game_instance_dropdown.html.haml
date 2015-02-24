@@ -1,5 +1,7 @@
-= label_tag "forum_game_instance_id"
+= label_tag "game_instance_id-#{parent_id}-#{grouping_id}", 'Game Instance', class: 'col-sm-1 control-label' 
 - if game_instances
-  = select_tag "forum[game_instance_id]", options_for_select(game_instances), class: 'form-control forum-game-instances'
+  .col-sm-5
+    = select_tag "game-instance-id-#{parent_id}-#{grouping_id}", options_for_select(game_instances), class: 'form-control forum-game-instances', id: "game-instances-form-group-#{grouping_id}", disabled: true
 - else
-  = select_tag "forum[game_instance_id]",{}, class: 'form-control forum-game-instances'
+  .col-sm-5
+    = select_tag "game-instance-id-#{parent_id}-#{grouping_id}",{}, class: 'form-control forum-game-instances', id: "game-instances-form-group-#{grouping_id}", disabled: true

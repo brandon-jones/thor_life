@@ -69,7 +69,7 @@ end
 
 group :test do
   gem 'coveralls', require: false
-  gem 'spring'
+  gem 'spring', '~> 1.3.2'
   gem 'travis', '~> 1.7.5'
   gem 'rspec-rails', '~> 3.0'
 	gem 'guard-rspec'

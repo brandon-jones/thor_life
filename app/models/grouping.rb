@@ -11,4 +11,8 @@ class Grouping < ActiveRecord::Base
 			return Grouping.create(title: title)
 		end
 	end
+
+	def id
+		return super == nil ? 'nil' : super
+	end
 end
