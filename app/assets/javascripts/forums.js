@@ -92,7 +92,9 @@ removeGrouping = function(e) {
         jQuery.each(trs, function(index, value) {
           console.log(this);
           this.dataset.groupingId = 'nil';
-          $('#forum-tbody-grouping-nil').append(this);
+          if (this.className != "empty-forum-row") {
+            $('#forum-tbody-grouping-nil').append(this);
+          }
         });
         return ;
       }
