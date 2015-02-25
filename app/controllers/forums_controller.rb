@@ -10,7 +10,7 @@ class ForumsController < ApplicationController
     elsif Forum.all.count == 0
       redirect_to root_path
     end
-    redirect_to forum_path(1)
+    redirect_to forum_path(Forum.first.id)
   end
 
    def update_row_order
