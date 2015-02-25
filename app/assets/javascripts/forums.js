@@ -1,7 +1,20 @@
 var showForumDetails, updateForumDetails;
 
 $(document).ready(function() {
+  setSortable();
+  $('.forum-groupings').on("change", newGrouping);
+  $('.forum-game').on("change", upDateGameInstances);
+  $('#create-new-topic').on("click", createNewTopic);
+  $('.create-new-forum').on("click", createNewForum);
+  $('#create-new-group').on("click", createNewGroup);
+  $('.new-forum-toggle').on("click", toggleNewForum);
+  $('.new-topic-toggle').on("click", toggleNewTopic);
+  $('.new-group-toggle').on("click", toggleNewGroup);
+  $('.remove-grouping').on("click", removeGrouping);
+  return $('.update-tf').on("click", updateTfDetails);
+});
 
+setSortable = function(e) {
   var $tabs=$('.table-draggable')
   $( "tbody.connectedSortable" ).sortable({
     handle: ".move-row",
@@ -46,18 +59,7 @@ $(document).ready(function() {
       }
     }
   }).disableSelection();
-
-  $('.forum-groupings').on("change", newGrouping);
-  $('.forum-game').on("change", upDateGameInstances);
-  $('#create-new-topic').on("click", createNewTopic);
-  $('.create-new-forum').on("click", createNewForum);
-  $('#create-new-group').on("click", createNewGroup);
-  $('.new-forum-toggle').on("click", toggleNewForum);
-  $('.new-topic-toggle').on("click", toggleNewTopic);
-  $('.new-group-toggle').on("click", toggleNewGroup);
-  $('.remove-grouping').on("click", removeGrouping);
-  return $('.update-tf').on("click", updateTfDetails);
-});
+};
 
 removeGrouping = function(e) {
   console.log('hi');
