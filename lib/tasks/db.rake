@@ -17,7 +17,7 @@ namespace :db do
   task :prime => :environment do
     Rake::Task["db:reset"].execute
     Rake::Task["populate:users"].execute
-    Rake::Task["populate:groupings"].execute
+    # Rake::Task["populate:groupings"].execute
     Rake::Task["populate:forums"].execute
     Rake::Task["populate:topics"].execute
     Rake::Task["populate:comments"].execute

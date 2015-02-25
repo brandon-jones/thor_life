@@ -4,18 +4,13 @@ class ForumsController < ApplicationController
   # GET /forums
   # GET /forums.json
   def index
-    @forums = Forum.groupped(params["id"], current_user)
-    @these_forums = Forum.find_forums(params["id"])
-    @forum_groups = Forum.groups(params["id"])
-    @this_forum = Forum.new
-    @topics = []
-    @new_forum = Forum.new
-    @parent_forum = nil
-    @groupings = Forum.dropdown(params["id"]) + [[ '', -2 ],[ 'New Group', -1 ]]
-    if game = Game.find_by_id(params["game_id"])
-      @game_instances = game.game_instances
+    # @forums = Forum.groupped(params["id"], current_user)
+    if Forum.all.count == 0 && current_user && current_user.king?
+      Forum.create(title: 'Forums')
+    elsif Forum.all.count == 0
+      redirect_to root_path
     end
-    @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
+    redirect_to forum_path(1)
   end
 
    def update_row_order
@@ -33,18 +28,20 @@ class ForumsController < ApplicationController
   # GET /forums/1
   # GET /forums/1.json
   def show
-    @forums = Forum.groupped(params["id"], current_user)
     @this_forum = Forum.find_by_id(params["id"])
-    @forum_groups = Forum.groups(params["id"])
-    @new_forum = Forum.new
-    @topics = @this_forum.topics.order(sticky: 'DESC').order(:created_at)
+    @groups, @forums = @this_forum.get_groups_and_grouped_forums
+    @groups << Grouping.new(id: 0, title: 'nil')
+    # @forum_groups = Forum.groups(params["id"])
+    # @new_forum = Forum.new
+    @topics = params["id"] == 1 ? nil : @this_forum.topics.order(sticky: 'DESC').order(:created_at)
     my_breadcrumbs(@this_forum)
     @parent_forum = @this_forum.parent
-    @new_topic = Topic.new
-    @groupings = Forum.dropdown(params["id"]) + [[ '', -2 ],[ 'New Group', -1 ]]
-    if game = Game.find_by_id(params["game_id"])
-      @game_instances = game.game_instances
-    end
+    @new_topic = Topic.new unless params["id"] == 1
+    # @new_grouping = Grouping.new
+    # @groupings = Forum.dropdown(params["id"]) + [[ '', -2 ],[ 'New Group', -1 ]]
+    # if game = Game.find_by_id(params["game_id"])
+    #   @game_instances = game.game_instances
+    # end
     @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
   end
 
@@ -67,9 +64,9 @@ class ForumsController < ApplicationController
   # POST /forums.json
   def create
     if params["forum"] && params["forum"]["grouping_id"]
-      if params["forum"]["grouping_id"] && params["forum"]["grouping_id"]== "-1" && params["forum"]["new_grouping"]
-        params["forum"]["grouping_id"] = Grouping.find_or_create_by_title(params["forum"]["new_grouping"]).id.to_s
-      elsif params["forum"]["grouping_id"] && params["forum"]["grouping_id"] == "-2"
+    #   if params["forum"]["grouping_id"] && params["forum"]["grouping_id"]== "-1" && params["forum"]["new_grouping"]
+    #     params["forum"]["grouping_id"] = Grouping.find_or_create_by_title(params["forum"]["new_grouping"]).id.to_s
+      if params["forum"]["grouping_id"] && params["forum"]["grouping_id"] == "nil"
         params["forum"] = params["forum"].except(:grouping_id)
       end
     end

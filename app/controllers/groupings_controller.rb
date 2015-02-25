@@ -25,14 +25,19 @@ class GroupingsController < ApplicationController
   # POST /groupings.json
   def create
     @grouping = Grouping.new(grouping_params)
-
-    respond_to do |format|
-      if @grouping.save
-        format.html { redirect_to @grouping, notice: 'Grouping was successfully created.' }
-        format.json { render :show, status: :created, location: @grouping }
+    if @grouping.save
+      if params["ajax"]
+        @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
+        @game_instances = []
+        render partial: 'layouts/forums_grouping', locals: { forum_group_id: @grouping.id, forum_group: @grouping, this_forum: @grouping.forum, forums: @grouping.forum.get_groups_and_grouped_forums[1] } and return
       else
-        format.html { render :new }
-        format.json { render json: @grouping.errors, status: :unprocessable_entity }
+        redirect_to @grouping, notice: 'Grouping was successfully created.'
+      end
+    else
+      if params["ajax"]
+        render nothing: true;
+      else
+        render :new
       end
     end
   end
@@ -54,10 +59,17 @@ class GroupingsController < ApplicationController
   # DELETE /groupings/1
   # DELETE /groupings/1.json
   def destroy
+    count = @grouping.forum.children.where(grouping_id: nil).count
+    @grouping.forums.each do |forum|
+      forum.grouping_id = nil;
+      forum.row_order_position = count
+      forum.save
+    end
     @grouping.destroy
-    respond_to do |format|
-      format.html { redirect_to groupings_url, notice: 'Grouping was successfully destroyed.' }
-      format.json { head :no_content }
+    if params["ajax"]
+      render nothing: true
+    else
+      redirect_to groupings_url, notice: 'Grouping was successfully destroyed.'
     end
   end
 
@@ -69,6 +81,6 @@ class GroupingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def grouping_params
-      params.require(:grouping).permit(:title)
+      params.require(:grouping).permit(:title, :forum_id)
     end
 end

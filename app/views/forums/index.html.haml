@@ -1,7 +1,1 @@
-%h1.text-center Forums
-=flash_msg
-- if current_user && current_user.admin_of?(@this_forum)
-  %input{:type => "hidden", :value => "#{form_authenticity_token}", :id =>'session_key'}
-%div.row
-  %div.col-md-12
-    = render partial: 'layouts/forums', locals: {forums: @forums}
+IF you are seeing this page your forums have not been set up. Click below to set them up

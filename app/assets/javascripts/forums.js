@@ -51,25 +51,59 @@ $(document).ready(function() {
   $('.forum-game').on("change", upDateGameInstances);
   $('#create-new-topic').on("click", createNewTopic);
   $('.create-new-forum').on("click", createNewForum);
+  $('#create-new-group').on("click", createNewGroup);
   $('.new-forum-toggle').on("click", toggleNewForum);
   $('.new-topic-toggle').on("click", toggleNewTopic);
+  $('.new-group-toggle').on("click", toggleNewGroup);
+  $('.remove-grouping').on("click", removeGrouping);
   return $('.update-tf').on("click", updateTfDetails);
 });
 
-createNewForum = function(e) {
-  console.log("hi")
-  var topic = {};
-  parent_id = this.dataset.parentId;
-  grouping_id = this.dataset.groupingId;
-  if ($("#title-"+parent_id+"-"+grouping_id).val().length > 0) {
-    topic['grouping_id'] = $("#grouping-id-"+parent_id+"-"+grouping_id).val();
-    if (topic['grouping_id'] == "-1") {
-      topic['new_grouping_name'] = $("#new-grouping-forum-"+parent_id+"-"+grouping_id).val();
-      if (topic['new_grouping_name'].length < 1) {
-        $("#new-grouping-title-"+parent_id+"-"+grouping_id).parent().addClass('field_with_errors');
-        return;
+removeGrouping = function(e) {
+  console.log('hi');
+  e.stopPropagation();
+  e.preventDefault();
+  var grouping_id = this.dataset.groupingId;
+  var forum_children = $('#forum-tbody-grouping-'+grouping_id).children();
+  var del = false;
+  if (forum_children.length > 0) {
+    if (forum_children[0].className == "empty-forum-row" && forum_children.length == 1) {
+      del = true;
+    } else {
+      strconfirm = confirm("Are you sure you want to delete? Forums will be moved to ungrouped");
+      if (strconfirm == true) {
+        del = true;
       }
     }
+  }
+  if (del == true) {
+    return $.ajax({
+      type: 'DELETE',
+      url: '/groupings/'+grouping_id,
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: {
+        ajax: true
+      },
+      success: function(data, textStatus) {
+        var trs = $('#forum-tbody-grouping-'+grouping_id).children();
+        $('.main-tr-grouping-'+grouping_id).remove();
+        jQuery.each(trs, function(index, value) {
+          console.log(this);
+          this.dataset.groupingId = 'nil';
+          $('#forum-tbody-grouping-nil').append(this);
+        });
+        return ;
+      }
+    });
+  }
+};
+
+createNewForum = function(e) {
+  var topic = {};
+  var parent_id = this.dataset.parentId;
+  var grouping_id = this.dataset.groupingId;
+  if ($("#title-"+parent_id+"-"+grouping_id).val().length > 0) {
+    topic['grouping_id'] = grouping_id;
     topic['title'] = $("#title-"+parent_id+"-"+grouping_id).val();
     topic['game_id'] = $("#game-id-"+parent_id+"-"+grouping_id).val();
     if (topic['game_id'] != "-2") {
@@ -97,8 +131,13 @@ createNewForum = function(e) {
         $("#locked-"+parent_id+"-"+grouping_id).checked = false;;
         $("#admin-only-"+parent_id+"-"+grouping_id).checked = false;;
         $("#main-feed-"+parent_id+"-"+grouping_id).checked = false;;
-
-        $('#forum-group-nil').append(data);
+        $("#new-forum-"+grouping_id).hide( "blind", { direction: "up" }, 'slow');
+        if ($('#forum-tbody-grouping-'+grouping_id).children('tr').length == 1) {
+          if ($('#forum-tbody-grouping-'+grouping_id).children('tr')[0].className == "empty-forum-row") {
+            $('#forum-tbody-grouping-'+grouping_id).children('tr')[0].remove();
+          }
+        }
+        $('#forum-group-'+grouping_id).append(data);
         $('.update-tf').unbind("click");
         $('.update-tf').on("click", updateTfDetails);
         return ;
@@ -118,6 +157,44 @@ toggleNewForum = function(e) {
   }
 };
 
+toggleNewGroup = function(e) {
+  if ($('#new-group-forum')[0].style.display == "none" || $('#new-group-forum')[0].style.display == "") {
+    $('#new-group-forum').show( "slide", { direction: "left" }, 'slow');
+  } else {
+    $('#new-group-forum').hide( "slide", { direction: "left" }, 'slow');
+  }
+};
+
+createNewGroup = function(e) {
+  var forum_id = this.dataset.forumId
+  if ($('#new-group-title').val().length < 1) {
+    $('#new-group-title').parent().addClass('field_with_errors');
+  } else {
+    return $.ajax({
+      type: 'POST',
+      url: '/groupings',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: {
+        grouping: {
+          title: $('#new-group-title').val(),
+          forum_id: forum_id
+        },
+        ajax: true
+      },
+      success: function(data, textStatus) {
+        $('#new-group-title').val("");
+
+        $('#main-table tr.add-new-above:last ').before(data);
+        $('.remove-grouping').unbind("click");
+        $('.remove-grouping').on("click", removeGrouping);
+        $('.create-new-forum').unbind("click");
+        $('.create-new-forum').on("click", createNewForum);
+        $('.new-forum-toggle').unbind("click");
+        return $('.new-forum-toggle').on("click", toggleNewForum);
+      }
+    });
+  }
+};
 createNewTopic = function(e) {
   var passes = false;
   if ($('#topic_title').val().length < 1) {
@@ -211,7 +288,7 @@ updateTfDetails = function(e) {
   session = $('#session_key').val();
   var strconfirm = false
   if (action == 'destroy') {
-    strconfirm = confirm("Are you sure you want to delete?");
+    strconfirm = confirm("Are you sure you want to delete? This can not be undone!");
   }
   if ((action == 'destroy' && strconfirm == true) || action != 'destroy') {
     return $.ajax({

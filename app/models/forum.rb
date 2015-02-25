@@ -4,6 +4,7 @@ class Forum < ActiveRecord::Base
 	has_many :children, :class_name => 'Forum', :foreign_key => 'parent_id', dependent: :destroy
 	belongs_to :parent, :class_name => 'Forum'
 	belongs_to :grouping
+	has_many :groups, :class_name => 'Grouping', :foreign_key => 'forum_id'
 	has_many :topics, -> { order(sticky: 'DESC').order(:created_at) }, dependent: :destroy
 	validates_presence_of :title
 
@@ -23,12 +24,32 @@ class Forum < ActiveRecord::Base
 	# 	return super == nil ? 'nil' : super
 	# end
 
+	def get_groups_and_grouped_forums
+		groups = Grouping.rank(:row_order).where(forum_id: self.id)
+		forums = Forum.rank(:row_order).where(parent_id: self.id).where(grouping_id: groups.pluck(:id) << nil)
+		builder = {}
+		forums.order(created_at: :desc).each do |forum|
+			key = forum.grouping ? forum.grouping.title : 'nil'
+			builder[key] = [] unless builder[key]
+			builder[key] << forum
+		end
+		forums = builder
+		return groups, forums
+	end
+
 	def self.groupped(id = nil, user)
+		binding.pry
+		if id == nil || id == "nil"
+			groups = Grouping.top_level_groups << Grouping.new
+		end
 		builder = {}
 		if user && user.super_admin?
 			forums = Forum.rank(:row_order).where(parent_id: id)
 		else
 			forums = Forum.rank(:row_order).where(parent_id: id).where(deleted: false).where(admins_only: false)
+		end
+		unless groups
+			groups = Grouping.rank(:row_order).where(id: forums.pluck(:grouping_id).uniq!) << Grouping.new
 		end
 		forums.order(created_at: :desc).each do |forum|
 			key = forum.grouping ? forum.grouping.title : 'nil'
@@ -66,7 +87,6 @@ class Forum < ActiveRecord::Base
 			chain << obj
 			obj = obj.parent
 		end
-		chain << Forum.new(title: 'Forums')
 		return chain.reverse
 	end
 

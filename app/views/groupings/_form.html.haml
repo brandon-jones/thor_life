@@ -1,15 +1,8 @@
-= form_for(@grouping) do |f|
-  - if @grouping.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@grouping.errors.count, "error")
-        prohibited this grouping from being saved:
-      %ul
-        - @grouping.errors.full_messages.each do |message|
-          %li= message
-  .field
-    = f.label :title
-    %br/
-    = f.text_field :title
-  .actions
-    = f.submit
+= form_tag('/',class: "form-horizontal") do |f|
+  .form-group
+    = label_tag 'new-group-title', 'Title', class: 'col-sm-1 control-label' 
+    .col-sm-6
+      = text_field_tag 'new-group-title','', class: 'form-control' 
+    .col-sm-2
+      %button.btn.btn-default.btn-xs#create-new-group.form-control{"aria-expanded" => "false", :type => "button", data: { forum_id: forum_id }}
+        Create Group

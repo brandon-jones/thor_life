@@ -3,19 +3,6 @@
     = label_tag "title-#{parent_id}-#{grouping.id}", 'Title', class: 'col-sm-1 control-label' 
     .col-sm-11
       = text_field_tag "title-#{parent_id}-#{grouping.id}", '',class: 'form-control'
-  - if current_user && current_user.super_admin? && grouping.id == "nil"
-    .form-group  
-      = label_tag "grouping.id-#{parent_id}-#{grouping.id}", 'Group', class: 'col-sm-1 control-label' 
-      .col-sm-5
-        - if grouping.title != 'nil'
-          %p.form-control-static
-            = grouping.title
-          %input{:type => "hidden", :value => "#{grouping.id}", :id =>"grouping-id-#{parent_id}-#{grouping.id}"}
-        - else
-          = select_tag "grouping-id-#{parent_id}-#{grouping.id}", options_for_select(@groupings, params["grouping.id"] || -2), class: 'form-control forum-groupings'
-      = label_tag "new-grouping-title-#{parent_id}-#{grouping.id}", 'Group Name',class: 'col-sm-1 control-label' 
-      .col-sm-5
-        = text_field_tag "new-grouping-title-#{parent_id}-#{grouping.id}", '', {class: 'form-control', disabled: true, id: "new-grouping-forum"}
   - if current_user && current_user.super_admin?
     .form-group  
       = label_tag "game-id-#{parent_id}-#{grouping.id}", 'Game', class: 'col-sm-1 control-label' 
@@ -24,14 +11,6 @@
       = render partial: "layouts/forums_game_instance_dropdown", locals: { game_instances: @game_instances, parent_id: parent_id, grouping_id: grouping.id }
   - if current_user && current_user.admin_of?(@parent_forum)
     .form-group
-      = label_tag "grouping.id-#{parent_id}-#{grouping.id}", 'Group', class: 'col-sm-1 control-label' 
-      .col-sm-3
-        - if grouping.title != 'nil'
-          %p.form-control-static
-            = grouping.title
-          %input{:type => "hidden", :value => "#{grouping.id}", :id =>"grouping-id-#{parent_id}-#{grouping.id}"}
-        - else
-          = select_tag "grouping-id-#{parent_id}-#{grouping.id}", options_for_select(@groupings, params["grouping.id"] || -2), class: 'form-control forum-groupings'
       = label_tag "locked-#{parent_id}-#{grouping.id}", 'Locked', class: 'col-sm-1 control-label' 
       .col-sm-1
         = check_box_tag "locked-#{parent_id}-#{grouping.id}", true, false,class: 'form-control'

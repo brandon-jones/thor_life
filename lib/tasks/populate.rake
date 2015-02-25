@@ -4,7 +4,7 @@ namespace :populate do
     puts "="*80
     puts 'creating users'
     puts "="*80
-    100.times do |i|
+    10.times do |i|
       innerds = {email: Faker::Internet.safe_email, password: 'password'}
       puts "user: #{i+1} --- #{innerds}"
       User.create(innerds)
@@ -27,7 +27,7 @@ namespace :populate do
     puts "="*80
     puts 'creating game instances'
     puts "="*80
-    15.times do |i|
+    5.times do |i|
       innerds = { game_id: Game.all.sample.id, server_name:  Faker::Commerce.product_name, server_address: Faker::Internet.url, server_port: Faker::Number.number(3).to_i, mod_list: Faker::Lorem.words.join(',') }
       puts "game_instances: #{i+1} --- #{innerds}"
       GameInstance.create(innerds)
@@ -38,46 +38,77 @@ namespace :populate do
     puts "="*80
     puts 'creating user game ids'
     puts "="*80
-    60.times do |i|
+    20.times do |i|
       innerds = { game_id: Game.all.sample.id, in_game_name: Faker::Internet.user_name, user_id: User.all.sample.id }
       puts "user_game_ids: #{i+1} --- #{innerds}"
       UserGameId.create(innerds)
     end
   end
 
-  task :groupings => :environment do
-    puts "="*80
-    puts 'creating groupings'
-    puts "="*80
-    4.times do |i|
-      innerds = {title: Faker::Lorem.sentence(2, false, 1)}
-      puts "groupings: #{i+1} --- #{innerds}"
-      Grouping.create(innerds)
-    end
-  end
+  # task :groupings => :environment do
+  #   puts "="*80
+  #   puts 'creating groupings'
+  #   puts "="*80
+  #   15.times do |i|
+  #     innerds = {title: Faker::Lorem.sentence(2, false, 1), forum_id: 1}
+  #     puts "groupings: #{i+1} --- #{innerds}"
+  #     Grouping.create(innerds)
+  #   end
+  # end
 
   task :forums => :environment do
     puts "="*80
   	puts 'creating forums'
     puts "="*80
+    Forum.create(title: 'Forums')
   	100.times do |i|
-      innerds = {title: Faker::Lorem.sentence(3, false, 15), parent_id: [nil,(Forum.all.count > 0 ? Forum.all.sample.id : nil),(Forum.all.count > 0 ? Forum.all.sample.id : nil)].sample, created_by: User.all.sample.id, main_feed: [false,false,false,false,true].sample, grouping_id: [nil,nil,Grouping.all.sample.id].sample, locked: [false,false,false,false,true].sample}
+      parent_id = [1,1,Forum.all.sample.id,Forum.all.sample.id].sample
+      # grouping_id = [nil,nil,Grouping.where(forum_id: parent_id).sample.id].sample
+      innerds = {title: Faker::Lorem.sentence(3, false, 15), parent_id: parent_id, created_by: User.all.sample.id, main_feed: [false,false,false,false,true].sample, grouping_id: nil, locked: [false,false,false,false,true].sample}
       puts "forum: #{i+1} --- #{innerds}"
-  		Forum.create(innerds)
+  		f = Forum.create(innerds)
+      # if parent_id && f.grouping_id != nil
+      #   g = Grouping.find_by_id(f.grouping_id)
+      #   g.update_attribute(:forum_id, f.id)
+      # end
+
+
+      if part_of_grouping = [true,false,false].sample
+        group = nil
+        checker = [true]
+        Grouping.all.count.times do |g|
+          checker << false
+        end
+        if create_new_grouping = checker.sample
+          innerds = {title: Faker::Lorem.sentence(2, false, 1), forum_id: f.parent.id}
+          puts "grouping CREATED: #{i+1} --- #{innerds}"
+          if group = Grouping.create(innerds)
+            f.update_attribute(:grouping_id, group.id)
+          end
+        else
+          if group = Grouping.where(forum_id: f.id).first
+            puts "grouping USED: #{i+1} --- #{group.to_s}"
+            f.update_attribute(:grouping_id, group.id)
+          end
+        end
+      end
+
   	end
     Game.all.each do |game|
       Forum.all.sample.update_attribute(:game_id, game.id)
     end
-    GameInstance.all.each do |game_instance|
-      Forum.all.sample.update_attribute(:game_instance_id, game.id)
-    end
+    # GameInstance.all.each do |game_instance|
+    #   Forum.all.sample.update_attribute(:game_instance_id, game.id)
+    # end
   end
 
   task :topics => :environment do
     puts "="*80
     puts 'creating topics'
     puts "="*80
-    150.times do |i|
+    500.times do |i|
+      forum_id = Forum.all.sample.id
+      forum_id += 1 if forum_id == 1
       innerds = {title: Faker::Lorem.sentence(3, false, 15), body: Faker::Lorem.paragraph(3, false, 2), created_by: User.all.sample.id, sticky: [true, false, false, false, false].sample, locked: [false,false,false,false,true].sample, forum_id: Forum.all.sample.id}
       puts "topic: #{i+1} --- #{innerds}"
       Topic.create(innerds)
@@ -88,7 +119,7 @@ namespace :populate do
     puts "="*80
     puts 'creating comments'
     puts "="*80
-    750.times do |i|
+    100.times do |i|
       innerds = { body: Faker::Lorem.paragraph(3, false, 2), created_by: User.all.sample.id, topic_id: Topic.all.sample.id}
       puts "comments: #{i+1} --- #{innerds}"
       Comment.create(innerds)
@@ -99,7 +130,7 @@ namespace :populate do
     puts "="*80
     puts 'creating perks'
     puts "="*80
-    50.times do |i|
+    10.times do |i|
       innerds = { title: Faker::Company.catch_phrase, game_instance_id: [nil,nil,GameInstance.all.sample.id], description: Faker::Lorem.paragraph, price: Faker::Commerce.price, game_id: [nil,Game.all.sample.id,Game.all.sample.id].sample }
       puts "perks: #{i+1} --- #{innerds}"
       Perk.create(innerds)
@@ -110,7 +141,7 @@ namespace :populate do
     puts "="*80
     puts 'creating packages'
     puts "="*80
-    10.times do |i|
+    3.times do |i|
       perks = Perk.where(game_id: Game.all.sample.id)
       perk_ids = []
       price = 0
@@ -118,21 +149,24 @@ namespace :populate do
       count = 0
       kill_switch = 0
       while count < total && kill_switch < 10
-        perk = perks.sample
-        if perk_ids.include?(perk.id)
-          kill_switch += 1
+        if perk = perks.sample
+          if perk_ids.include?(perk.id)
+            kill_switch += 1
+          else
+            kill_switch = 0
+            perk_ids << perk.id
+            price += perk.price_in_cents
+            count += 1
+          end
         else
-          kill_switch = 0
-          perk_ids << perk.id
-          price += perk.price_in_cents
-          count += 1
+          kill_switch += 1
         end
       end
       lower_price = price.to_i/2
       lower_price = Random.rand(lower_price) unless lower_price == 0
       lower_price = price - lower_price
       innerds = { title: Faker::Company.catch_phrase, price_in_cents: [lower_price,price,price].sample, perk_ids: perk_ids.join(',') }
-      puts "perks: #{i+1} --- #{innerds}"
+      puts "packages: #{i+1} --- #{innerds}"
       Package.create(innerds)
     end
   end

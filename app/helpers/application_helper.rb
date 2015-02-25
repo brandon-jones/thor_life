@@ -46,4 +46,8 @@ module ApplicationHelper
     return "<span aria-hidden='true' class='glyphicon glyphicon-fire' title='This will remove this from the databasae! CAN NOT UNDO!'></span>".html_safe
   end
 
+  def g_minus
+    return "<span aria-hidden='true' class='glyphicon glyphicon-minus-sign' title='This will remove this grouping! CAN NOT UNDO!'></span>".html_safe
+  end
+
 end

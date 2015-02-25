@@ -4,8 +4,8 @@
 %input{:type => "hidden", :value => "#{@this_forum.id || 'nil'}", :id =>'forum_id'}
 .row
   .col-md-12
-    = render partial: 'layouts/forums', locals: {forums: @forums}
-
-.row
-  .col-md-12#topic_list
-    = render partial: 'layouts/topics', locals: {topics: @topics, new_obj: @new_topic}
+    = render partial: 'layouts/forums', locals: {groups: @groups, forums: @forums, parent_forum: @parent_forum, this_forum: @this_forum}
+- unless @this_forum.id == 1
+  .row
+    .col-md-12#topic_list
+      = render partial: 'layouts/topics', locals: {topics: @topics, new_obj: @new_topic}

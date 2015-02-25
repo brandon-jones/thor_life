@@ -103,10 +103,12 @@ ActiveRecord::Schema.define(version: 20150206043141) do
   create_table "groupings", force: :cascade do |t|
     t.string   "title"
     t.integer  "row_order"
+    t.integer  "forum_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "groupings", ["forum_id"], name: "index_groupings_on_forum_id", using: :btree
   add_index "groupings", ["row_order"], name: "index_groupings_on_row_order", using: :btree
   add_index "groupings", ["title"], name: "index_groupings_on_title", using: :btree
 

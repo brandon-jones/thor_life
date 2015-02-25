@@ -1,18 +1,13 @@
-- id = @this_forum.id == nil ? 'nil' : @this_forum.id
-- @forum_groups.each do |forum_group|
-  - grouping_id = forum_group.id == nil ? 'nil' : forum_group.id
-  - if forums[forum_group.title] || forum_group.title == "nil"
-    %div{id: "grouping-#{forum_group.id}-main-wrapper"}
-      .inline
-        - if current_user && current_user.super_admin?
-          %button.btn.btn-xs.btn-default.new-forum-toggle{"aria-expanded" => "false", :type => "button", data: { parent_id: "#{id}", grouping_id: "#{grouping_id}" }}
-            New Forum
-      %h4.inline
-        = forum_group.title == 'nil' ? '' : forum_group.title
-      %div{id: "new-forum-#{forum_group.id == nil ? 'nil' : forum_group.id}", hidden: true}
-        = render partial: "forums/multi_form", locals: { grouping: forum_group, parent_id: "#{id}", grouping_id: "#{grouping_id}" }
-      %table.table{ class: "#{ current_user && current_user.super_admin? ? 'table-draggable' : '' }", id: "forum-group-#{forum_group.id}"}
-        %tbody{ id: "forum-tbody-grouping-#{forum_group.id || 'nil'}", class: "#{ current_user && current_user.super_admin? ? 'connectedSortable' : '' }", data: { grouping_id: "#{forum_group.id}"} }
-          - forums[forum_group.title].each do |forum|
-            %tr.sortable-table-rows{ id: "#{forum.class.to_s.underscore}-#{forum.id.to_s}-update-section", data: { item_id: forum.id, grouping_id: forum_group.id || "nil" } }
-              = render partial: 'layouts/tf_row', locals: { obj: forum }
+%table.table.no-margin#main-table
+  %tbody
+    %tr
+      %td.remove-border.new-group-row
+        .row
+          .col-sm-2
+            %button.btn.btn-xs.btn-default.new-group-toggle.inline{"aria-expanded" => "false", :type => "button", data: { parent_id: "#{this_forum.id}" }}
+              New Grouping
+          .col-sm-10
+            #new-group-forum{hidden: true}
+              = render partial: 'groupings/form', locals: { grouping: @new_grouping, forum_id: this_forum.id }
+    - groups.each do |forum_group|
+      = render partial: 'layouts/forums_grouping', locals: { forum_group: forum_group, this_forum: this_forum, forums: forums }
