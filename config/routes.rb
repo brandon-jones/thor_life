@@ -39,6 +39,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/username_avaliable' => 'users#username_avaliable'
+
   post 'cart/:id/delivered' => 'carts#delivered'
 
   get '/login' => 'sessions#new'

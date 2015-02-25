@@ -8,16 +8,14 @@
       %ul
         - @user.errors.full_messages.each do |message|
           %li= message
-  .form-group
+  .form-group.has-feedback#username-textfield
     = f.label 'User Name'
-    %small
-      Shown in forums
+    %small#username-notice
+      &nbsp;
     %br
-      = f.text_field :username, class: 'form-control'
+      = f.text_field :username, class: 'form-control', id: 'username-creation'
   .form-group
     = f.label t('user.email')
-    %small
-      Not public
     %br
       = f.text_field :email, class: 'form-control'
   .form-group

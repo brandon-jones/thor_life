@@ -1,8 +1,35 @@
 var checkAdminLevel, image_cropper;
 
 $(document).ready(function() {
+  $('#username-creation').on("keyup", usernameAvaliable)
   return $('.admin-user-level').on("change", checkAdminLevel);
 });
+
+usernameAvaliable = function(e) {
+  var cur = this.value;
+  if (cur.length > 3) {
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: "/username_avaliable?username="+cur,
+      success: function(data, textStatus, jqXHR) {
+        if (data == true) {
+          $('#username-notice').html("Username is available");
+          $('#username-textfield').removeClass('has-error');
+          $('#username-textfield').addClass('has-success');
+        } else {
+          $('#username-notice').html("Username is NOT available");
+          $('#username-textfield').removeClass('has-success');
+          $('#username-textfield').addClass('has-error');
+        }
+      }
+    });
+  } else {
+    $('#username-notice').html("Username should be 3 characters min");
+    $('#username-textfield').removeClass('has-success');
+    $('#username-textfield').addClass('has-error');
+  }
+};
 
 checkAdminLevel = function(e) {
   var item_id;

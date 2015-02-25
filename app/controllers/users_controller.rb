@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :new_password]
   before_action :authenticated_king, only: :destroy
-  before_action :authenticated_super_admin, except: [:destroy, :show, :edit, :new_password, :create, :update, :new]
+  before_action :authenticated_super_admin, except: [:destroy, :show, :edit, :new_password, :create, :update, :new, :username_avaliable]
   # before_action :authorize_admin, only: [:index]
   # GET /users
   # GET /users.json
@@ -12,6 +12,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+  end
+
+  def username_avaliable
+    render json: User.find_by_username(params["username"]) ? false : true
   end
 
   # GET /users/new
