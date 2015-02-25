@@ -1,6 +1,7 @@
 var showForumDetails, updateForumDetails;
 
 $(document).ready(function() {
+  sortableRows();
   setSortable();
   $('.forum-groupings').on("change", newGrouping);
   $('.forum-game').on("change", upDateGameInstances);
@@ -13,6 +14,15 @@ $(document).ready(function() {
   $('.remove-grouping').on("click", removeGrouping);
   return $('.update-tf').on("click", updateTfDetails);
 });
+
+function sortableRows(){
+    var tr  = document.createElement('tr');
+    tr.classList.add("sortable-table-rows");
+    tr.classList.add("empty-forum-row");
+    var td = tr.insertCell();
+    td.classList.add("empty-forum-col");
+    return tr;
+}sortableRows();
 
 setSortable = function(e) {
   var $tabs=$('.table-draggable')
@@ -48,8 +58,15 @@ setSortable = function(e) {
           },
           success: function(data, textStatus) {
             if ($("#forum-tbody-grouping-"+tr[0].dataset.groupingId).children('tr').length < 1) {
-              $("#grouping-"+tr[0].dataset.groupingId+"-main-wrapper").hide();
+              // $("#grouping-"+tr[0].dataset.groupingId+"-main-wrapper").hide();
+              $("#forum-tbody-grouping-"+tr[0].dataset.groupingId).append(sortableRows());
             }
+
+            jQuery.each($("#forum-tbody-grouping-"+$grouping_id).children('tr'), function(index, value) {
+              if (this.className == "sortable-table-rows empty-forum-row") {
+                this.remove();
+              }
+            });
             if ($grouping_id == '') {
               $grouping_id = 'nil';
             }
@@ -137,7 +154,7 @@ createNewForum = function(e) {
         $("#main-feed-"+parent_id+"-"+grouping_id).checked = false;;
         $("#new-forum-"+grouping_id).hide( "blind", { direction: "up" }, 'slow');
         if ($('#forum-tbody-grouping-'+grouping_id).children('tr').length == 1) {
-          if ($('#forum-tbody-grouping-'+grouping_id).children('tr')[0].className == "empty-forum-row") {
+          if ($('#forum-tbody-grouping-'+grouping_id).children('tr')[0].className == "sortable-table-rows empty-forum-row") {
             $('#forum-tbody-grouping-'+grouping_id).children('tr')[0].remove();
           }
         }
