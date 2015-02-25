@@ -20,6 +20,9 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    if (current_user)
+      redirect_to user_path(current_user.id) and return
+    end
     @user = User.new
   end
 

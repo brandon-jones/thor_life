@@ -109,7 +109,7 @@ removeGrouping = function(e) {
         jQuery.each(trs, function(index, value) {
           console.log(this);
           this.dataset.groupingId = 'nil';
-          if (this.className != "empty-forum-row") {
+          if (this.className != "sortable-table-rows empty-forum-row") {
             $('#forum-tbody-grouping-nil').append(this);
           }
         });

@@ -87,7 +87,8 @@ class Forum < ActiveRecord::Base
 			chain << obj
 			obj = obj.parent
 		end
-		return chain.reverse
+		return chain.reverse if chain.count > 1
+		return []
 	end
 
 	def options

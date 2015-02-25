@@ -1,18 +1,20 @@
 - forum_group_id = forum_group.id == 0 ? 'nil' : forum_group.id
 %tr{class: "#{forum_group.title == 'nil' ? 'add-new-above' : 'main-tr-grouping-'+forum_group_id.to_s}"}
-  %td.remove-border
+  %td.remove-border.no-side-padding
     %table.table.no-margin
       %tbody
         %tr
-          %td.remove-border
+          %td.remove-border.no-side-padding
             %div{id: "grouping-#{forum_group_id}-main-wrapper"}
               .inline
                 - if current_user && current_user.super_admin?
                   %button.btn.btn-xs.btn-default.new-forum-toggle{"aria-expanded" => "false", :type => "button", data: { parent_id: "#{this_forum.id}", grouping_id: "#{forum_group_id}" }}
                     New Forum
+                - else
+                  &nbsp;
               %h4.inline
                 = forum_group.title == 'nil' ? '' : forum_group.title
-              - unless forum_group.title == 'nil'
+              - if forum_group.title != 'nil' && current_user && current_user.king?
                 %a.remove-grouping{href: '#', data: { grouping_id: "#{forum_group_id}" }}
                   = g_minus
               %div{id: "new-forum-#{forum_group_id}", hidden: true}
@@ -23,6 +25,6 @@
                     - forums[forum_group.title].each do |forum|
                       %tr.sortable-table-rows{ id: "#{forum.class.to_s.underscore}-#{forum_group_id}-update-section", data: { item_id: forum.id, grouping_id: forum_group_id } }
                         = render partial: 'layouts/tf_row', locals: { obj: forum }
-                  - else 
-                    %tr.sortable-table-rows.empty-forum-row
-                      %td.empty-forum-col 
+                  - elsif current_user && current_user.super_admin?
+                    %tr.sortable-table-rows.empty-forum-row.no-side-padding
+                      %td.empty-forum-col
