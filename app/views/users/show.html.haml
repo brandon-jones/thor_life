@@ -2,12 +2,13 @@
 %p
   %strong UserName:
   = @user.username
-%p
-  %strong Email:
-  = @user.email
-%p
-  %strong Email verified:
-  = @user.email_verified
+- if current_user == @user || current_user && current_user.king?
+  %p
+    %strong Email:
+    = @user.email
+  %p
+    %strong Email verified:
+    = @user.email_verified
 %p
   %strong About me:
   = @user.about_me
