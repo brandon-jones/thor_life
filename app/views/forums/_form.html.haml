@@ -1,47 +1,28 @@
-= form_for(@new_forum, html: { class: "form-horizontal" }) do |f|
-  - if @new_forum.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@new_forum.errors.count, "error")
-        prohibited this forum from being saved:
-      %ul
-        - @new_forum.errors.full_messages.each do |message|
-          %li= message
-
-  %input{:type => "hidden", :value => "#{params["parent_id"]}", :name => "forum[parent_id]"}
+= form_tag('/', class: "form-horizontal" ) do
   .form-group
-    = f.label :title, class: 'col-sm-2 control-label' 
-    .col-sm-10
-      = f.text_field :title, class: 'form-control'
-  .form-group  
-    = f.label :grouping_id, class: 'col-sm-2 control-label' 
-    .col-sm-10
-      - if grouping_name != 'nil'
-        %p.form-control-static
-          = grouping_name
-      - else
-        = f.select :grouping_id, options_for_select(@groupings, params["grouping_id"] || -2), {}, class: 'form-control forum-groupings'
-  .form-group{hidden: true, id: 'new-grouping-forum'}
-    = label_tag "forum_new_grouping", 'New Group Name',class: 'col-sm-2 control-label' 
-    .col-sm-10
-      = text_field_tag "forum[new_grouping]", '', {class: 'form-control'}
-  .form-group  
-    = f.label :game_id, class: 'col-sm-2 control-label' 
-    .col-sm-10
-      = f.select :game_id, options_for_select(@games, params["game_id"] || -2), {}, class: 'form-control forum-game'
-  .form-group{ id: "game-instances-form-group", hidden: true}
-    = render partial: "forums/forums_game_instance_dropdown", locals: { game_instances: @game_instances }
+    = label_tag "title-#{parent_id}-#{grouping.id}", 'Title', class: 'col-sm-1 control-label' 
+    .col-sm-11
+      = text_field_tag "title-#{parent_id}-#{grouping.id}", '',class: 'form-control'
+  - if current_user && current_user.super_admin?
+    .form-group  
+      = label_tag "game-id-#{parent_id}-#{grouping.id}", 'Game', class: 'col-sm-1 control-label' 
+      .col-sm-5
+        = select_tag "game-id-#{parent_id}-#{grouping.id}", options_for_select(@games, params["game_id"] || -2), class: 'form-control forum-game'
+      = render partial: "forums/forums_game_instance_dropdown", locals: { game_instances: @game_instances, parent_id: parent_id, grouping_id: grouping.id }
   - if current_user && current_user.admin_of?(@parent_forum)
     .form-group
-      = f.label :locked, class: 'col-sm-2 control-label' 
+      = label_tag "locked-#{parent_id}-#{grouping.id}", 'Locked', class: 'col-sm-1 control-label' 
       .col-sm-1
-        = f.check_box :locked, class: 'form-control'
-      = f.label :admins_only, class: 'col-sm-2 control-label' 
+        = check_box_tag "locked-#{parent_id}-#{grouping.id}", true, false,class: 'form-control'
+      = label_tag "admin-only-#{parent_id}-#{grouping.id}", 'Admins Only', class: 'col-sm-1 control-label' 
       .col-sm-1
-        = f.check_box :admins_only, class: 'form-control'
-      = f.label :main_feed, class: 'col-sm-2 control-label' 
+        = check_box_tag "admin-only-#{parent_id}-#{grouping.id}", true, false,class: 'form-control'
+      - if current_user.super_admin?
+        = label_tag "main-feed-#{parent_id}-#{grouping.id}", 'Main Feed', class: 'col-sm-1 control-label' 
+        .col-sm-1
+          = check_box_tag "main-feed-#{parent_id}-#{grouping.id}", true, false,class: 'form-control'
+      - else
+        .col-sm-3 
       .col-sm-2
-        = f.check_box :main_feed, class: 'form-control'
-      .col-sm-2
-        %button.btn.btn-default.create-new-topic{"aria-expanded" => "false", :type => "button", data: { parent_id: "#{parent_id}", grouping_id: "#{grouping_id}" }}
+        %button.btn.btn-default.create-new-forum.form-control{"aria-expanded" => "false", :type => "button", data: { parent_id: "#{parent_id}", grouping_id: "#{grouping.id}" }}
           Create Forum

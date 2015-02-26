@@ -8,7 +8,7 @@ class CreateForums < ActiveRecord::Migration
       t.integer :deleted_by
       t.integer :grouping_id
       t.boolean :locked, :default => false
-      t.boolean :topics_allowed, :default => false
+      t.boolean :topics_allowed, :default => true
       t.boolean :admins_only, :default => false
       t.boolean :main_feed, :default => false
       t.boolean :deleted, :default => false

@@ -27,7 +27,7 @@
           - if obj.class.to_s.downcase == 'topic' && obj.comments_count != nil
             :escaped
               - 
-            currenlty has #{pluralize(obj.comments_count, 'comment')}
+            #{pluralize(obj.comments_count, 'comment')}
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
       %td.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}

@@ -4,9 +4,8 @@ class ForumsController < ApplicationController
   # GET /forums
   # GET /forums.json
   def index
-    # @forums = Forum.groupped(params["id"], current_user)
     if Forum.all.count == 0 && current_user && current_user.king?
-      Forum.create(title: 'Forums')
+      Forum.create(title: 'Forums', topics_allowed: false)
     elsif Forum.all.count == 0
       redirect_to root_path
     end
@@ -20,9 +19,6 @@ class ForumsController < ApplicationController
       forum.save
     end
     render :json=>true
-    # respond_to do |format|
-    #   format.json { head :ok }
-    # end
   end
 
   # GET /forums/1
@@ -31,17 +27,10 @@ class ForumsController < ApplicationController
     @this_forum = Forum.find_by_id(params["id"])
     @groups, @forums = @this_forum.get_groups_and_grouped_forums
     @groups << Grouping.new(id: 0, title: 'nil')
-    # @forum_groups = Forum.groups(params["id"])
-    # @new_forum = Forum.new
     @topics = params["id"] == 1 ? nil : @this_forum.topics.order(sticky: 'DESC').order(:created_at)
     my_breadcrumbs(@this_forum)
     @parent_forum = @this_forum.parent
     @new_topic = Topic.new unless params["id"] == 1
-    # @new_grouping = Grouping.new
-    # @groupings = Forum.dropdown(params["id"]) + [[ '', -2 ],[ 'New Group', -1 ]]
-    # if game = Game.find_by_id(params["game_id"])
-    #   @game_instances = game.game_instances
-    # end
     @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
   end
 
@@ -56,16 +45,11 @@ class ForumsController < ApplicationController
     @forum = Forum.new
   end
 
-  # GET /forums/1/edit
   def edit
   end
 
-  # POST /forums
-  # POST /forums.json
   def create
     if params["forum"] && params["forum"]["grouping_id"]
-    #   if params["forum"]["grouping_id"] && params["forum"]["grouping_id"]== "-1" && params["forum"]["new_grouping"]
-    #     params["forum"]["grouping_id"] = Grouping.find_or_create_by_title(params["forum"]["new_grouping"]).id.to_s
       if params["forum"]["grouping_id"] && params["forum"]["grouping_id"] == "nil"
         params["forum"] = params["forum"].except(:grouping_id)
       end
@@ -98,8 +82,6 @@ class ForumsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /forums/1
-  # PATCH/PUT /forums/1.json
   def update
     if params["what"]
       forum = Forum.find_by_id(params["id"])
@@ -138,8 +120,6 @@ class ForumsController < ApplicationController
     end
   end
 
-  # DELETE /forums/1
-  # DELETE /forums/1.json
   def destroy
     @forum.destroy
     respond_to do |format|

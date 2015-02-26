@@ -66,7 +66,6 @@ setSortable = function(e) {
           },
           success: function(data, textStatus) {
             if ($("#forum-tbody-grouping-"+tr[0].dataset.groupingId).children('tr').length < 1) {
-              // $("#grouping-"+tr[0].dataset.groupingId+"-main-wrapper").hide();
               $("#forum-tbody-grouping-"+tr[0].dataset.groupingId).append(sortableRows());
             }
 
@@ -115,7 +114,6 @@ removeGrouping = function(e) {
         var trs = $('#forum-tbody-grouping-'+grouping_id).children();
         $('.main-tr-grouping-'+grouping_id).remove();
         jQuery.each(trs, function(index, value) {
-          console.log(this);
           this.dataset.groupingId = 'nil';
           if (this.classList.contains("empty-forum-row")) {
             $('#forum-tbody-grouping-nil').append(this);
@@ -214,6 +212,7 @@ createNewGroup = function(e) {
         $('#new-group-title').val("");
 
         $('#main-table tr.add-new-above:last ').before(data);
+        setSortable();
         $('.remove-grouping').unbind("click");
         $('.remove-grouping').on("click", removeGrouping);
         $('.create-new-forum').unbind("click");

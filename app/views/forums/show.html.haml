@@ -5,7 +5,7 @@
 .row
   .col-md-12
     = render partial: 'forums/forums', locals: {groups: @groups, forums: @forums, parent_forum: @parent_forum, this_forum: @this_forum}
-- unless @this_forum.id == 1
+- if @this_forum.topics_allowed
   .row
     .col-md-12#topic_list
       = render partial: 'topics/topics', locals: {topics: @topics, new_obj: @new_topic}

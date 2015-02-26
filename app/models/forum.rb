@@ -37,35 +37,6 @@ class Forum < ActiveRecord::Base
 		return groups, forums
 	end
 
-	def self.groupped(id = nil, user)
-		binding.pry
-		if id == nil || id == "nil"
-			groups = Grouping.top_level_groups << Grouping.new
-		end
-		builder = {}
-		if user && user.super_admin?
-			forums = Forum.rank(:row_order).where(parent_id: id)
-		else
-			forums = Forum.rank(:row_order).where(parent_id: id).where(deleted: false).where(admins_only: false)
-		end
-		unless groups
-			groups = Grouping.rank(:row_order).where(id: forums.pluck(:grouping_id).uniq!) << Grouping.new
-		end
-		forums.order(created_at: :desc).each do |forum|
-			key = forum.grouping ? forum.grouping.title : 'nil'
-			builder[key] = [] unless builder[key]
-			builder[key] << forum
-		end
-		builder["nil"] = [] unless builder["nil"]
-		builder["nil"] << Forum.new
-		# return builder.keys.map { |key| builder[key] }
-		return builder
-	end
-
-	def self.find_forums(id = nil)
-		Forum.where(parent_id: id).order(:grouping_id, :row_order, created_at: :desc)
-	end
-
 	def self.dropdown(id = nil)
 		if item_ids = Forum.where(parent_id: id).pluck(:grouping_id).uniq
 			Grouping.find_by_item_ids( item_ids ).pluck(:title, :id)

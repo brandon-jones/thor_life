@@ -18,7 +18,7 @@
                 %a.remove-grouping{href: '#', data: { grouping_id: "#{forum_group_id}" }}
                   = g_minus
               %div{id: "new-forum-#{forum_group_id}", hidden: true}
-                = render partial: "forums/multi_form", locals: { grouping: forum_group, parent_id: "#{this_forum.id}", grouping_id: "#{forum_group_id}" }
+                = render partial: "forums/form", locals: { grouping: forum_group, parent_id: "#{this_forum.id}", grouping_id: "#{forum_group_id}" }
               %table.table.no-margin{ class: "#{ current_user && current_user.super_admin? ? 'table-draggable' : '' }", id: "forum-group-#{forum_group_id}"}
                 %tbody{ id: "forum-tbody-grouping-#{forum_group.id || 'nil'}", class: "#{ current_user && current_user.super_admin? ? 'connectedSortable' : '' }", data: { grouping_id: "#{forum_group_id}"} }
                   - if forums[forum_group.title]
