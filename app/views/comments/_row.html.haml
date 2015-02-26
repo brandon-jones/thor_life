@@ -1,0 +1,7 @@
+%tr
+  %td
+    %p
+      %small
+        Created by #{link_to comment.creator.username, user_path(comment.creator)} on #{local_time(comment.updated_at)}
+    %p
+      =comment.body

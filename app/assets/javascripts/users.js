@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 usernameAvaliable = function(e) {
   var cur = this.value;
-  if (cur.length > 3) {
+  if (cur.length > 2) {
     $.ajax({
       type: "GET",
       dataType: "json",
@@ -15,19 +15,19 @@ usernameAvaliable = function(e) {
       success: function(data, textStatus, jqXHR) {
         if (data == true) {
           $('#username-notice').html("Username is available");
-          $('#username-textfield').removeClass('has-error');
-          $('#username-textfield').addClass('has-success');
+          $('#username-textfield').parent().removeClass('has-error');
+          $('#username-textfield').parent().addClass('has-success');
         } else {
           $('#username-notice').html("Username is NOT available");
-          $('#username-textfield').removeClass('has-success');
-          $('#username-textfield').addClass('has-error');
+          $('#username-textfield').parent().removeClass('has-success');
+          $('#username-textfield').parent().addClass('has-error');
         }
       }
     });
   } else {
     $('#username-notice').html("Username should be 3 characters min");
-    $('#username-textfield').removeClass('has-success');
-    $('#username-textfield').addClass('has-error');
+    $('#username-textfield').parent().removeClass('has-success');
+    $('#username-textfield').parent().addClass('has-error');
   }
 };
 

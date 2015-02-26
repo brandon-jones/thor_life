@@ -1,10 +1,10 @@
+- if current_user
+  = render partial: 'comments/form', locals: { new_comment: new_comment, topic_id: topic_id }
+- else
+  You must be logged in comment.
+  %a{ href: '/signup'}
+    Sign Up
 %table.table.table-bordered
-  %tbody.bg-info
+  %tbody.bg-info#comments-table
     - comments.each do |comment|
-      %tr
-        %td
-          %p
-            %small
-              Created by #{link_to comment.creator.username, user_path(comment.creator)} on #{local_time(comment.updated_at)}
-          %p
-            =comment.body
+      = render partial: 'comments/row', locals: { comment: comment }

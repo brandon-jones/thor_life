@@ -12,6 +12,7 @@ class TopicsController < ApplicationController
   def show
     my_breadcrumbs(@topic)
     @new_topic = Topic.new
+    @new_comment = Comment.new
   end
 
   # GET /topics/new
@@ -33,7 +34,10 @@ class TopicsController < ApplicationController
     if @topic.save
       if params["topic"] && params["ajax"]
         render partial: 'layouts/topic_table', locals: {topics: @topic.parent.topics} and return
-      else
+      else  
+        my_breadcrumbs(@topic)
+        @new_topic = Topic.new
+        @new_comment = Comment.new
         redirect_to @topic, notice: 'Topic was successfully created.'
       end
     end
