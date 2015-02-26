@@ -7,4 +7,4 @@
   %p.lg-font
     = @topic.body
 
-= render partial: 'layouts/comments', locals: { comments: @topic.comments, new_comment: @new_comment, topic_id: @topic.id}
+= render partial: 'comments/comments', locals: { comments: @topic.comments, new_comment: @new_comment, topic_id: @topic.id}

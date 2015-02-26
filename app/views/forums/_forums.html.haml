@@ -12,4 +12,4 @@
                 = render partial: 'groupings/form', locals: { grouping: @new_grouping, forum_id: this_forum.id }
     - groups.each do |forum_group|
       - if (current_user && current_user.super_admin?) || (forum_group.forums.count > 0) || (forum_group.title == 'nil' && forums.keys.include?('nil'))
-        = render partial: 'layouts/forums_grouping', locals: { forum_group: forum_group, this_forum: this_forum, forums: forums }
+        = render partial: 'forums/forums_grouping', locals: { forum_group: forum_group, this_forum: this_forum, forums: forums }

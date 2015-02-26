@@ -56,7 +56,7 @@ class GamesController < ApplicationController
   def get_game_instances
     if params["id"]
       if game = Game.find_by_id(params["id"])
-        render partial: "layouts/forums_game_instance_dropdown", locals: { game_instances: [['NONE', -2]] + game.game_instances.pluck(:server_name, :id), parent_id: params["parent_id"], grouping_id: params["grouping_id"] }
+        render partial: "forums/forums_game_instance_dropdown", locals: { game_instances: [['NONE', -2]] + game.game_instances.pluck(:server_name, :id), parent_id: params["parent_id"], grouping_id: params["grouping_id"] }
       end
     end
   end

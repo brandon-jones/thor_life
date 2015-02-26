@@ -8,7 +8,7 @@
       = label_tag "game-id-#{parent_id}-#{grouping.id}", 'Game', class: 'col-sm-1 control-label' 
       .col-sm-5
         = select_tag "game-id-#{parent_id}-#{grouping.id}", options_for_select(@games, params["game_id"] || -2), class: 'form-control forum-game'
-      = render partial: "layouts/forums_game_instance_dropdown", locals: { game_instances: @game_instances, parent_id: parent_id, grouping_id: grouping.id }
+      = render partial: "forums/forums_game_instance_dropdown", locals: { game_instances: @game_instances, parent_id: parent_id, grouping_id: grouping.id }
   - if current_user && current_user.admin_of?(@parent_forum)
     .form-group
       = label_tag "locked-#{parent_id}-#{grouping.id}", 'Locked', class: 'col-sm-1 control-label' 

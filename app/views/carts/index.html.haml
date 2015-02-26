@@ -13,5 +13,5 @@
   %tbody
     - @carts.each do |cart|
       %tr{id: "cart-#{cart.id}-tr"}
-        = render partial: "layouts/carts", locals: { cart: cart }
+        = render partial: "carts/carts", locals: { cart: cart }
 %br/

@@ -29,7 +29,7 @@ class GroupingsController < ApplicationController
       if params["ajax"]
         @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
         @game_instances = []
-        render partial: 'layouts/forums_grouping', locals: { forum_group_id: @grouping.id, forum_group: @grouping, this_forum: @grouping.forum, forums: @grouping.forum.get_groups_and_grouped_forums[1] } and return
+        render partial: 'forums/forums_grouping', locals: { forum_group_id: @grouping.id, forum_group: @grouping, this_forum: @grouping.forum, forums: @grouping.forum.get_groups_and_grouped_forums[1] } and return
       else
         redirect_to @grouping, notice: 'Grouping was successfully created.'
       end

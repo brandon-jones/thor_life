@@ -25,7 +25,7 @@ class CartsController < ApplicationController
   def delivered
     if cart = Cart.find_by_id(params["cart_id"])
       cart.update_attributes(delivered_by: current_user.id, delivered: true, delivered_on: DateTime.now.utc)
-      render partial: "layouts/carts", locals: { cart: cart }
+      render partial: "carts/carts", locals: { cart: cart }
     end
   end
 

@@ -33,7 +33,7 @@ class TopicsController < ApplicationController
 
     if @topic.save
       if params["topic"] && params["ajax"]
-        render partial: 'layouts/topic_table', locals: {topics: @topic.parent.topics} and return
+        render partial: 'topics/topic_table', locals: {topics: @topic.parent.topics} and return
       else  
         my_breadcrumbs(@topic)
         @new_topic = Topic.new
@@ -66,7 +66,7 @@ class TopicsController < ApplicationController
           topic = nil
         end
       render partial: 'layouts/tf_row', locals: { obj: topic, admin: true } and return unless params["what"] == 'stick' || params["what"] == 'un_stick'
-      render partial: 'layouts/topic_table', locals: {topics: topic.parent.topics} and return
+      render partial: 'topics/topic_table', locals: {topics: topic.parent.topics} and return
     else
       respond_to do |format|
         if @topic.update(topic_params)

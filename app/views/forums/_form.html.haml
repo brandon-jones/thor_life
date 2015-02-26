@@ -30,7 +30,7 @@
     .col-sm-10
       = f.select :game_id, options_for_select(@games, params["game_id"] || -2), {}, class: 'form-control forum-game'
   .form-group{ id: "game-instances-form-group", hidden: true}
-    = render partial: "layouts/forums_game_instance_dropdown", locals: { game_instances: @game_instances }
+    = render partial: "forums/forums_game_instance_dropdown", locals: { game_instances: @game_instances }
   - if current_user && current_user.admin_of?(@parent_forum)
     .form-group
       = f.label :locked, class: 'col-sm-2 control-label' 
