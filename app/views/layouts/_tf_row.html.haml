@@ -30,6 +30,6 @@
             #{pluralize(obj.comments_count, 'comment')}
     - if current_user && current_user.admin_of?(obj)
       - admin = false unless admin
-      %td.text-center.middle-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
-        = render partial: "layouts/tf_admin_button", locals: { obj: obj, admin: admin }
+      %td.text-center.top-align{:width => "2em", class: "bg-#{obj.class.to_s.downcase == 'forum' ? 'success' : 'warning'}"}
+        = render partial: "layouts/tf_options", locals: { obj: obj, admin: admin }
 - else

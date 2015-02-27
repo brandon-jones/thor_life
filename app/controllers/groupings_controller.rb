@@ -1,20 +1,21 @@
 class GroupingsController < ApplicationController
   before_action :set_grouping, only: [:show, :edit, :update, :destroy]
 
-  # GET /groupings
-  # GET /groupings.json
-  def index
-    @groupings = Grouping.all
-  end
-
-  # GET /groupings/1
-  # GET /groupings/1.json
-  def show
-  end
-
-  # GET /groupings/new
-  def new
-    @grouping = Grouping.new
+  def update_grouping_order
+    if grouping = Grouping.find_by_id(params[:grouping][:id])
+      mover = 0
+      case params[:grouping][:direction]
+        when 'up'
+          mover = -1
+        when 'down'
+          mover = 1
+      end
+      grouping.row_order_position = params[:grouping][:position].to_i + mover
+      if grouping.save
+        render :json=>true and return
+      end
+    end
+    render :json=>false and return
   end
 
   # GET /groupings/1/edit
@@ -29,7 +30,7 @@ class GroupingsController < ApplicationController
       if params["ajax"]
         @games = [[ '', -2 ]] + Game.all.pluck(:name, :id)
         @game_instances = []
-        render partial: 'forums/forums_grouping', locals: { forum_group_id: @grouping.id, forum_group: @grouping, this_forum: @grouping.forum, forums: @grouping.forum.get_groups_and_grouped_forums[1] } and return
+        render partial: 'forums/forums_grouping', locals: { forum_group_id: @grouping.id, forum_group: @grouping, this_forum: @grouping.forum, forums: @grouping.forum.get_groups_and_grouped_forums[1], position: Grouping.all.count } and return
       else
         redirect_to @grouping, notice: 'Grouping was successfully created.'
       end

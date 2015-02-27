@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   resources :comments
 
-  resources :groupings
+  resources :groupings do
+    post :update_grouping_order, on: :collection
+  end
 
   resources :topics
 

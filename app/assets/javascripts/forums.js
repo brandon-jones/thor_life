@@ -19,7 +19,9 @@ $(document).ready(function() {
   $('.new-forum-toggle').on("click", toggleNewForum);
   $('.new-topic-toggle').on("click", toggleNewTopic);
   $('.new-group-toggle').on("click", toggleNewGroup);
-  $('.remove-grouping').on("click", removeGrouping);
+  $('.update-grouping-order').on("click", updateGroupingOrder);
+  
+
   return $('.update-tf').on("click", updateTfDetails);
 });
 
@@ -85,8 +87,87 @@ setSortable = function(e) {
   }).disableSelection();
 };
 
+updateGroupingOrder = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  var grouping_id = this.dataset.groupingId;
+  var direction = this.dataset.direction;
+  var position = this.dataset.position;
+  return $.ajax({
+      type: 'POST',
+      url: '/groupings/update_grouping_order',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: {
+        grouping: {
+          id: grouping_id,
+          direction: direction,
+          position: position
+        },
+        ajax: true
+      },
+      success: function(data, textStatus) {
+        if (data == true) {
+          var tr = $('.main-tr-grouping-'+grouping_id);
+          var main_table_tbody = $('#main-table').children('tbody');
+          var new_trs = [];
+          var director = 1;
+          if (direction == "up") {
+            director = -1;
+          }
+          var new_tr_poisition = parseInt(position) + director;
+          new_trs.push(main_table_tbody.children('tr')[0]);
+          // new_trs.push(main_table_tbody.children('tr')[main_table_tbody.children('tr').length-1]);
+          var temp_trs = getTrs(main_table_tbody.children('tr'));
+          temp_trs.splice(position,1);
+          temp_trs.splice(new_tr_poisition,0,tr[0]);
+          jQuery.each(temp_trs, function(index, value) {
+            g_id = this.dataset.groupingId;
+            temp_len = temp_trs.length-1;
+            jQuery.each($('#grouping-'+g_id+'-sort').children('a'), function(i, v) {
+              this.dataset.position = index;
+              if ((index == 0 && i == 0) || (index == temp_len && i == 1)){
+                this.hidden = true;
+              } else {
+                this.hidden = false;
+              }
+            });
+          });
+          new_trs = new_trs.concat(temp_trs);
+          new_trs.push(main_table_tbody.children('tr')[main_table_tbody.children('tr').length-1]);
+          $('#main-table').children().html(new_trs);
+
+          $('.forum-game').unbind("change");
+          $('#create-new-topic').unbind("click");
+          $('.create-new-forum').unbind("click");
+          $('#create-new-group').unbind("click");
+          $('.new-forum-toggle').unbind("click");
+          $('.new-group-toggle').unbind("click");
+          $('.update-grouping-order').unbind("click");
+
+          $('.forum-game').on("change", upDateGameInstances);
+          $('#create-new-topic').on("click", createNewTopic);
+          $('.create-new-forum').on("click", createNewForum);
+          $('#create-new-group').on("click", createNewGroup);
+          $('.new-forum-toggle').on("click", toggleNewForum);
+          $('.new-group-toggle').on("click", toggleNewGroup);
+          $('.update-grouping-order').on("click", updateGroupingOrder);
+          return ;
+        }
+      }
+    });
+};
+
+function getTrs(trs){
+  var temp = [];
+  jQuery.each(trs, function(index, value) {
+    if (index != 0 && index != trs.length-1) {
+      temp.push(value);
+    }
+  });
+  return temp;
+};
+
 removeGrouping = function(e) {
-  console.log('hi');
   e.stopPropagation();
   e.preventDefault();
   var grouping_id = this.dataset.groupingId;

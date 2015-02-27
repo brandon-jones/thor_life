@@ -127,10 +127,6 @@ td.no-padding {
   border-top: none !important; 
 }
 
-.middle-align {
-  vertical-align: middle !important;
-}
-
 .login-box {
   padding-top: .3em;
 }
@@ -138,4 +134,12 @@ td.no-padding {
 .no-side-padding {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+a.no-hover-effects {
+  &:hover, &:visited {
+    text-decoration: none;
+    background-color: transparent;
+    color: inherit;
+  }
 }

@@ -27,3 +27,20 @@ tr.empty-forum-row {
 .empty-forum-col {
 	background-color: #a1a1a1 !important;
 }
+
+.tf-options {
+	color: grey;
+	cursor:pointer;
+	&:hover {
+		background-color: transparent !important;
+	}
+}
+
+.dropdown-options {
+	position: absolute;
+ 	top: 20px; /* assign the correct value of the top line height */
+ 	left: -180px;
+ 	&.dropdown-wider {
+ 		left: -230px;
+ 	}
+}
